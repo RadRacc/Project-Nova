@@ -257,9 +257,12 @@ section h2 {
 }
 
 .product-tile .cart-icon {
-    width: 20px; /* Even smaller cart icon */
+    width: 20px;
     height: 20px;
     filter: invert(100%); /* Ensures icon is white */
+    vertical-align: middle; /* Helps with alignment in some contexts */
+    display: block; /* Ensures it behaves as a block element */
+    line-height: 1; /* Helps remove any extra space around inline elements */
 }
 
 /* Larger, Nav-like View Details Button */
