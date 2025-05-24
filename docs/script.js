@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Smooth Scrolling (if needed for anchor links) ---
-    // This part is for smoother scrolling to sections on the same page.
-    // If you don't have anchor links like <a href="#section-id">, you can remove this.
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -30,18 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
 
     function updateStoreCreditDisplay() {
-        storeCreditAmountSpan.textContent = storeCredit.toFixed(2);
+        if (storeCreditAmountSpan) {
+            storeCreditAmountSpan.textContent = storeCredit.toFixed(2);
+        }
     }
 
-    addCreditButton.addEventListener('click', () => {
-        storeCredit += 10;
-        localStorage.setItem('storeCredit', storeCredit.toFixed(2));
-        updateStoreCreditDisplay();
-        alert('Successfully added $10 to your store credit!');
-    });
+    if (addCreditButton) {
+        addCreditButton.addEventListener('click', () => {
+            storeCredit += 10;
+            localStorage.setItem('storeCredit', storeCredit.toFixed(2));
+            updateStoreCreditDisplay();
+            alert('Successfully added $10 to your store credit!');
+        });
+    }
+
 
     // --- Product Data (Crucial for View Details Modal) ---
-    // Define all your products here with detailed information
     const products = {
         "supporter-role": {
             name: "Supporter Role",
@@ -125,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         "medium-currency-pack": {
             name: "Medium Currency Pack",
-            price: 12.00, // Note: You had $12.00 in HTML, make sure it matches here
+            price: 12.00,
             image: "icons/mediumcurrencypack.png",
             description: "A medium currency pack for more substantial in-game needs. Get more for your money!",
             benefits: [
@@ -156,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Instant delivery"
             ]
         }
-        // Add more products here following the same structure
     };
 
     // --- Modal Elements ---
@@ -169,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalProductPrice = document.getElementById('modal-product-price');
     const modalPurchaseButton = document.getElementById('modal-purchase-button');
 
+    // --- DEBUGGING: Check if modal elements are found ---
+    console.log('Modal Element:', productDetailsModal);
+    console.log('Close Button:', closeButton);
+
     // Function to handle purchase (called from both quick buy and modal buy)
     function handlePurchase(productId, itemPrice) {
         if (storeCredit >= itemPrice) {
@@ -176,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('storeCredit', storeCredit.toFixed(2));
             updateStoreCreditDisplay();
             alert(`You successfully purchased ${products[productId].name} for $${itemPrice.toFixed(2)}! Your new credit is $${storeCredit.toFixed(2)}.`);
-            // Optional: You could add logic here to send data to a server or confirm the purchase
         } else {
             alert(`Not enough store credit! You need $${itemPrice.toFixed(2)} but only have $${storeCredit.toFixed(2)}.`);
         }
@@ -203,55 +207,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (product) {
                 // Populate modal with product details
-                modalProductImage.src = product.image;
-                modalProductImage.alt = product.name;
-                modalProductName.textContent = product.name;
-                modalProductDescription.textContent = product.description;
-                modalProductPrice.textContent = product.price.toFixed(2);
+                if (modalProductImage) modalProductImage.src = product.image;
+                if (modalProductImage) modalProductImage.alt = product.name;
+                if (modalProductName) modalProductName.textContent = product.name;
+                if (modalProductDescription) modalProductDescription.textContent = product.description;
+                if (modalProductPrice) modalProductPrice.textContent = product.price.toFixed(2);
 
                 // Clear previous benefits and add new ones
-                modalProductBenefits.innerHTML = '';
-                product.benefits.forEach(benefit => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = benefit;
-                    modalProductBenefits.appendChild(listItem);
-                });
+                if (modalProductBenefits) {
+                    modalProductBenefits.innerHTML = '';
+                    product.benefits.forEach(benefit => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = benefit;
+                        modalProductBenefits.appendChild(listItem);
+                    });
+                }
 
                 // Set data-product-id and data-price for the purchase button in modal
-                modalPurchaseButton.dataset.productId = productId;
-                modalPurchaseButton.dataset.price = product.price.toFixed(2);
+                if (modalPurchaseButton) {
+                    modalPurchaseButton.dataset.productId = productId;
+                    modalPurchaseButton.dataset.price = product.price.toFixed(2);
+                }
 
                 // Show the modal
-                productDetailsModal.classList.add('active');
+                if (productDetailsModal) {
+                    productDetailsModal.classList.add('active');
+                    console.log(`Modal for ${productId} opened.`);
+                }
             } else {
-                console.error(`Product with ID "${productId}" not found.`);
+                console.error(`Product with ID "${productId}" not found in products data.`);
             }
         });
     });
 
     // --- Modal Purchase Button Click Handler ---
-    modalPurchaseButton.addEventListener('click', () => {
-        const productId = modalPurchaseButton.dataset.productId;
-        const itemPrice = parseFloat(modalPurchaseButton.dataset.price);
-        if (productId && !isNaN(itemPrice)) {
-            handlePurchase(productId, itemPrice);
-            productDetailsModal.classList.remove('active'); // Hide modal after purchase attempt
-        } else {
-            console.error("Missing product ID or price for modal purchase button.");
-        }
-    });
+    if (modalPurchaseButton) {
+        modalPurchaseButton.addEventListener('click', () => {
+            const productId = modalPurchaseButton.dataset.productId;
+            const itemPrice = parseFloat(modalPurchaseButton.dataset.price);
+            if (productId && !isNaN(itemPrice)) {
+                handlePurchase(productId, itemPrice);
+                if (productDetailsModal) {
+                    productDetailsModal.classList.remove('active'); // Hide modal after purchase attempt
+                    console.log('Modal closed after purchase attempt.');
+                }
+            } else {
+                console.error("Missing product ID or price for modal purchase button.");
+            }
+        });
+    }
 
     // --- Close Modal Button Handler ---
-    closeButton.addEventListener('click', () => {
-        productDetailsModal.classList.remove('active');
-    });
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            console.log('Close button clicked!');
+            if (productDetailsModal) {
+                productDetailsModal.classList.remove('active');
+                console.log('Modal active class removed.');
+            }
+        });
+    }
 
     // Close modal if user clicks outside of modal content
-    productDetailsModal.addEventListener('click', (event) => {
-        if (event.target === productDetailsModal) {
-            productDetailsModal.classList.remove('active');
-        }
-    });
+    if (productDetailsModal) {
+        productDetailsModal.addEventListener('click', (event) => {
+            if (event.target === productDetailsModal) {
+                console.log('Clicked outside modal content.');
+                productDetailsModal.classList.remove('active');
+            }
+        });
+    }
 
     // Initial display of store credit
     updateStoreCreditDisplay();
