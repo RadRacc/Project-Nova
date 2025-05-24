@@ -1,312 +1,571 @@
-/* Basic Reset & Body Styling */
+/* General Body and Header Styles */
 body {
+    font-family: 'Open Sans', sans-serif;
     margin: 0;
-    font-family: 'Open Sans', sans-serif; /* Use your chosen Google Font */
-    line-height: 1.6;
-    color: #eee; /* Light text for dark background */
+    padding: 0;
     background-color: #1a1a1a; /* Dark background */
+    color: #f0f0f0; /* Light text */
+    line-height: 1.6;
+    scroll-behavior: smooth;
 }
 
-/* Header */
 header {
-    background-color: #282828;
+    background-color: #222;
     color: #fff;
     padding: 20px 0;
-    text-align: center; /* Centers h1, p, and the nav bar */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    position: relative; /* Needed for absolute positioning of store credit */
+    text-align: center;
+    border-bottom: 3px solid #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 header h1 {
     margin: 0;
     font-size: 3em;
-    color: #F18DE0; /* A pink/purple accent color */
+    color: #ff69b4; /* Project Nova Pink */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-header h6 { /* For RadRacc & MaYo */
-    margin: 0;
-    font-size: 0.8em;
-    color: #bbb;
-    margin-top: 5px;
+header h6 {
+    margin: 5px 0 10px;
+    font-size: 1.2em;
+    color: #ccc;
 }
 
 header p {
-    font-size: 1.2em;
-    margin-top: 5px;
-    margin-bottom: 20px; /* Add some space below the tagline */
+    font-size: 1.1em;
+    color: #bbb;
+    margin-bottom: 20px;
 }
+
+/* Navigation Bar */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 10px 0;
+    background-color: #333;
+    border-radius: 5px;
+    width: fit-content; /* Make nav width fit content */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+nav .button {
+    background-color: #444; /* Default button color */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav .button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Active Navigation Button */
+#home-page nav a[href="index.html"],
+#about-page nav a[href="about.html"],
+#howtoplay-page nav a[href="howtoplay.html"],
+#shop-page nav a[href="shop.html"] {
+    background-color: #ff69b4; /* Active button color */
+    color: white;
+    box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
+}
+
+#home-page nav a[href="index.html"]:hover,
+#about-page nav a[href="about.html"]:hover,
+#howtoplay-page nav a[href="howtoplay.html"]:hover,
+#shop-page nav a[href="shop.html"]:hover {
+    background-color: #e04a9d; /* Darker active on hover */
+}
+
 
 /* Store Credit Display */
 #store-credit-display {
-    position: absolute;
-    top: 20px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
-    background-color: #444;
-    color: #F18DE0;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 1.1em;
+    background-color: #3a3a3a;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    display: inline-flex; /* Use inline-flex to keep content together */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Space between elements */
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
 
-#add-credit-button {
-    background-color: #0097a7; /* Teal color */
-    color: #fff;
+#store-credit-display img {
+    width: 30px; /* Size of the credit card icon */
+    height: auto;
+    vertical-align: middle;
+}
+
+#store-credit-display span {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #90ee90; /* Light green for credit amount */
+}
+
+#store-credit-display button {
+    background-color: #007bff; /* Blue button */
+    color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 8px 15px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
-#add-credit-button:hover {
-    background-color: #007788;
+#store-credit-display button:hover {
+    background-color: #0056b3;
 }
 
 
-/* Navigation Bar Styling */
-nav {
-    background-color: #3a3a3a; /* Slightly different background for the nav bar itself */
-    padding: 10px 0; /* Padding top/bottom for the bar */
-    display: flex; /* Use flexbox for button layout */
-    justify-content: center; /* Centers the buttons horizontally within the nav bar */
-    gap: 15px; /* Space between buttons */
-    flex-wrap: wrap; /* Allow buttons to wrap to next line on smaller screens */
-    border-radius: 5px; /* Slightly rounded corners for the entire nav bar */
-    max-width: 900px; /* Limit width of the nav bar for a "bar across" look */
-    margin: 0 auto 20px auto; /* Center the nav bar itself and add margin below */
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.5); /* Subtle inner shadow */
-}
-
-/* Main Content Sections */
+/* Main Content Area */
 main {
-    max-width: 900px;
+    padding: 40px 20px;
+    max-width: 1200px;
     margin: 40px auto;
-    padding: 0 20px;
+    background-color: #222;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Sections within Main */
 section {
-    background-color: #222;
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    margin-bottom: 50px;
+}
+
+section:last-child {
+    margin-bottom: 0;
 }
 
 section h2 {
-    color: #F18DE0;
-    font-size: 2.2em;
-    margin-top: 0;
-    border-bottom: 2px solid #F18DE0;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ff69b4; /* Pink color for section headings */
+    font-size: 2.8em; /* Slightly larger heading */
     padding-bottom: 10px;
-    margin-bottom: 20px;
-    text-align: center; /* Ensures section titles are centered */
+    border-bottom: 3px solid #ff69b4; /* Thicker underline */
+    display: table; /* Make it take only necessary width */
+    margin-left: auto; /* Center the heading */
+    margin-right: auto;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
-/* Lists */
-ul, ol {
-    list-style-position: inside;
-    padding-left: 0;
-}
-
-ul li, ol li {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-/* Links (general links, not the nav buttons) */
-a {
-    color: #F18DE0;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #0097a7; /* Teal hover for general links */
-    text-decoration: underline;
-}
-
-/* Button Styling (for all elements with class="button") */
-.button {
-    display: inline-block;
-    background-color: #F18DE0; /* Pink/Purple button background */
-    color: #fff; /* White text for buttons */
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none; /* No underline for buttons */
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    white-space: nowrap; /* Prevents button text from wrapping */
-}
-
-.button:hover {
-    background-color: #0097a7; /* Teal background on hover */
-    transform: translateY(-2px);
-    color: #fff; /* ENSURE TEXT REMAINS WHITE ON HOVER */
-    text-decoration: none; /* ENSURE NO UNDERLINE ON HOVER */
-}
-
-/* Active Navigation Button Styling */
-/* This changes the button color to blue when it's the active page */
-body#home-page nav a[href="index.html"],
-body#about-page nav a[href="about.html"],
-body#howtoplay-page nav a[href="howtoplay.html"],
-body#shop-page nav a[href="shop.html"] {
-    background-color: #0097a7; /* Blue for the active page */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5); /* Inner shadow for active button */
-    transform: translateY(0); /* Prevent hover effect on active page */
-}
-
-/* Prevents active button from changing on hover */
-body#home-page nav a[href="index.html"]:hover,
-body#about-page nav a[href="about.html"]:hover,
-body#howtoplay-page nav a[href="howtoplay.html"]:hover,
-body#shop-page nav a[href="shop.html"]:hover {
-    background-color: #0097a7; /* Keep it blue on hover for active page */
-    transform: translateY(0); /* No transform on hover for active page */
-    cursor: default; /* Change cursor to default to indicate it's the current page */
-}
-
-
-/* Shop Page Specific Styles */
+/* Product Grid */
 .product-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive 3-column grid */
     gap: 30px; /* Space between tiles */
-    justify-content: center; /* Center tiles in the grid */
+    justify-items: center; /* Center tiles horizontally */
+    align-items: stretch; /* Stretch tiles vertically for consistent height */
     padding-top: 20px;
 }
 
 .product-tile {
-    background-color: #2c2c2c; /* Slightly lighter background for tiles */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    width: 280px; /* Fixed width for tiles */
-    padding: 20px;
+    background-color: #2c2c2c;
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.6); /* More prominent shadow */
+    padding: 25px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* Push content to top/bottom, buttons at bottom */
     align-items: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 320px; /* Slightly larger max-width for tiles */
+    min-height: 380px; /* Ensure minimum height for consistency */
 }
 
 .product-tile:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+    transform: translateY(-8px); /* Lift more on hover */
+    box-shadow: 0 12px 20px rgba(0,0,0,0.8);
 }
 
 .product-tile img {
-    max-width: 100%;
-    height: 150px; /* Fixed height for images */
-    object-fit: contain; /* Ensures image fits within bounds without cropping */
-    border-radius: 5px;
+    max-width: 160px; /* Slightly larger images */
+    height: auto;
     margin-bottom: 15px;
-    background-color: #4a4a4a; /* Placeholder background for images */
+    border-radius: 8px; /* Rounded image corners */
+    border: 2px solid #444;
 }
 
 .product-tile h3 {
-    color: #F18DE0;
-    margin-top: 0;
+    font-size: 1.8em;
+    color: #ff69b4;
     margin-bottom: 10px;
-    font-size: 1.5em;
 }
 
 .product-tile .price-info {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px; /* Space above buttons */
 }
 
 .product-tile .current-price {
-    color: #fff;
-    font-size: 1.8em;
+    font-size: 1.5em;
     font-weight: bold;
+    color: #90ee90; /* Light green */
 }
 
 .product-tile .original-price {
-    color: #aaa;
+    font-size: 0.9em;
+    color: #888;
     text-decoration: line-through;
-    font-size: 1.2em;
+    margin-right: 5px;
 }
 
-.product-tile .buy-button {
-    background-color: #0097a7;
-    color: #fff;
-    padding: 10px 20px;
+/* --- Refined Shop Button Styles --- */
+.product-tile .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Increased space between buttons */
+    margin-top: auto; /* Push button group to the bottom of the tile */
+    width: 100%;
+    flex-wrap: wrap;
+    padding-top: 15px; /* Add some padding if content is tight */
+}
+
+/* Smaller Cart Icon Button */
+.product-tile .add-to-cart-button {
+    background-color: #5cb85c; /* Green color for cart */
+    color: white;
+    padding: 6px 10px; /* Smaller padding for a compact button */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.1em;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    display: flex; /* Flexbox for centering icon */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    width: auto; /* Allow button to size to content */
+    flex-shrink: 0; /* Don't allow it to shrink if not needed */
+    flex-grow: 0;
+}
+
+.product-tile .add-to-cart-button:hover {
+    background-color: #4cae4c;
+    transform: translateY(-2px);
+}
+
+.product-tile .cart-icon {
+    width: 20px; /* Even smaller cart icon */
+    height: 20px;
+    filter: invert(100%); /* Ensures icon is white */
+}
+
+/* Larger, Nav-like View Details Button */
+.product-tile .view-details-button {
+    background-color: #6a5acd; /* Purple color, similar to nav buttons */
+    color: white;
+    padding: 10px 20px; /* Larger padding, like nav buttons */
+    text-decoration: none; /* Ensure no underline */
+    border-radius: 5px; /* Matched border-radius */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     font-weight: bold;
-    transition: background-color 0.3s ease;
-    width: 100%; /* Make button full width of tile */
+    font-size: 1em; /* Standard text size */
+    flex-grow: 1; /* Allow it to take up available space */
+    min-width: 60%; /* Ensure it's not too small on its own */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.product-tile .buy-button:hover {
-    background-color: #007788;
+.product-tile .view-details-button:hover {
+    background-color: #5c4acb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
+/* --- Modal (Popup) Styles - Reworked for better appearance --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if content is too large */
+    background-color: rgba(0,0,0,0.8); /* Darker, more prominent overlay */
+    display: flex; /* Use flexbox to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Add some padding around the modal */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.modal.active {
+    display: flex; /* Show when active */
+}
+
+.modal-content {
+    background-color: #2c2c2c; /* Dark background for modal */
+    color: #eee; /* Light text color */
+    padding: 30px;
+    border: 1px solid #444; /* Darker border */
+    border-radius: 12px; /* More rounded corners */
+    width: 90%; /* Responsive width */
+    max-width: 700px; /* Max width for larger screens */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.7); /* Stronger shadow */
+    position: relative; /* For positioning the close button */
+    animation: fadeInScale 0.3s ease-out; /* More dynamic animation */
+    overflow-y: auto; /* Enable vertical scroll if content overflows */
+    max-height: 90vh; /* Max height to prevent modal from going off-screen */
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9) translateY(-30px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-body img {
+    max-width: 180px; /* Larger image in modal */
+    height: auto;
+    border-radius: 10px; /* More rounded image corners */
+    margin-bottom: 25px;
+    border: 3px solid #555; /* Thicker border */
+}
+
+.modal-body h3 {
+    color: #ff69b4;
+    font-size: 2.5em; /* Larger heading */
+    margin-bottom: 15px;
+}
+
+.modal-body p {
+    font-size: 1.2em; /* Larger description text */
+    line-height: 1.7;
+    margin-bottom: 25px;
+    text-align: left; /* Align description text left */
+}
+
+.modal-body ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 25px;
+    text-align: left; /* Align list items left */
+}
+
+.modal-body ul li {
+    background-color: #3a3a3a; /* Slightly lighter background for list items */
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px; /* More rounded list items */
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.modal-body ul li::before {
+    content: "✔️";
+    margin-right: 12px;
+    color: #90ee90; /* Lighter green checkmark */
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.modal-price {
+    font-size: 1.8em; /* Larger price text */
+    font-weight: bold;
+    color: #90ee90; /* Green for price */
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+#modal-purchase-button {
+    background-color: #ff69b4; /* Pink for purchase button */
+    color: white;
+    padding: 15px 35px; /* Larger padding */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.4em; /* Larger text */
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+#modal-purchase-button:hover {
+    background-color: #e04a9d;
+    transform: translateY(-3px); /* More pronounced lift */
+}
+
+.close-button {
+    color: #ccc; /* Lighter color for close button */
+    position: absolute;
+    top: 15px; /* Adjust position */
+    right: 25px; /* Adjust position */
+    font-size: 40px; /* Larger close button */
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #fff;
+}
 
 /* Footer */
 footer {
-    background-color: #282828;
-    color: #ccc;
+    background-color: #222;
+    color: #bbb;
     text-align: center;
     padding: 20px 0;
+    margin-top: 40px;
+    border-top: 3px solid #333;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
     font-size: 0.9em;
-    margin-top: 50px;
 }
 
-/* Basic Responsiveness */
+/* Responsive adjustments */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.5em;
     }
-    header p {
+
+    nav {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    nav .button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    main {
+        padding: 30px 15px;
+        margin: 30px auto;
+    }
+
+    section h2 {
+        font-size: 2.2em;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .product-tile {
+        padding: 20px;
+        min-height: 350px;
+    }
+
+    .product-tile img {
+        max-width: 140px;
+    }
+
+    .product-tile h3 {
+        font-size: 1.5em;
+    }
+
+    .product-tile .button-group {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 10px;
+    }
+
+    .product-tile .add-to-cart-button,
+    .product-tile .view-details-button {
+        width: 100%; /* Full width when stacked */
+        flex-grow: unset;
+        min-width: unset;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .modal-body h3 {
+        font-size: 2em;
+    }
+
+    .modal-body p {
         font-size: 1em;
     }
-    #store-credit-display {
-        position: static; /* Remove absolute positioning on small screens */
-        text-align: center;
-        margin: 10px auto; /* Center it */
-        width: fit-content; /* Shrink to content */
+
+    .modal-body ul li {
+        padding: 10px;
+        font-size: 0.95em;
     }
+
+    #modal-purchase-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+
+    .close-button {
+        font-size: 30px;
+        top: 10px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    header h6 {
+        font-size: 1em;
+    }
+
+    header p {
+        font-size: 0.9em;
+    }
+
     nav {
-        flex-direction: column; /* Stack buttons vertically on small screens */
-        align-items: center; /* Center them */
-        width: 90%; /* Adjust width for mobile nav bar */
-        margin-left: auto;
-        margin-right: auto;
-        padding: 10px; /* Adjust padding for mobile nav bar */
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
     }
-    nav .button { /* Target the buttons specifically */
-        margin: 5px 0; /* Add vertical margin */
-        width: 90%; /* Make them wider */
-        max-width: 250px; /* Limit max width for readability */
+
+    nav .button {
+        padding: 8px 10px;
+        font-size: 0.85em;
     }
-    main {
-        margin: 20px auto;
-        padding: 0 15px;
+
+    #store-credit-display {
+        padding: 8px 15px;
     }
-    section {
-        padding: 20px;
+
+    #store-credit-display span {
+        font-size: 1.1em;
     }
+
+    #store-credit-display button {
+        padding: 6px 12px;
+    }
+
     section h2 {
         font-size: 1.8em;
     }
+
     .product-grid {
-        flex-direction: column; /* Stack tiles vertically on small screens */
-        align-items: center;
+        grid-template-columns: 1fr; /* Single column on very small screens */
     }
+
     .product-tile {
-        width: 90%; /* Make tiles wider on small screens */
-        max-width: 300px; /* Limit max width */
+        max-width: 280px; /* Keep consistent width */
+        min-height: 320px;
+    }
+
+    .modal-content {
+        padding: 20px;
     }
 }
