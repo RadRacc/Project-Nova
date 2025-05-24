@@ -1,92 +1,36 @@
-/* style.css */
-
-/* Basic Reset & Body Styling (rest remains the same) */
-body {
-    margin: 0;
-    font-family: 'Open Sans', sans-serif;
-    line-height: 1.6;
-    color: #eee;
-    background-color: #1a1a1a;
-}
-
-/* Header (rest remains the same) */
-header {
-    background-color: #282828;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 3em;
-    color: #F18DE0;
-}
-
-header p {
-    font-size: 1.2em;
-    margin-top: 5px;
-}
+/* ... (existing CSS above) ... */
 
 /* Updated Nav Styling for Buttons */
 nav {
     margin-top: 15px;
-    display: flex; /* Use flexbox to arrange buttons */
-    justify-content: center; /* Center buttons horizontally */
-    gap: 15px; /* Add space between buttons */
-    flex-wrap: wrap; /* Allow buttons to wrap to next line on smaller screens */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* Remove or simplify nav a styles as they are now .button */
-/* The .button class styles will take precedence. */
-/* If you want different hover for nav buttons vs. other .button classes, use 'nav .button:hover' */
 nav a {
-    /* These styles will largely be overridden by .button, but keep for base link styling if needed elsewhere */
     color: inherit; /* Inherit color from .button */
-    text-decoration: none; /* Already handled by .button */
-    font-weight: normal; /* Handled by .button */
-    transition: none; /* Handled by .button */
-    margin: 0; /* Remove old margins, use gap in nav */
+    text-decoration: none;
+    font-weight: normal;
+    transition: none;
+    margin: 0;
 }
+
+/* Add a specific hover rule for buttons in the nav */
+/* This ensures the text color remains white on hover */
+nav a.button:hover {
+    color: #fff; /* Keep text white on hover */
+    /* If you want different hover behavior for nav buttons vs. other .button, define it here */
+    /* Example: background-color: #007788; // a slightly different shade of blue */
+}
+
 
 /* Main Content Sections (rest remains the same) */
-main {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
+/* ... */
 
-section {
-    background-color: #222;
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-}
-
-section h2 {
-    color: #F18DE0;
-    font-size: 2.2em;
-    margin-top: 0;
-    border-bottom: 2px solid #F18DE0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-/* Lists (rest remains the same) */
-ul, ol {
-    list-style-position: inside;
-    padding-left: 0;
-}
-
-ul li, ol li {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-/* Links (rest remains the same) */
-/* This `a` rule is for general links, not the nav buttons once they have the .button class */
+/* Links (keep this for general links, not the nav buttons) */
 a {
     color: #F18DE0;
     text-decoration: none;
@@ -94,7 +38,7 @@ a {
 }
 
 a:hover {
-    color: #0097a7;
+    color: #0097a7; /* This applies to regular non-button links */
     text-decoration: underline;
 }
 
@@ -102,7 +46,7 @@ a:hover {
 .button {
     display: inline-block;
     background-color: #F18DE0;
-    color: #fff;
+    color: #fff; /* White text for the button */
     padding: 12px 25px;
     border-radius: 5px;
     text-decoration: none;
@@ -111,35 +55,8 @@ a:hover {
 }
 
 .button:hover {
-    background-color: #0097a7;
+    background-color: #0097a7; /* Blue background on hover */
     transform: translateY(-2px);
 }
 
-/* Footer (rest remains the same) */
-footer {
-    background-color: #282828;
-    color: #ccc;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 0.9em;
-    margin-top: 50px;
-}
-
-/* Basic Responsiveness (adjust nav a for button behavior) */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.5em;
-    }
-    nav {
-        flex-direction: column; /* Stack buttons vertically on small screens */
-        align-items: center; /* Center them */
-    }
-    nav a.button { /* Target the buttons specifically */
-        margin: 5px 0; /* Add vertical margin */
-        width: 80%; /* Make them wider */
-        max-width: 200px; /* Limit max width */
-    }
-    main {
-        margin: 20px auto;
-    }
-}
+/* ... (rest of your CSS) ... */
