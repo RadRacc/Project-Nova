@@ -1,36 +1,83 @@
-/* ... (existing CSS above) ... */
-
-/* Updated Nav Styling for Buttons */
-nav {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-/* Remove or simplify nav a styles as they are now .button */
-nav a {
-    color: inherit; /* Inherit color from .button */
-    text-decoration: none;
-    font-weight: normal;
-    transition: none;
+/* Basic Reset & Body Styling */
+body {
     margin: 0;
+    font-family: 'Open Sans', sans-serif; /* Use your chosen Google Font */
+    line-height: 1.6;
+    color: #eee; /* Light text for dark background */
+    background-color: #1a1a1a; /* Dark background */
 }
 
-/* Add a specific hover rule for buttons in the nav */
-/* This ensures the text color remains white on hover */
-nav a.button:hover {
-    color: #fff; /* Keep text white on hover */
-    /* If you want different hover behavior for nav buttons vs. other .button, define it here */
-    /* Example: background-color: #007788; // a slightly different shade of blue */
+/* Header */
+header {
+    background-color: #282828;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center; /* Centers h1, p, and the nav bar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    color: #F18DE0; /* A pink/purple accent color */
+}
 
-/* Main Content Sections (rest remains the same) */
-/* ... */
+header p {
+    font-size: 1.2em;
+    margin-top: 5px;
+    margin-bottom: 20px; /* Add some space below the tagline */
+}
 
-/* Links (keep this for general links, not the nav buttons) */
+/* Navigation Bar Styling */
+nav {
+    background-color: #3a3a3a; /* Slightly different background for the nav bar itself */
+    padding: 10px 0; /* Padding top/bottom for the bar */
+    display: flex; /* Use flexbox for button layout */
+    justify-content: center; /* Centers the buttons horizontally within the nav bar */
+    gap: 15px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap to next line on smaller screens */
+    border-radius: 5px; /* Slightly rounded corners for the entire nav bar */
+    max-width: 800px; /* Limit width of the nav bar for a "bar across" look */
+    margin: 0 auto 20px auto; /* Center the nav bar itself and add margin below */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5); /* Subtle inner shadow */
+}
+
+/* Main Content Sections */
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+section {
+    background-color: #222;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+section h2 {
+    color: #F18DE0;
+    font-size: 2.2em;
+    margin-top: 0;
+    border-bottom: 2px solid #F18DE0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Lists */
+ul, ol {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+ul li, ol li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Links (general links, not the nav buttons) */
 a {
     color: #F18DE0;
     text-decoration: none;
@@ -38,25 +85,69 @@ a {
 }
 
 a:hover {
-    color: #0097a7; /* This applies to regular non-button links */
+    color: #0097a7; /* Teal hover for general links */
     text-decoration: underline;
 }
 
-/* Buttons (your existing .button class - keep this as is) */
+/* Button Styling (for all elements with class="button") */
 .button {
     display: inline-block;
-    background-color: #F18DE0;
-    color: #fff; /* White text for the button */
+    background-color: #F18DE0; /* Pink/Purple button background */
+    color: #fff; /* White text for buttons */
     padding: 12px 25px;
     border-radius: 5px;
-    text-decoration: none;
+    text-decoration: none; /* No underline for buttons */
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap; /* Prevents button text from wrapping */
 }
 
 .button:hover {
-    background-color: #0097a7; /* Blue background on hover */
+    background-color: #0097a7; /* Teal background on hover */
     transform: translateY(-2px);
+    color: #fff; /* ENSURE TEXT REMAINS WHITE ON HOVER */
+    text-decoration: none; /* ENSURE NO UNDERLINE ON HOVER */
 }
 
-/* ... (rest of your CSS) ... */
+/* Footer */
+footer {
+    background-color: #282828;
+    color: #ccc;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9em;
+    margin-top: 50px;
+}
+
+/* Basic Responsiveness */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5em;
+    }
+    header p {
+        font-size: 1em;
+    }
+    nav {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        align-items: center; /* Center them */
+        width: 90%; /* Adjust width for mobile nav bar */
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px; /* Adjust padding for mobile nav bar */
+    }
+    nav .button { /* Target the buttons specifically */
+        margin: 5px 0; /* Add vertical margin */
+        width: 90%; /* Make them wider */
+        max-width: 250px; /* Limit max width for readability */
+    }
+    main {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+    section {
+        padding: 20px;
+    }
+    section h2 {
+        font-size: 1.8em;
+    }
+}
