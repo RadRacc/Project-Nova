@@ -7,25 +7,77 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
-    <header>
+<body id="shop-page"> <header>
         <h1>Project Nova Shop</h1>
+        <h6>RadRacc & MaYo</h6>
         <p>Purchase special Roles and other stuff here!</p>
         <nav>
             <a href="index.html" class="button">Home</a>
             <a href="about.html" class="button">About</a>
             <a href="howtoplay.html" class="button">How to Play</a>
             <a href="https://discord.gg/v7Kd4v2jQ6" target="_blank" class="button">Discord</a>
-            <a href="shop.html" class="button">Shop</a>
-        </nav>
+            <a href="shop.html" class="button">Shop</a> </nav>
+        <div id="store-credit-display">
+            Store Credit: $<span id="store-credit-amount">0.00</span>
+            <button id="add-credit-button">Add $10</button>
+        </div>
     </header>
 
     <main>
-        <section id="about-server">
-            <h2>Test</h2>
-            <p>Test</p>
+        <section id="shop-items">
+            <h2>Our Offerings</h2>
+            <div class="product-grid">
+                <div class="product-tile">
+                    <img src="https://via.placeholder.com/150x150?text=Item+1" alt="Placeholder Item 1">
+                    <h3>Premium Role</h3>
+                    <div class="price-info">
+                        <span class="original-price">$30.00</span>
+                        <span class="current-price">$25.00</span>
+                    </div>
+                    <button class="buy-button">Purchase Now</button>
+                </div>
+
+                <div class="product-tile">
+                    <img src="https://via.placeholder.com/150x150?text=Item+2" alt="Placeholder Item 2">
+                    <h3>Exclusive Pet</h3>
+                    <div class="price-info">
+                        <span class="current-price">$15.00</span>
+                    </div>
+                    <button class="buy-button">Purchase Now</button>
+                </div>
+
+                <div class="product-tile">
+                    <img src="https://via.placeholder.com/150x150?text=Item+3" alt="Placeholder Item 3">
+                    <h3>Starter Pack</h3>
+                    <div class="price-info">
+                        <span class="original-price">$12.00</span>
+                        <span class="current-price">$8.00</span>
+                    </div>
+                    <button class="buy-button">Purchase Now</button>
+                </div>
+
+                <div class="product-tile">
+                    <img src="https://via.placeholder.com/150x150?text=Item+4" alt="Placeholder Item 4">
+                    <h3>XP Booster</h3>
+                    <div class="price-info">
+                        <span class="current-price">$5.00</span>
+                    </div>
+                    <button class="buy-button">Purchase Now</button>
+                </div>
+
+                <div class="product-tile">
+                    <img src="https://via.placeholder.com/150x150?text=Item+5" alt="Placeholder Item 5">
+                    <h3>Cosmetic Pack</h3>
+                    <div class="price-info">
+                        <span class="original-price">$25.00</span>
+                        <span class="current-price">$20.00</span>
+                    </div>
+                    <button class="buy-button">Purchase Now</button>
+                </div>
+
+            </div>
         </section>
+    </main>
 
     <footer>
         <p>&copy; 2025 Project Nova. All rights reserved.</p>
