@@ -53,66 +53,70 @@ document.addEventListener('DOMContentLoaded', () => {
             benefits: [
                 "Exclusive Discord Role",
                 "Custom Chat Color (Pink)",
-                "In-game 'Supporter' Title",
-                "Access to Supporter-only Discord channels"
+                "In-game 'Supporter' Badge",
+                "Access to Supporter-only Discord channels",
+                "Access to /size /glow /glowcolor commands",
+                "Personal 25% Loot Boost"
             ]
         },
         "supporter-plus-role": {
             name: "Supporter+ Role",
             price: 10.00,
             image: "icons/supporter+package.png",
-            description: "All benefits of Supporter, plus a unique in-game pet, access to beta content, and more!",
+            description: "All benefits of Supporter, plus a unique in-game pet, access to pre-release content, and more!",
             benefits: [
                 "All Supporter benefits",
+                "Custom Chat Color (Pink, Purple)",
                 "Exclusive In-game Pet (Cosmetic)",
-                "Access to Beta Content (Alpha/Beta testing)",
-                "Monthly exclusive items"
+                "Access to Pre-Release Content (3 Days before release)",
+                "Monthly exclusive items",
+                "Personal 80% Loot Boost"
             ]
         },
         "supporter-plusplus-role": {
             name: "Supporter++ Role",
             price: 20.00,
             image: "icons/supporter++package.png",
-            description: "The ultimate supporter package! All previous benefits plus an exclusive legendary pet, custom sprite access, and more server perks.",
+            description: "The ultimate supporter package! All previous benefits plus custom sprite, and more server perks.",
             benefits: [
-                "All Supporter+ benefits",
-                "Exclusive Legendary In-game Pet",
-                "Custom Sprite Access (Personalized Item Sprite)",
-                "Early access to all new content",
-                "Direct contact with Developers"
+                "All Supporter and Supporter+ benefits",
+                "Custom Chat Color (Pink, Purple, Orange)"
+                "Personal Sprite (Add your own asset! [within reason])",
+                "Access to Pre-Release Content (7 Days before release)",
+                "Direct contact with Developers",
+                "Custom Vault Skin",
+                "Custom Character Skins (All Classes + future ones)",
+                "Personal 150% Loot Boost"
             ]
         },
         "lootboost-20": {
-            name: "Global Lootboost +20%",
+            name: "Global Loot Boost +20% (1 Day)",
             price: 5.00,
             image: "icons/globallootboost20.png",
-            description: "Activate a server-wide 20% increase in loot drop rates for 24 hours!",
+            description: "Activate a server-wide +20% increase in loot drop rates for 1 Day!",
             benefits: [
-                "Global Lootboost (24 hours)",
-                "20% increased drop rates for all players",
-                "Notifications for all players"
+                "Global 20% Loot Boost (1 Day)",
+                "Stacks with other Loot Boost purchases"
             ]
         },
         "lootboost-80": {
-            name: "Global Lootboost +80%",
+            name: "Global Loot Boost +80% (3 Days)",
             price: 10.00,
             image: "icons/globallootboost80.png",
-            description: "A significant 80% boost to loot drop rates for 24 hours, affecting all players on the server!",
+            description: "Activate a significant server-wide +80% increase in loot drop rates for 3 Days!",
             benefits: [
-                "Global Lootboost (24 hours)",
-                "80% increased drop rates for all players",
-                "Major boost for farming sessions"
+                "Global 80% Loot Boost (3 Days)",
+                "Stacks with other Loot Boost purchases"
             ]
         },
         "lootboost-150": {
-            name: "Global Lootboost +150%",
+            name: "Global Loot Boost +150%",
             price: 20.00,
             image: "icons/globallootboost150.png",
-            description: "Unleash the ultimate loot frenzy with a massive 150% global loot boost for 24 hours!",
+            description: "Unleash the ultimate loot frenzy with a massive +150% Global Loot Boost for 5 Days!",
             benefits: [
-                "Global Lootboost (24 hours)",
-                "150% increased drop rates for all players",
-                "Unrivaled farming potential"
+                "Global 150% Loot Boost (5 Days)",
+                "Stacks with other Loot Boost purchases"
             ]
         },
         "small-currency-pack": {
@@ -121,19 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
             image: "icons/smallcurrencypack.png",
             description: "A small boost to your in-game currency, perfect for minor purchases or getting started.",
             benefits: [
-                "500 Gold (in-game currency)",
-                "Instant delivery to your account"
+                "500 Gold",
+                "1,000 Fame",
+                "20 Shadow Shards"
             ]
         },
         "medium-currency-pack": {
             name: "Medium Currency Pack",
-            price: 12.00,
+            price: 10.00,
             image: "icons/mediumcurrencypack.png",
             description: "A medium currency pack for more substantial in-game needs. Get more for your money!",
             benefits: [
-                "1200 Gold (in-game currency)",
-                "Bonus 200 Gold compared to small packs",
-                "Instant delivery"
+                "1,000 Gold + 250 Bonus",
+                "2,500 Fame + 500 Bonus",
+                "50 Shadow Shards + 20 Bonus"
             ]
         },
         "large-currency-pack": {
@@ -142,9 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
             image: "icons/largecurrencypack.png",
             description: "A generous currency pack for serious players, enabling significant upgrades and purchases.",
             benefits: [
-                "3000 Gold (in-game currency)",
-                "Bonus 500 Gold compared to smaller packs",
-                "Instant delivery"
+                "2,500 Gold + 1,000 Bonus",
+                "5,000 Fame + 1,000 Bonus",
+                "100 Shadow Shards + 50 Bonus"
             ]
         },
         "massive-currency-pack": {
@@ -153,9 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
             image: "icons/massivecurrencypack.png",
             description: "The ultimate currency pack! Maximize your in-game wealth with a huge injection of gold.",
             benefits: [
-                "5000 Gold (in-game currency)",
-                "Best value for large purchases",
-                "Instant delivery"
+                "6,000 Gold + 1,500 Bonus",
+                "10,000 Fame + 2,500 Bonus",
+                "150 Shadow Shards + 50 Bonus"
             ]
         }
     };
