@@ -173,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DEBUGGING: Check if modal elements are found ---
     console.log('Modal Element:', productDetailsModal);
     console.log('Close Button:', closeButton);
+    if (!productDetailsModal) console.error("Error: #product-details-modal not found. HTML ID might be incorrect.");
+    if (!closeButton) console.error("Error: .modal .close-button not found. CSS selector might be incorrect or element missing.");
+
 
     // Function to handle purchase (called from both quick buy and modal buy)
     function handlePurchase(productId, itemPrice) {
@@ -258,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Close Modal Button Handler ---
-    if (closeButton) {
+    if (closeButton) { // Only add listener if button exists
         closeButton.addEventListener('click', () => {
             console.log('Close button clicked!');
             if (productDetailsModal) {
@@ -269,9 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Close modal if user clicks outside of modal content
-    if (productDetailsModal) {
+    if (productDetailsModal) { // Only add listener if modal exists
         productDetailsModal.addEventListener('click', (event) => {
-            if (event.target === productDetailsModal) {
+            if (event.target === productDetailsModal) { // Ensure click is on the overlay itself, not content
                 console.log('Clicked outside modal content.');
                 productDetailsModal.classList.remove('active');
             }
