@@ -196,7 +196,6 @@ section h2 {
 .product-tile img {
     max-width: 160px; /* Slightly larger images */
     height: auto;
-    margin-bottom: 15px;
     border-radius: 8px; /* Rounded image corners */
     border: 2px solid #444;
 }
