@@ -63,11 +63,13 @@ nav .button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-nav .button:hover {
-    background-color: #555; /* Default hover for non-active nav buttons */
+/* Specific hover for non-active navigation buttons */
+nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
+    background-color: #007bff; /* Blue hover for non-active nav buttons */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
 
 /* Active Navigation Button */
 #home-page nav a[href="index.html"],
@@ -80,10 +82,10 @@ nav .button:hover {
 }
 
 /* Specific hover for ACTIVE navigation buttons */
-#home-page nav a[href="index.html"]:hover,
-#about-page nav a[href="about.html"]:hover,
-#howtoplay-page nav a[href="howtoplay.html"]:hover,
-#shop-page nav a[href="shop.html"]:hover {
+#home-page nav a[href="index.html"].active:hover, /* Added .active for higher specificity */
+#about-page nav a[href="about.html"].active:hover,
+#howtoplay-page nav a[href="howtoplay.html"].active:hover,
+#shop-page nav a[href="shop.html"].active:hover {
     background-color: #007bff; /* Blue hover for active nav buttons */
 }
 
@@ -238,7 +240,7 @@ section h2 {
 .product-tile .add-to-cart-button {
     background-color: #5cb85c; /* Green color for cart */
     color: white;
-    padding: 6px 10px; /* Smaller padding for a compact button */
+    padding: 8px; /* Adjusted padding to be symmetrical for square button */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -247,8 +249,9 @@ section h2 {
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    width: auto; /* Allow button to size to content */
-    flex-shrink: 0; /* Don't allow it to shrink if not needed */
+    width: 40px; /* Fixed width for square button */
+    height: 40px; /* Fixed height for square button */
+    flex-shrink: 0;
     flex-grow: 0;
 }
 
@@ -258,16 +261,21 @@ section h2 {
 }
 
 /*
-    FIX: Cart icon vertical alignment.
-    Using a slight top adjustment for precise centering if flexbox isn't enough.
+    FIX: Cart icon size, outline, and centering.
+    Increased size, removed filter (if icon is already white), added border for outline,
+    and ensured proper centering.
 */
 .product-tile .cart-icon {
-    width: 20px;
-    height: 20px;
-    filter: invert(100%); /* Ensures icon is white */
-    display: block; /* Ensures it behaves as a block element for precise positioning */
-    position: relative; /* Allows for top adjustment */
-    top: 0.5px; /* Adjust this value if needed for perfect centering */
+    width: 24px; /* Increased size for better visibility */
+    height: 24px; /* Maintain aspect ratio */
+    /* Removed filter: invert(100%); assuming the icon is already white or can be made white.
+       If your cart icon image is black, you might still need filter: invert(100%); here. */
+    border: 2px solid #ff69b4; /* Pink outline as requested */
+    border-radius: 4px; /* Slightly rounded corners for the outline */
+    box-sizing: border-box; /* Include padding/border in element's total width and height */
+    display: block; /* Ensure it behaves as a block for precise centering */
+    /* Removed position: relative; and top: 0.5px; as flexbox should handle centering now
+       with consistent button dimensions and padding. */
 }
 
 
@@ -311,7 +319,7 @@ section h2 {
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if content is too large */
     background-color: rgba(0,0,0,0.8); /* Darker, more prominent overlay */
-    display: flex; /* This will only take effect when the class is toggled to active */
+    /* display: flex; - This line is now redundant here as .modal.active will set it */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     padding: 20px; /* Add some padding around the modal */
