@@ -16,6 +16,7 @@ header {
     text-align: center;
     border-bottom: 3px solid #333;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative; /* Essential for absolute positioning of children */
 }
 
 header h1 {
@@ -606,9 +607,7 @@ footer {
     .modal-content {
         padding: 20px;
     }
-    /* style.css */
-
-/* ... (your existing CSS) ... */
+}
 
 /* NEW: Cart Icon Button in Header */
 #cart-button {
@@ -838,13 +837,25 @@ footer {
         right: auto;
         justify-content: center; /* Center horizontally */
         margin-top: 15px; /* Add some space below header text */
+        flex-direction: column; /* Stack credit and cart vertically */
+        align-items: center;
+        width: 100%;
+    }
+    #store-credit-display {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+    #cart-button {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
     }
 
     #cart-button {
         padding: 8px 12px;
         font-size: 1em;
         gap: 5px;
-        margin-left: 10px;
     }
 
     #cart-button .cart-icon-header {
