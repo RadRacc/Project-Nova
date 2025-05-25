@@ -261,21 +261,17 @@ section h2 {
 }
 
 /*
-    FIX: Cart icon size, outline, and centering.
-    Increased size, removed filter (if icon is already white), added border for outline,
-    and ensured proper centering.
+    FIX: Cart icon color and outline.
+    Ensuring the icon is white and the outline is pink.
 */
 .product-tile .cart-icon {
     width: 24px; /* Increased size for better visibility */
     height: 24px; /* Maintain aspect ratio */
-    /* Removed filter: invert(100%); assuming the icon is already white or can be made white.
-       If your cart icon image is black, you might still need filter: invert(100%); here. */
+    filter: invert(100%); /* Make the icon white (if it's black by default) */
     border: 2px solid #ff69b4; /* Pink outline as requested */
     border-radius: 4px; /* Slightly rounded corners for the outline */
     box-sizing: border-box; /* Include padding/border in element's total width and height */
     display: block; /* Ensure it behaves as a block for precise centering */
-    /* Removed position: relative; and top: 0.5px; as flexbox should handle centering now
-       with consistent button dimensions and padding. */
 }
 
 
@@ -303,6 +299,26 @@ section h2 {
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
+/*
+    NEW: Styles for links on the home page.
+    Applying theme colors to standard anchor tags within the main content.
+*/
+main a {
+    color: #ff69b4; /* Pink for unvisited links */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+main a:hover {
+    color: #007bff; /* Blue on hover */
+    text-decoration: underline; /* Add underline on hover for emphasis */
+}
+
+main a:visited {
+    color: #e04a9d; /* Slightly darker pink for visited links */
+}
+
+
 /* --- Modal (Popup) Styles - Reworked for better appearance --- */
 /*
     CRITICAL FIX: Adding !important to display: none.
@@ -319,7 +335,6 @@ section h2 {
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if content is too large */
     background-color: rgba(0,0,0,0.8); /* Darker, more prominent overlay */
-    /* display: flex; - This line is now redundant here as .modal.active will set it */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     padding: 20px; /* Add some padding around the modal */
