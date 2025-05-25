@@ -63,8 +63,12 @@ nav .button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/*
+    FIX: Nav button hover/active color.
+    Ensuring the active state has higher specificity and uses the correct colors.
+*/
 nav .button:hover {
-    background-color: #555;
+    background-color: #555; /* Default hover for non-active nav buttons */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
@@ -74,16 +78,17 @@ nav .button:hover {
 #about-page nav a[href="about.html"],
 #howtoplay-page nav a[href="howtoplay.html"],
 #shop-page nav a[href="shop.html"] {
-    background-color: #ff69b4; /* Active button color */
+    background-color: #ff69b4; /* Active button color - Pink */
     color: white;
     box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
 }
 
+/* Specific hover for ACTIVE navigation buttons */
 #home-page nav a[href="index.html"]:hover,
 #about-page nav a[href="about.html"]:hover,
 #howtoplay-page nav a[href="howtoplay.html"]:hover,
 #shop-page nav a[href="shop.html"]:hover {
-    background-color: #e04a9d; /* Darker active on hover */
+    background-color: #007bff; /* Blue hover for active nav buttons */
 }
 
 
@@ -256,18 +261,26 @@ section h2 {
     transform: translateY(-2px);
 }
 
+/*
+    FIX: Cart icon vertical alignment.
+    Using a slight top adjustment for precise centering if flexbox isn't enough.
+*/
 .product-tile .cart-icon {
     width: 20px;
     height: 20px;
     filter: invert(100%); /* Ensures icon is white */
-    vertical-align: middle; /* Helps with alignment in some contexts */
-    display: block; /* Ensures it behaves as a block element */
-    line-height: 1; /* Helps remove any extra space around inline elements */
+    display: block; /* Ensures it behaves as a block element for precise positioning */
+    position: relative; /* Allows for top adjustment */
+    top: 0.5px; /* Adjust this value if needed for perfect centering */
 }
 
-/* Larger, Nav-like View Details Button */
+
+/*
+    FIX: "View Details" button colors.
+    Changing to pink with blue hover.
+*/
 .product-tile .view-details-button {
-    background-color: #6a5acd; /* Purple color, similar to nav buttons */
+    background-color: #ff69b4; /* Pink color for View Details */
     color: white;
     padding: 10px 20px; /* Larger padding, like nav buttons */
     text-decoration: none; /* Ensure no underline */
@@ -281,12 +294,16 @@ section h2 {
 }
 
 .product-tile .view-details-button:hover {
-    background-color: #5c4acb;
+    background-color: #007bff; /* Blue hover for View Details */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
 /* --- Modal (Popup) Styles - Reworked for better appearance --- */
+/*
+    CRITICAL: Ensuring display: none is effective.
+    If the modal is still showing, you MUST ensure this rule is applied and not overridden.
+*/
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
