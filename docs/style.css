@@ -63,10 +63,6 @@ nav .button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/*
-    FIX: Nav button hover/active color.
-    Ensuring the active state has higher specificity and uses the correct colors.
-*/
 nav .button:hover {
     background-color: #555; /* Default hover for non-active nav buttons */
     transform: translateY(-2px);
@@ -301,11 +297,12 @@ section h2 {
 
 /* --- Modal (Popup) Styles - Reworked for better appearance --- */
 /*
-    CRITICAL: Ensuring display: none is effective.
-    If the modal is still showing, you MUST ensure this rule is applied and not overridden.
+    CRITICAL FIX: Adding !important to display: none.
+    This is to aggressively counter the mysterious "Element.style" that is forcing display: flex.
+    If this works, it confirms an inline style or a very specific browser default is causing the issue.
 */
 .modal {
-    display: none; /* Hidden by default */
+    display: none !important; /* Hidden by default - FORCED */
     position: fixed; /* Stay in place */
     z-index: 1000; /* Sit on top of everything */
     left: 0;
@@ -314,7 +311,7 @@ section h2 {
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if content is too large */
     background-color: rgba(0,0,0,0.8); /* Darker, more prominent overlay */
-    display: flex; /* Use flexbox to center content */
+    display: flex; /* This will only take effect when the class is toggled to active */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     padding: 20px; /* Add some padding around the modal */
@@ -322,7 +319,7 @@ section h2 {
 }
 
 .modal.active {
-    display: flex; /* Show when active */
+    display: flex !important; /* Show when active - FORCED */
 }
 
 .modal-content {
