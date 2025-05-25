@@ -263,8 +263,8 @@ section h2 {
     Ensuring the icon is white and the outline is pink.
 */
 .product-tile .cart-icon {
-    width: 24px; /* Increased size for better visibility */
-    height: 24px; /* Maintain aspect ratio */
+    width: 42px; /* Increased size for better visibility */
+    height: 42px; /* Maintain aspect ratio */
     filter: invert(100%); /* Make the icon white (if it's black by default) */
     border: 2px solid #ff69b4; /* Pink outline as requested */
     border-radius: 4px; /* Slightly rounded corners for the outline */
