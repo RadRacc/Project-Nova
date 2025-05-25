@@ -1,3 +1,360 @@
+// script.js
+
+// Product data (moved to script.js for easier management with cart)
+const products = [
+    {
+        id: 'nova-core-processor',
+        name: 'Nova Core Processor',
+        price: 1500,
+        image: 'icons/nova-core-processor.png', // Corrected path
+        description: 'Boost your ship\'s processing power and unlock advanced functionalities. Essential for complex maneuvers and high-speed computations.',
+        features: [
+            '20% faster processing speed',
+            'Enables auto-pilot system',
+            'Reduces system lag by 15%',
+            'Compatible with all Nova-series ships'
+        ]
+    },
+    {
+        id: 'plasma-coil-booster',
+        name: 'Plasma Coil Booster',
+        price: 2200,
+        image: 'icons/plasma-coil-booster.png', // Corrected path
+        description: 'Unleash devastating plasma energy for increased weapon damage and propulsion. Feel the surge of power!',
+        features: [
+            '30% increased weapon damage',
+            '10% propulsion efficiency gain',
+            'Overcharge capability for burst damage',
+            'Requires advanced power coupling'
+        ]
+    },
+    {
+        id: 'stealth-field-generator',
+        name: 'Stealth Field Generator',
+        price: 3000,
+        image: 'icons/stealth-field-generator.png', // Corrected path
+        description: 'Become invisible to enemy sensors and execute surprise attacks. Perfect for espionage and tactical retreats.',
+        features: [
+            '95% sensor invisibility',
+            'Reduced target lock-on time',
+            'Limited duration deployment',
+            'High energy consumption'
+        ]
+    },
+    {
+        id: 'quantum-repair-drone',
+        name: 'Quantum Repair Drone',
+        price: 1800,
+        image: 'icons/quantum-repair-drone.png', // Corrected path
+        description: 'Automated repair unit that swiftly fixes hull damage during combat. A must-have for extended engagements.',
+        features: [
+            'On-the-fly hull repairs',
+            'Autonomous operation',
+            'Compact and deployable',
+            'Limited repair charges'
+        ]
+    },
+    {
+        id: 'warp-drive-accelerator',
+        name: 'Warp Drive Accelerator',
+        price: 2700,
+        image: 'icons/warp-drive-accelerator.png', // Corrected path
+        description: 'Significantly decrease warp jump charging time, allowing for quicker escapes and faster travel between star systems.',
+        features: [
+            '50% faster warp charge',
+            'Reduced FTL travel time',
+            'Optimized for long-distance jumps',
+            'Requires stable power conduit'
+        ]
+    },
+    {
+        id: 'holobody-projector',
+        name: 'Holobody Projector',
+        price: 900,
+        image: 'icons/holobody-projector.png', // Corrected path
+        description: 'Create realistic holographic decoys to confuse and distract your adversaries. A perfect diversionary tactic.',
+        features: [
+            'Generates realistic decoys',
+            'Customizable appearance',
+            'Sound replication included',
+            'Effective against AI and players'
+        ]
+    },
+    {
+        id: 'orbital-defense-system',
+        name: 'Orbital Defense System',
+        price: 4500,
+        image: 'icons/orbital-defense-system.png', // Corrected path
+        description: 'Deploy a powerful defensive array around your base or specific area, providing impenetrable shields and automated turrets.',
+        features: [
+            'Automated turret defense',
+            'Heavy energy shielding',
+            'Long-range threat detection',
+            'Stationary deployment'
+        ]
+    },
+    {
+        id: 'gravity-well-mine',
+        name: 'Gravity Well Mine',
+        price: 1100,
+        image: 'icons/gravity-well-mine.png', // Corrected path
+        description: 'Lay concealed mines that generate localized gravity wells, ensnaring enemy ships and making them easy targets.',
+        features: [
+            'Disables enemy movement',
+            'Area of effect damage',
+            'Invisible to standard scans',
+            'Short deployment cooldown'
+        ]
+    }
+];
+
+// Global variables
+let storeCredit = localStorage.getItem('storeCredit') ? parseInt(localStorage.getItem('storeCredit')) : 5000;
+let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+// DOM Elements
+const storeCreditDisplay = document.getElementById('store-credit-display');
+const storeCreditAmountSpan = document.getElementById('store-credit-amount');
+const addCreditButton = document.getElementById('add-credit-button'); // This will be null on non-shop pages
+
+const productGrid = document.getElementById('product-grid');
+const productModal = document.getElementById('product-details-modal'); // Changed to match HTML
+const cartModal = document.getElementById('cart-modal');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalSpan = document.getElementById('cart-total');
+const cartItemCountSpan = document.getElementById('cart-item-count');
+
+const modalProductName = document.getElementById('modal-product-name');
+const modalProductImage = document.getElementById('modal-product-image');
+const modalProductDescription = document.getElementById('modal-product-description');
+const modalProductBenefits = document.getElementById('modal-product-benefits'); // Changed to match HTML
+const modalProductPrice = document.getElementById('modal-product-price');
+const modalAddToCartButton = document.getElementById('modal-add-to-cart-button'); // Changed ID
+
+const closeProductModalButton = document.querySelector('#product-details-modal .close-button'); // Specific to product modal
+const closeCartModalButton = document.querySelector('#cart-modal .close-button'); // Specific to cart modal
+const cartButton = document.getElementById('cart-button');
+const checkoutButton = document.getElementById('checkout-button');
+
+
+// FUNCTIONS
+
+function updateStoreCreditDisplay() {
+    if (storeCreditAmountSpan) {
+        storeCreditAmountSpan.textContent = storeCredit.toFixed(2);
+    }
+    localStorage.setItem('storeCredit', storeCredit);
+}
+
+function addCredit() {
+    storeCredit += 10; // Original value was 10
+    updateStoreCreditDisplay();
+    console.log('Successfully added $10 to your store credit! Current credit: $' + storeCredit.toFixed(2));
+    // In a real app, you'd show a custom message box here instead of alert.
+}
+
+function renderProducts() {
+    if (!productGrid) return; // Only run if on shop page
+
+    productGrid.innerHTML = ''; // Clear existing products
+    products.forEach(product => {
+        const productTile = document.createElement('div');
+        productTile.classList.add('product-tile');
+        productTile.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <div class="price-info">
+                <span class="current-price">$${product.price.toFixed(2)}</span>
+            </div>
+            <div class="button-group">
+                <button class="add-to-cart-button" data-product-id="${product.id}">
+                    <img src="icons/cart.png" alt="Add to Cart" class="cart-icon">
+                </button>
+                <button class="view-details-button" data-product-id="${product.id}">View Details</button>
+            </div>
+        `;
+        productGrid.appendChild(productTile);
+    });
+
+    // Attach event listeners to product buttons
+    document.querySelectorAll('.view-details-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = event.target.dataset.productId;
+            openProductModal(productId);
+        });
+    });
+
+    document.querySelectorAll('.add-to-cart-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = button.dataset.productId;
+            addToCart(productId);
+        });
+    });
+}
+
+function openProductModal(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        console.error(`Product with ID "${productId}" not found.`);
+        return;
+    }
+
+    modalProductName.textContent = product.name;
+    modalProductImage.src = product.image;
+    modalProductImage.alt = product.name;
+    modalProductDescription.textContent = product.description;
+    modalProductPrice.textContent = product.price.toFixed(2);
+
+    modalProductBenefits.innerHTML = ''; // Clear previous benefits
+    if (product.features) { // Use 'features' as per new product data structure
+        product.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            modalProductBenefits.appendChild(li);
+        });
+    }
+
+    // Set data-product-id for the "Add to Cart" button in modal
+    if (modalAddToCartButton) {
+        modalAddToCartButton.dataset.productId = productId;
+    }
+
+    productModal.classList.add('active');
+}
+
+function closeProductModal() {
+    productModal.classList.remove('active');
+}
+
+
+// NEW CART FUNCTIONS
+
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + (item.quantity || 0), 0); // Sum quantities
+    if (cartItemCountSpan) {
+        cartItemCountSpan.textContent = count;
+        if (count > 0) {
+            cartItemCountSpan.style.display = 'inline-block'; // Show badge
+        } else {
+            cartItemCountSpan.style.display = 'none'; // Hide badge
+        }
+    }
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to localStorage
+}
+
+function addToCart(productId) {
+    const productToAdd = products.find(p => p.id === productId);
+    if (!productToAdd) {
+        console.error('Product not found:', productId);
+        return;
+    }
+
+    const existingCartItem = cart.find(item => item.id === productId);
+
+    if (existingCartItem) {
+        existingCartItem.quantity = (existingCartItem.quantity || 1) + 1; // Increment quantity
+    } else {
+        cart.push({ ...productToAdd, quantity: 1 }); // Add new product with quantity 1
+    }
+
+    updateCartCount();
+    console.log(`${productToAdd.name} added to cart! Current cart:`, cart);
+    // In a real app, you'd show a custom message box here instead of alert.
+}
+
+function removeFromCart(productId) {
+    const itemIndex = cart.findIndex(item => item.id === productId);
+
+    if (itemIndex > -1) {
+        const item = cart[itemIndex];
+        if (item.quantity > 1) {
+            item.quantity--; // Decrement quantity
+            console.log(`Decremented quantity for ${item.name}. New quantity: ${item.quantity}`);
+        } else {
+            cart.splice(itemIndex, 1); // Remove item if quantity is 1
+            console.log(`${item.name} removed from cart.`);
+        }
+        updateCartCount();
+        renderCart(); // Re-render cart to show changes
+    }
+}
+
+function renderCart() {
+    if (!cartItemsContainer) return; // Ensure element exists
+
+    cartItemsContainer.innerHTML = ''; // Clear current cart display
+    let totalCost = 0;
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="text-align: center; color: #bbb;">Your cart is empty.</p>';
+        cartTotalSpan.textContent = '0.00';
+        if (checkoutButton) checkoutButton.disabled = true; // Disable checkout button
+    } else {
+        cart.forEach(item => {
+            const cartItemElement = document.createElement('li');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-details">
+                    <h4>${item.name}</h4>
+                    <p>Quantity: ${item.quantity || 1}</p>
+                </div>
+                <span class="item-price">$${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+                <button class="remove-item-button" data-product-id="${item.id}">&times;</button>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+            totalCost += item.price * (item.quantity || 1);
+        });
+        cartTotalSpan.textContent = totalCost.toFixed(2);
+        if (checkoutButton) checkoutButton.disabled = false; // Enable checkout button
+    }
+
+    // Attach event listeners to remove buttons (after they are rendered)
+    document.querySelectorAll('.remove-item-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = event.target.dataset.productId;
+            removeFromCart(productId);
+        });
+    });
+}
+
+function openCartModal() {
+    renderCart(); // Render cart items before opening
+    if (cartModal) {
+        cartModal.classList.add('active');
+    }
+}
+
+function closeCartModal() {
+    if (cartModal) {
+        cartModal.classList.remove('active');
+    }
+}
+
+function checkout() {
+    const totalCost = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
+    if (cart.length === 0) {
+        console.log('Your cart is empty. Add some items before checking out!');
+        return;
+    }
+
+    if (storeCredit >= totalCost) {
+        storeCredit -= totalCost;
+        cart = []; // Clear the cart
+        updateStoreCreditDisplay();
+        updateCartCount();
+        closeCartModal();
+        console.log(`Purchase successful! You spent $${totalCost.toFixed(2)}. Your remaining credit: $${storeCredit.toFixed(2)}.`);
+        // In a real app, you'd show a custom success message box here.
+    } else {
+        console.log(`Insufficient credit! You need $${(totalCost - storeCredit).toFixed(2)} more to complete this purchase.`);
+        // In a real app, you'd show a custom error message box here.
+    }
+}
+
+
+// DOMContentLoaded Event Listener
 document.addEventListener('DOMContentLoaded', () => {
     // --- Active Navigation Link ---
     const currentPath = window.location.pathname;
@@ -5,7 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         const linkPath = new URL(link.href).pathname;
-        if (currentPath === linkPath) {
+        // Adjust for potential leading/trailing slashes
+        const normalizedCurrentPath = currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
+        const normalizedLinkPath = linkPath.endsWith('/') ? linkPath.slice(0, -1) : linkPath;
+
+        if (normalizedCurrentPath === normalizedLinkPath) {
             link.classList.add('active');
         } else {
             link.classList.remove('active'); // Ensure other links are not active
@@ -22,270 +383,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Store Credit Logic ---
-    const storeCreditAmountSpan = document.getElementById('store-credit-amount');
-    const addCreditButton = document.getElementById('add-credit-button');
-    let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
-
-    function updateStoreCreditDisplay() {
-        if (storeCreditAmountSpan) {
-            storeCreditAmountSpan.textContent = storeCredit.toFixed(2);
-        }
+    // Conditional display of store credit and cart button
+    if (document.body.id === 'shop-page') {
+        if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
+        if (cartButton) cartButton.style.display = 'flex'; // Show cart button on shop page
+        renderProducts(); // Render products only on shop page
+        if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
+        if (cartButton) cartButton.addEventListener('click', openCartModal);
+        if (checkoutButton) checkoutButton.addEventListener('click', checkout);
+    } else {
+        // Ensure they are hidden on other pages if they somehow appear
+        if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
+        if (cartButton) cartButton.style.display = 'none';
     }
 
-    if (addCreditButton) {
-        addCreditButton.addEventListener('click', () => {
-            storeCredit += 10;
-            localStorage.setItem('storeCredit', storeCredit.toFixed(2));
-            updateStoreCreditDisplay();
-            alert('Successfully added $10 to your store credit!');
-        });
+    // Common modal close listeners
+    if (closeProductModalButton) {
+        closeProductModalButton.addEventListener('click', closeProductModal);
     }
-
-
-    // --- Product Data (Crucial for View Details Modal) ---
-    const products = {
-        "supporter-role": {
-            name: "Supporter Role",
-            price: 5.00,
-            image: "icons/supporterpackage.png",
-            description: "Gain access to exclusive Discord channels, custom chat color, and a special in-game title to show your support!",
-            benefits: [
-                "Exclusive Discord Role",
-                "Custom Chat Color (Pink)",
-                "In-game 'Supporter' Badge",
-                "Access to Supporter-only Discord channels",
-                "Access to /size /glow /glowcolor commands",
-                "Personal 25% Loot Boost"
-            ]
-        },
-        "supporter-plus-role": {
-            name: "Supporter+ Role",
-            price: 10.00,
-            image: "icons/supporter+package.png",
-            description: "All benefits of Supporter, plus a unique in-game pet, access to pre-release content, and more!",
-            benefits: [
-                "All Supporter benefits",
-                "Custom Chat Color (Pink, Purple)",
-                "Exclusive In-game Pet (Cosmetic)",
-                "Access to Pre-Release Content (3 Days before release)",
-                "Monthly exclusive items",
-                "Personal 80% Loot Boost"
-            ]
-        },
-        "supporter-plusplus-role": {
-            name: "Supporter++ Role",
-            price: 20.00,
-            image: "icons/supporter++package.png",
-            description: "The ultimate supporter package! All previous benefits plus custom sprite, and more server perks.",
-            benefits: [
-                "All Supporter and Supporter+ benefits",
-                "Custom Chat Color (Pink, Purple, Orange)"
-                "Personal Sprite (Add your own asset! [within reason])",
-                "Access to Pre-Release Content (7 Days before release)",
-                "Direct contact with Developers",
-                "Custom Vault Skin",
-                "Custom Character Skins (All Classes + future ones)",
-                "Personal 150% Loot Boost"
-            ]
-        },
-        "lootboost-20": {
-            name: "Global Loot Boost +20% (1 Day)",
-            price: 5.00,
-            image: "icons/globallootboost20.png",
-            description: "Activate a server-wide +20% increase in loot drop rates for 1 Day!",
-            benefits: [
-                "Global 20% Loot Boost (1 Day)",
-                "Stacks with other Loot Boost purchases"
-            ]
-        },
-        "lootboost-80": {
-            name: "Global Loot Boost +80% (3 Days)",
-            price: 10.00,
-            image: "icons/globallootboost80.png",
-            description: "Activate a significant server-wide +80% increase in loot drop rates for 3 Days!",
-            benefits: [
-                "Global 80% Loot Boost (3 Days)",
-                "Stacks with other Loot Boost purchases"
-            ]
-        },
-        "lootboost-150": {
-            name: "Global Loot Boost +150%",
-            price: 20.00,
-            image: "icons/globallootboost150.png",
-            description: "Unleash the ultimate loot frenzy with a massive +150% Global Loot Boost for 5 Days!",
-            benefits: [
-                "Global 150% Loot Boost (5 Days)",
-                "Stacks with other Loot Boost purchases"
-            ]
-        },
-        "small-currency-pack": {
-            name: "Small Currency Pack",
-            price: 5.00,
-            image: "icons/smallcurrencypack.png",
-            description: "A small boost to your in-game currency, perfect for minor purchases or getting started.",
-            benefits: [
-                "500 Gold",
-                "1,000 Fame",
-                "20 Shadow Shards"
-            ]
-        },
-        "medium-currency-pack": {
-            name: "Medium Currency Pack",
-            price: 10.00,
-            image: "icons/mediumcurrencypack.png",
-            description: "A medium currency pack for more substantial in-game needs. Get more for your money!",
-            benefits: [
-                "1,000 Gold + 250 Bonus",
-                "2,500 Fame + 500 Bonus",
-                "50 Shadow Shards + 20 Bonus"
-            ]
-        },
-        "large-currency-pack": {
-            name: "Large Currency Pack",
-            price: 25.00,
-            image: "icons/largecurrencypack.png",
-            description: "A generous currency pack for serious players, enabling significant upgrades and purchases.",
-            benefits: [
-                "2,500 Gold + 1,000 Bonus",
-                "5,000 Fame + 1,000 Bonus",
-                "100 Shadow Shards + 50 Bonus"
-            ]
-        },
-        "massive-currency-pack": {
-            name: "Massive Currency Pack",
-            price: 40.00,
-            image: "icons/massivecurrencypack.png",
-            description: "The ultimate currency pack! Maximize your in-game wealth with a huge injection of gold.",
-            benefits: [
-                "6,000 Gold + 1,500 Bonus",
-                "10,000 Fame + 2,500 Bonus",
-                "150 Shadow Shards + 50 Bonus"
-            ]
-        }
-    };
-
-    // --- Modal Elements ---
-    const productDetailsModal = document.getElementById('product-details-modal');
-    const closeButton = document.querySelector('.modal .close-button');
-    const modalProductImage = document.getElementById('modal-product-image');
-    const modalProductName = document.getElementById('modal-product-name');
-    const modalProductDescription = document.getElementById('modal-product-description');
-    const modalProductBenefits = document.getElementById('modal-product-benefits');
-    const modalProductPrice = document.getElementById('modal-product-price');
-    const modalPurchaseButton = document.getElementById('modal-purchase-button');
-
-    // --- DEBUGGING: Check if modal elements are found ---
-    console.log('Modal Element:', productDetailsModal);
-    console.log('Close Button:', closeButton);
-    if (!productDetailsModal) console.error("Error: #product-details-modal not found. HTML ID might be incorrect.");
-    if (!closeButton) console.error("Error: .modal .close-button not found. CSS selector might be incorrect or element missing.");
-
-
-    // Function to handle purchase (called from both quick buy and modal buy)
-    function handlePurchase(productId, itemPrice) {
-        if (storeCredit >= itemPrice) {
-            storeCredit -= itemPrice;
-            localStorage.setItem('storeCredit', storeCredit.toFixed(2));
-            updateStoreCreditDisplay();
-            alert(`You successfully purchased ${products[productId].name} for $${itemPrice.toFixed(2)}! Your new credit is $${storeCredit.toFixed(2)}.`);
-        } else {
-            alert(`Not enough store credit! You need $${itemPrice.toFixed(2)} but only have $${storeCredit.toFixed(2)}.`);
-        }
-    }
-
-    // --- Add to Cart (Quick Buy) Button Click Handler ---
-    document.querySelectorAll('.add-to-cart-button').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productId = button.dataset.productId;
-            const itemPrice = parseFloat(button.dataset.price);
-            if (productId && !isNaN(itemPrice)) {
-                handlePurchase(productId, itemPrice);
-            } else {
-                console.error("Missing product ID or price for Add to Cart button.");
-            }
-        });
-    });
-
-    // --- View Details Button Click Handler ---
-    document.querySelectorAll('.view-details-button').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const productId = button.dataset.productId;
-            const product = products[productId];
-
-            if (product) {
-                // Populate modal with product details
-                if (modalProductImage) modalProductImage.src = product.image;
-                if (modalProductImage) modalProductImage.alt = product.name;
-                if (modalProductName) modalProductName.textContent = product.name;
-                if (modalProductDescription) modalProductDescription.textContent = product.description;
-                if (modalProductPrice) modalProductPrice.textContent = product.price.toFixed(2);
-
-                // Clear previous benefits and add new ones
-                if (modalProductBenefits) {
-                    modalProductBenefits.innerHTML = '';
-                    product.benefits.forEach(benefit => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = benefit;
-                        modalProductBenefits.appendChild(listItem);
-                    });
-                }
-
-                // Set data-product-id and data-price for the purchase button in modal
-                if (modalPurchaseButton) {
-                    modalPurchaseButton.dataset.productId = productId;
-                    modalPurchaseButton.dataset.price = product.price.toFixed(2);
-                }
-
-                // Show the modal
-                if (productDetailsModal) {
-                    productDetailsModal.classList.add('active');
-                    console.log(`Modal for ${productId} opened.`);
-                }
-            } else {
-                console.error(`Product with ID "${productId}" not found in products data.`);
-            }
-        });
-    });
-
-    // --- Modal Purchase Button Click Handler ---
-    if (modalPurchaseButton) {
-        modalPurchaseButton.addEventListener('click', () => {
-            const productId = modalPurchaseButton.dataset.productId;
-            const itemPrice = parseFloat(modalPurchaseButton.dataset.price);
-            if (productId && !isNaN(itemPrice)) {
-                handlePurchase(productId, itemPrice);
-                if (productDetailsModal) {
-                    productDetailsModal.classList.remove('active'); // Hide modal after purchase attempt
-                    console.log('Modal closed after purchase attempt.');
-                }
-            } else {
-                console.error("Missing product ID or price for modal purchase button.");
+    if (productModal) {
+        productModal.addEventListener('click', (event) => {
+            if (event.target === productModal) {
+                closeProductModal();
             }
         });
     }
 
-    // --- Close Modal Button Handler ---
-    if (closeButton) { // Only add listener if button exists
-        closeButton.addEventListener('click', () => {
-            console.log('Close button clicked!');
-            if (productDetailsModal) {
-                productDetailsModal.classList.remove('active');
-                console.log('Modal active class removed.');
+    // Cart modal specific close listeners
+    if (closeCartModalButton) {
+        closeCartModalButton.addEventListener('click', closeCartModal);
+    }
+    if (cartModal) {
+        cartModal.addEventListener('click', (event) => {
+            if (event.target === cartModal) {
+                closeCartModal();
             }
         });
     }
 
-    // Close modal if user clicks outside of modal content
-    if (productDetailsModal) { // Only add listener if modal exists
-        productDetailsModal.addEventListener('click', (event) => {
-            if (event.target === productDetailsModal) { // Ensure click is on the overlay itself, not content
-                console.log('Clicked outside modal content.');
-                productDetailsModal.classList.remove('active');
-            }
-        });
-    }
-
-    // Initial display of store credit
-    updateStoreCreditDisplay();
+    // Initial updates for cart count (visible on all pages if cart button is present)
+    updateCartCount();
+    updateStoreCreditDisplay(); // Also update store credit display initially on shop page
 });
