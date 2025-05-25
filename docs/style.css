@@ -422,7 +422,7 @@ main a:visited {
     margin-bottom: 25px;
 }
 
-#modal-purchase-button {
+#modal-add-to-cart-button { /* Changed ID from modal-purchase-button */
     background-color: #ff69b4; /* Pink for purchase button */
     color: white;
     padding: 15px 35px; /* Larger padding */
@@ -436,7 +436,7 @@ main a:visited {
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-#modal-purchase-button:hover {
+#modal-add-to-cart-button:hover {
     background-color: #e04a9d;
     transform: translateY(-3px); /* More pronounced lift */
 }
@@ -467,146 +467,6 @@ footer {
     border-top: 3px solid #333;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
     font-size: 0.9em;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.5em;
-    }
-
-    nav {
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    nav .button {
-        padding: 8px 15px;
-        font-size: 0.9em;
-    }
-
-    main {
-        padding: 30px 15px;
-        margin: 30px auto;
-    }
-
-    section h2 {
-        font-size: 2.2em;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-    }
-
-    .product-tile {
-        padding: 20px;
-        min-height: 350px;
-    }
-
-    .product-tile img {
-        max-width: 140px;
-    }
-
-    .product-tile h3 {
-        font-size: 1.5em;
-    }
-
-    .product-tile .button-group {
-        flex-direction: column; /* Stack buttons vertically on small screens */
-        gap: 10px;
-    }
-
-    .product-tile .add-to-cart-button,
-    .product-tile .view-details-button {
-        width: 100%; /* Full width when stacked */
-        flex-grow: unset;
-        min-width: unset;
-    }
-
-    .modal-content {
-        width: 95%;
-        padding: 25px;
-    }
-
-    .modal-body h3 {
-        font-size: 2em;
-    }
-
-    .modal-body p {
-        font-size: 1em;
-    }
-
-    .modal-body ul li {
-        padding: 10px;
-        font-size: 0.95em;
-    }
-
-    #modal-purchase-button {
-        padding: 12px 25px;
-        font-size: 1.1em;
-    }
-
-    .close-button {
-        font-size: 30px;
-        top: 10px;
-        right: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 2em;
-    }
-
-    header h6 {
-        font-size: 1em;
-    }
-
-    header p {
-        font-size: 0.9em;
-    }
-
-    nav {
-        flex-direction: column;
-        gap: 8px;
-        padding: 8px;
-    }
-
-    nav .button {
-        padding: 8px 10px;
-        font-size: 0.85em;
-    }
-
-    #store-credit-display {
-        padding: 8px 15px;
-    }
-
-    #store-credit-display span {
-        font-size: 1.1em;
-    }
-
-    #store-credit-display button {
-        padding: 6px 12px;
-    }
-
-    section h2 {
-        font-size: 1.8em;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr; /* Single column on very small screens */
-    }
-
-    .product-tile {
-        max-width: 280px; /* Keep consistent width */
-        min-height: 320px;
-    }
-
-    .modal-content {
-        padding: 20px;
-    }
 }
 
 /* NEW: Cart Icon Button in Header */
