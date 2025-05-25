@@ -171,7 +171,7 @@ function updateStoreCreditDisplay() {
 }
 
 function addCredit() {
-    storeCredit += 10;
+    storeCredit += 10; // Original value was 10
     updateStoreCreditDisplay();
     console.log('Successfully added $10 to your store credit! Current credit: $' + storeCredit.toFixed(2));
     // In a real app, you'd show a custom message box here instead of alert.
@@ -224,19 +224,34 @@ function openProductModal(productId) {
         return;
     }
 
-    modalProductName.textContent = product.name;
-    modalProductImage.src = product.image;
-    modalProductImage.alt = product.name;
-    modalProductDescription.textContent = product.description;
-    modalProductPrice.textContent = product.price.toFixed(2);
+    // Debugging: Check if modal elements are found
+    console.log("Attempting to populate and open product modal.");
+    console.log("modalProductName:", modalProductName);
+    console.log("modalProductImage:", modalProductImage);
+    console.log("modalProductDescription:", modalProductDescription);
+    console.log("modalProductBenefits:", modalProductBenefits);
+    console.log("modalProductPrice:", modalProductPrice);
+    console.log("modalAddToCartButton:", modalAddToCartButton);
+    console.log("productDetailsModal:", productDetailsModal);
 
-    modalProductBenefits.innerHTML = ''; // Clear previous benefits
-    if (product.features) { // Use 'features' as per product data structure
-        product.features.forEach(feature => {
-            const li = document.createElement('li');
-            li.textContent = feature;
-            modalProductBenefits.appendChild(li);
-        });
+
+    if (modalProductName) modalProductName.textContent = product.name;
+    if (modalProductImage) {
+        modalProductImage.src = product.image;
+        modalProductImage.alt = product.name;
+    }
+    if (modalProductDescription) modalProductDescription.textContent = product.description;
+    if (modalProductPrice) modalProductPrice.textContent = product.price.toFixed(2);
+
+    if (modalProductBenefits) {
+        modalProductBenefits.innerHTML = ''; // Clear previous benefits
+        if (product.features) { // Use 'features' as per product data structure
+            product.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                modalProductBenefits.appendChild(li);
+            });
+        }
     }
 
     // Set data-product-id for the "Add to Cart" button in modal
@@ -244,11 +259,19 @@ function openProductModal(productId) {
         modalAddToCartButton.dataset.productId = productId;
     }
 
-    productDetailsModal.classList.add('active');
+    if (productDetailsModal) {
+        productDetailsModal.classList.add('active');
+        console.log("Product modal opened successfully.");
+    } else {
+        console.error("Error: productDetailsModal element is null or undefined when trying to open modal.");
+    }
 }
 
 function closeProductModal() {
-    productDetailsModal.classList.remove('active');
+    if (productDetailsModal) {
+        productDetailsModal.classList.remove('active');
+        console.log("Product modal closed.");
+    }
 }
 
 
@@ -354,12 +377,14 @@ function openCartModal() {
     renderCart(); // Render cart items before opening
     if (cartModal) {
         cartModal.classList.add('active');
+        console.log("Cart modal opened.");
     }
 }
 
 function closeCartModal() {
     if (cartModal) {
         cartModal.classList.remove('active');
+        console.log("Cart modal closed.");
     }
 }
 
