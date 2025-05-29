@@ -1,0 +1,41 @@
+name: GitHub to Discord Commit Notifications
+
+on:
+  push:
+    branches:
+      - main  # Trigger for commits to main branch
+
+jobs:
+  send-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 1: Set commit variables
+      - name: Set commit variables
+        id: commit-vars
+        run: |
+          echo "COMMIT_MESSAGE=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
+          echo "COMMIT_URL=${{ github.event.head_commit.url }}" >> $GITHUB_ENV
+          echo "COMMIT_ID=${{ github.event.head_commit.id }}" >> $GITHUB_ENV
+          echo "AUTHOR_NAME=${{ github.event.head_commit.author.name }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+          echo "COMMIT_ID_SHORT=$(echo ${{ github.event.head_commit.id }} | cut -c1-7)" >> $GITHUB_ENV
+
+      # Step 2: Send webhook to Discord
+      - name: Send webhook to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+                "username": "GitHub",
+                "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                "embeds": [{
+                  "title": "[${{ env.REPO_NAME }}:main] 1 new commit",
+                  "url": "${{ env.COMMIT_URL }}",
+                  "description": "[${{ env.COMMIT_ID_SHORT }}] ${{ env.COMMIT_MESSAGE }} - ${{ env.AUTHOR_NAME }}",
+                  "color": 7506394
+                }]
+              }' \
+          ${{ secrets.DISCORD_WEBHOOK }}
