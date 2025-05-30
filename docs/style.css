@@ -183,7 +183,7 @@ section h2 {
     flex-direction: column;
     justify-content: space-between; /* Push content to top/bottom, buttons at bottom */
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
     max-width: 320px; /* Slightly larger max-width for tiles */
     min-height: 380px; /* Ensure minimum height for consistency */
@@ -394,16 +394,6 @@ main a:visited {
     padding: 0;
     margin-bottom: 25px;
     text-align: left; /* Align list items left */
-}
-
-.modal-body ul li {
-    background-color: #3a3a3a; /* Slightly lighter background for list items */
-    margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 8px; /* More rounded list items */
-    display: flex;
-    align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .modal-body ul li::before {
@@ -748,8 +738,8 @@ footer {
         font-size: 1.1em;
     }
 
-    .cart-item .item-price {
-        font-size: 1em;
+    .cart-item-details p {
+        font-size: 0.95em;
     }
 
     .cart-item .remove-item-button {
