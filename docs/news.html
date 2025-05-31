@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Nova Launcher News</title>
+    <style>
+        /* Basic styles to match the launcher's dark theme */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Matches launcher font */
+            background-color: #282828; /* Matches ContentPanel background */
+            color: #e0e0e0; /* Light gray text for readability */
+            margin: 20px;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth; /* Optional: smooth scrolling for long pages */
+        }
+        h1 {
+            color: #FF69B4; /* Hot Pink, matching App Title */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            border-bottom: 2px solid #FF69B4; /* Underline effect */
+            padding-bottom: 10px;
+            display: inline-block; /* Makes border-bottom fit content */
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content; /* Adjust width to content */
+            
+        }
+        .container {
+            max-width: 800px; /* Limit width for better readability */
+            margin: 0 auto; /* Center the content */
+            padding: 0 15px; /* Add some side padding */
+        }
+        .news-item {
+            background-color: #3a3a3a; /* Slightly darker than ContentPanel for contrast */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+        }
+        .news-item:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+        .news-item h2 {
+            color: #FF69B4; /* Hot Pink for news titles */
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            word-wrap: break-word; /* Prevent long titles from overflowing */
+        }
+        .news-item .date {
+            color: #87CEEB; /* SkyBlue for dates */
+            font-size: 0.9em;
+            font-style: italic;
+            margin-bottom: 15px;
+            display: block; /* Ensures date is on its own line */
+        }
+        .news-item p {
+            margin-bottom: 15px;
+            word-wrap: break-word; /* Ensure text wraps */
+        }
+        .news-item ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 0;
+            list-style-position: outside; /* Bullet points outside the text block */
+        }
+        .news-item li {
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+        a {
+            color: #1E90FF; /* Dodger Blue for links, matching button hover */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #555, rgba(0, 0, 0, 0));
+            margin: 30px 0;
+        }
+        /* Responsive adjustments for smaller screens (if WebBrowser resizes) */
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .news-item {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Project Nova Announcements</h1>
+
+        <div class="news-item">
+            <h2>Launcher Update! Version 1.1 Released</h2>
+            <span class="date">May 31, 2025</span>
+            <p>We've just pushed a new update for the Project Nova Launcher! This version brings exciting new features and improvements to enhance your experience:</p>
+            <ul>
+                <li>**New "News" Button:** Easily access the latest announcements and updates right from the launcher.</li>
+                <li>Improved WebBrowser performance and compatibility (thanks to a registry fix!).</li>
+                <li>Minor UI tweaks and bug fixes for a smoother user experience.</li>
+                <li>Enhanced update checking stability and reliability.</li>
+            </ul>
+            <p>Make sure to click "Check For Update" to get the latest launcher version!</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Game Content Update: The Crystal Caverns Rework</h2>
+            <span class="date">May 20, 2025</span>
+            <p>Get ready for a massive rework of the Crystal Caverns dungeon! We've made significant changes to deliver a fresh and challenging experience:</p>
+            <ul>
+                <li>Boss mechanics: Prepare for new challenges and intricate attack patterns.</li>
+                <li>Loot tables: Discover exciting new unique items and improved drop rates.</li>
+                <li>Map layout: Explore redesigned areas with fresh encounters and secrets.</li>
+                <li>Visuals: Experience stunning new graphics and immersive effects.</li>
+            </ul>
+            <p>This update will go live with the next in-game patch. Stay tuned to our <a href="https://discord.gg/v7Kd4v2jQ6" target="_blank">Discord server</a> for more details!</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Discord Server Milestone!</h2>
+            <span class="date">May 15, 2025</span>
+            <p>A huge shoutout to our amazing community! We've officially hit 5,000 members on our Discord server. Thank you for your continued support and active engagement.</p>
+            <p>If you haven't joined yet, click the "Join Discord" button in the launcher to connect with other players, get support, and participate in exclusive events!</p>
+        </div>
+
+        <div class="news-item">
+            <h2>Upcoming Server Maintenance</h2>
+            <span class="date">May 10, 2025</span>
+            <p>Please be aware that we will be performing scheduled server maintenance on **June 5, 2025, from 10:00 AM to 12:00 PM PDT**. During this time, the game servers may be inaccessible.</p>
+            <p>We apologize for any inconvenience this may cause and appreciate your understanding as we work to improve server stability and performance.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
