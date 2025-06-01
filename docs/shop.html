@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body id="shop-page">
-    <header>
+<body id="shop-page"> <header>
         <h1>Project Nova Shop</h1>
         <h6>RadRacc & MaYo</h6>
         <p>Purchase special Roles and other stuff here!</p>
@@ -19,8 +18,7 @@
             <a href="index.html" class="button">Home</a>
             <a href="about.html" class="button">About</a>
             <a href="howtoplay.html" class="button">How to Play</a>
-            <a href="shop.html" class="button">Shop</a>
-        </nav>
+            <a href="shop.html" class="button active">Shop</a> <a href="newsWeb.html" class="button">News</a> </nav>
 
         <div class="header-right-container">
             <div id="store-credit-display">
@@ -29,10 +27,11 @@
                 <button id="add-credit-button">Add $10</button>
             </div>
             <button id="cart-button">
-                Cart (<span id="cart-item-count">0</span>) <img src="icons/cart.png" alt="Cart Icon" class="cart-icon-header">
+                Cart (<span id="cart-item-count">0</span>)
+                <img src="icons/cart.png" alt="Cart Icon" class="cart-icon-header">
             </button>
         </div>
-        </header>
+    </header>
 
     <main>
         <section id="supporter-ranks">
@@ -201,7 +200,8 @@
                 <img id="modal-product-image" src="" alt="Product Image">
                 <h3 id="modal-product-name"></h3>
                 <p id="modal-product-description"></p>
-                <ul id="modal-product-benefits"></ul> <div class="modal-price">
+                <ul id="modal-product-benefits"></ul>
+                <div class="modal-price">
                     Price: $<span id="modal-product-price"></span>
                 </div>
                 <button id="modal-add-to-cart-button" class="buy-button">Add to Cart</button>
