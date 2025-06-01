@@ -38,6 +38,25 @@ header p {
     margin-bottom: 20px;
 }
 
+/* Discord Logo in Header */
+.discord-logo-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    transition: transform 0.2s ease;
+}
+
+.discord-logo-link:hover {
+    transform: scale(1.1);
+}
+
+.discord-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Make it round */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
 /* Navigation Bar */
 nav {
     display: flex;
@@ -73,20 +92,23 @@ nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
 
 
 /* Active Navigation Button */
+/* Add news-page to the active selectors */
 #home-page nav a[href="index.html"],
 #about-page nav a[href="about.html"],
 #howtoplay-page nav a[href="howtoplay.html"],
-#shop-page nav a[href="shop.html"] {
+#shop-page nav a[href="shop.html"],
+#news-page nav a[href="newsWeb.html"] { /* NEW: for newsWeb.html */
     background-color: #ff69b4; /* Active button color - Pink */
     color: white;
     box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
 }
 
 /* Specific hover for ACTIVE navigation buttons */
-#home-page nav a[href="index.html"].active:hover, /* Added .active for higher specificity */
+#home-page nav a[href="index.html"].active:hover,
 #about-page nav a[href="about.html"].active:hover,
 #howtoplay-page nav a[href="howtoplay.html"].active:hover,
-#shop-page nav a[href="shop.html"].active:hover {
+#shop-page nav a[href="shop.html"].active:hover,
+#news-page nav a[href="newsWeb.html"].active:hover { /* NEW: for newsWeb.html */
     background-color: #007bff; /* Blue hover for active nav buttons */
 }
 
@@ -808,4 +830,98 @@ main a:visited {
     left: 20px; /* Adjust as needed for horizontal alignment */
     z-index: 1000; /* Ensure it's above other content */
     display: block; /* Make sure the link behaves like a block */
+}
+
+/* --- News Page Specific Styles (NEW ADDITIONS) --- */
+/* These styles are extracted from your original news.html's inline <style> */
+
+/* The body styles are already handled by the general body rule, but if news page needs a distinct background */
+body#news-page {
+    background-color: #1a1a1a; /* Consistent with general body background */
+}
+
+/* The main h1 in news.html is now an h2 within a section, so apply styling to that h2 */
+#news-section h2 {
+    color: #FF69B4; /* Hot Pink */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2em; /* Adjusted to fit within a section h2 */
+    border-bottom: 2px solid #FF69B4; /* Underline effect */
+    padding-bottom: 10px;
+    display: inline-block; /* Makes border-bottom fit content */
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content; /* Adjust width to content */
+}
+
+#news-section .container { /* Apply container styles to the section content */
+    max-width: 800px; /* Limit width for better readability */
+    margin: 0 auto; /* Center the content */
+    padding: 0 15px; /* Add some side padding */
+}
+
+.news-item {
+    background-color: #3a3a3a; /* Slightly darker than ContentPanel for contrast */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+}
+.news-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+.news-item h3 { /* Changed from h2 to h3 as per newsWeb.html structure */
+    color: #FF69B4; /* Hot Pink for news titles */
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    word-wrap: break-word; /* Prevent long titles from overflowing */
+}
+.news-item .date {
+    color: #87CEEB; /* SkyBlue for dates */
+    font-size: 0.9em;
+    font-style: italic;
+    margin-bottom: 15px;
+    display: block; /* Ensures date is on its own line */
+}
+.news-item p {
+    margin-bottom: 15px;
+    word-wrap: break-word; /* Ensure text wraps */
+}
+.news-item ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding: 0;
+    list-style-position: outside; /* Bullet points outside the text block */
+}
+.news-item li {
+    margin-bottom: 8px;
+    word-wrap: break-word;
+}
+/* General 'a' tag styles are already defined, but specific news-item links can be refined if needed */
+.news-item a {
+    color: #1E90FF; /* Dodger Blue for links, matching button hover */
+    text-decoration: none;
+}
+.news-item a:hover {
+    text-decoration: underline;
+}
+.news-item hr { /* If you want horizontal rules within news items */
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #555, rgba(0, 0, 0, 0));
+    margin: 30px 0;
+}
+/* Responsive adjustments for smaller screens (if WebBrowser resizes) */
+@media (max-width: 600px) {
+    body#news-page {
+        margin: 10px;
+    }
+    #news-section h2 { /* Adjusted for smaller screens */
+        font-size: 1.8em;
+    }
+    .news-item {
+        padding: 15px;
+    }
 }
