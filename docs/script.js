@@ -37,51 +37,49 @@ const products = [
         name: "Supporter++ Role",
         price: 20.00,
         image: "icons/supporter++package.png",
-        description: "The ultimate supporter package, combining all previous benefits with even greater perks and recognition!",
+        description: "The ultimate supporter package! All previous benefits plus custom sprite, and more server perks.",
         features: [
             "All Supporter and Supporter+ benefits",
-            "Custom Chat Color (Pink, Purple, Gold)",
-            "Exclusive Legendary In-game Pet (Cosmetic)",
-            "Early Access to All New Content (7 Days before release)",
-            "Exclusive Monthly Legendary Items",
-            "Personal 150% Loot Boost",
-            "Priority Support in Discord"
+            "Custom Chat Color (Pink, Purple, Orange)",
+            "Personal Sprite (Add your own asset! [within reason])",
+            "Access to Pre-Release Content (7 Days before release)",
+            "Direct contact with Developers",
+            "Custom Vault Skin",
+            "Custom Character Skins (All Classes + future ones)",
+            "Personal 150% Loot Boost"
         ]
     },
     {
         id: 'lootboost-20',
-        name: "Global Lootboost +20% (1 Day)",
+        name: "Global Loot Boost +20% (1 Day)",
         price: 5.00,
         image: "icons/globallootboost20.png",
-        description: "Activate a server-wide 20% loot boost for 24 hours, benefiting all players online!",
+        description: "Activate a server-wide +20% increase in loot drop rates for 1 Day!",
         features: [
-            "24-hour global loot boost",
-            "Affects all players on the server",
-            "Activates immediately upon purchase"
+            "Global 20% Loot Boost (1 Day)",
+            "Stacks with other Loot Boost purchases"
         ]
     },
     {
         id: 'lootboost-80',
-        name: "Global Lootboost +80% (3 Days)",
+        name: "Global Loot Boost +80% (3 Days)",
         price: 10.00,
         image: "icons/globallootboost80.png",
-        description: "A powerful 80% global loot boost for 3 full days, perfect for community events or grinding sessions!",
+        description: "Activate a significant server-wide +80% increase in loot drop rates for 3 Days!",
         features: [
-            "72-hour global loot boost",
-            "Significant increase in loot drops",
-            "Ideal for weekend events"
+            "Global 80% Loot Boost (3 Days)",
+            "Stacks with other Loot Boost purchases"
         ]
     },
     {
         id: 'lootboost-150',
-        name: "Global Lootboost +150% (5 Days)",
+        name: "Global Loot Boost +150%",
         price: 20.00,
         image: "icons/globallootboost150.png",
-        description: "The ultimate global loot boost, providing a massive 150% increase in drops for 5 days straight!",
+        description: "Unleash the ultimate loot frenzy with a massive +150% Global Loot Boost for 5 Days!",
         features: [
-            "120-hour global loot boost",
-            "Massive impact on farming efficiency",
-            "Best value for extended playtime"
+            "Global 150% Loot Boost (5 Days)",
+            "Stacks with other Loot Boost purchases"
         ]
     },
     {
@@ -89,10 +87,11 @@ const products = [
         name: "Small Currency Pack",
         price: 5.00,
         image: "icons/smallcurrencypack.png",
-        description: "A small pack of in-game currency to help you get started or top up your balance.",
+        description: "A small boost to your in-game currency, perfect for minor purchases or getting started.",
         features: [
-            "1000 Gold (in-game currency)",
-            "Instantly added to your account"
+            "500 Gold",
+            "1,000 Fame",
+            "20 Shadow Shards"
         ]
     },
     {
@@ -100,10 +99,11 @@ const products = [
         name: "Medium Currency Pack",
         price: 10.00,
         image: "icons/mediumcurrencypack.png",
-        description: "A medium pack of in-game currency for more significant purchases or trading.",
+        description: "A medium currency pack for more substantial in-game needs. Get more for your money!",
         features: [
-            "2500 Gold (in-game currency)",
-            "Better value than small pack"
+            "1,000 Gold + 250 Bonus",
+            "2,500 Fame + 500 Bonus",
+            "50 Shadow Shards + 20 Bonus"
         ]
     },
     {
@@ -111,10 +111,11 @@ const products = [
         name: "Large Currency Pack",
         price: 25.00,
         image: "icons/largecurrencypack.png",
-        description: "A large pack of in-game currency for serious players looking to acquire high-value items.",
+        description: "A generous currency pack for serious players, enabling significant upgrades and purchases.",
         features: [
-            "7000 Gold (in-game currency)",
-            "Great value for dedicated players"
+            "2,500 Gold + 1,000 Bonus",
+            "5,000 Fame + 1,000 Bonus",
+            "100 Shadow Shards + 50 Bonus"
         ]
     },
     {
@@ -122,75 +123,58 @@ const products = [
         name: "Massive Currency Pack",
         price: 40.00,
         image: "icons/massivecurrencypack.png",
-        description: "The biggest currency pack available, providing an enormous amount of gold for all your in-game needs!",
+        description: "The ultimate currency pack! Maximize your in-game wealth with a huge injection of gold.",
         features: [
-            "12000 Gold (in-game currency)",
-            "Best possible value",
-            "For ultimate in-game wealth"
+            "6,000 Gold + 1,500 Bonus",
+            "10,000 Fame + 2,500 Bonus",
+            "150 Shadow Shards + 50 Bonus"
         ]
     }
 ];
 
-// --- Store Credit & Cart Logic (Existing) ---
-let storeCredit = 0.00;
-let cart = [];
+// Global variables (load from localStorage or default)
+let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
+let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
+// DOM Elements (get references once)
+const storeCreditDisplay = document.getElementById('store-credit-display');
+const storeCreditAmountSpan = document.getElementById('store-credit-amount');
+const addCreditButton = document.getElementById('add-credit-button');
+
+const productDetailsModal = document.getElementById('product-details-modal');
+const modalProductImage = document.getElementById('modal-product-image');
+const modalProductName = document.getElementById('modal-product-name');
+const modalProductDescription = document.getElementById('modal-product-description');
+const modalProductBenefits = document.getElementById('modal-product-benefits');
+const modalProductPrice = document.getElementById('modal-product-price');
+const modalAddToCartButton = document.getElementById('modal-add-to-cart-button');
+const closeProductModalButton = productDetailsModal ? productDetailsModal.querySelector('.close-button') : null;
+
+const cartModal = document.getElementById('cart-modal');
+const cartItemsList = document.getElementById('cart-items');
+const cartTotalSpan = document.getElementById('cart-total');
+const cartButton = document.getElementById('cart-button');
+const checkoutButton = document.getElementById('checkout-button');
+const cartItemCountSpan = document.getElementById('cart-item-count'); // For the count badge in header
+
+// --- FUNCTIONS ---
+
+// Updates the displayed store credit and saves to local storage
 function updateStoreCreditDisplay() {
-    const storeCreditAmountSpan = document.getElementById('store-credit-amount');
     if (storeCreditAmountSpan) {
         storeCreditAmountSpan.textContent = storeCredit.toFixed(2);
     }
-}
-
-function addCredit() {
-    storeCredit += 10.00;
-    updateStoreCreditDisplay();
-    // Simulate saving to local storage (for persistence across sessions)
     localStorage.setItem('storeCredit', storeCredit.toFixed(2));
 }
 
-function updateCartCount() {
-    const cartItemCountSpan = document.getElementById('cart-item-count');
-    if (cartItemCountSpan) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartItemCountSpan.textContent = totalItems;
-    }
+// Adds $10 to store credit
+function addCredit() {
+    storeCredit += 10.00;
+    updateStoreCreditDisplay();
+    alert('Successfully added $10 to your store credit! Current credit: $' + storeCredit.toFixed(2));
 }
 
-function saveCart() {
-    localStorage.setItem('shoppingCart', JSON.stringify(cart));
-}
-
-function loadCart() {
-    const savedCart = localStorage.getItem('shoppingCart');
-    if (savedCart) {
-        cart = JSON.parse(savedCart);
-        updateCartCount();
-    }
-    const savedCredit = localStorage.getItem('storeCredit');
-    if (savedCredit) {
-        storeCredit = parseFloat(savedCredit);
-        updateStoreCreditDisplay();
-    }
-}
-
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-        const existingItem = cart.find(item => item.id === productId);
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({ ...product, quantity: 1 });
-        }
-        updateCartCount();
-        saveCart();
-        console.log(`Added ${product.name} to cart. Current cart:`, cart);
-    } else {
-        console.error("Product not found:", productId);
-    }
-}
-
+// Renders product tiles on the shop page
 function renderProducts() {
     const productGridSections = ['supporter-ranks', 'global-boosts', 'currency-packs'];
 
@@ -199,11 +183,8 @@ function renderProducts() {
         if (sectionElement) {
             const productGrid = sectionElement.querySelector('.product-grid');
             if (productGrid) {
-                // Clear existing products to prevent duplicates on re-render
-                productGrid.innerHTML = ''; 
+                productGrid.innerHTML = ''; // Clear existing products
 
-                // Filter products for this section (assuming product IDs follow a pattern or you have a section property)
-                // For simplicity, we'll just iterate through all products and check if their ID implies they belong
                 const sectionProducts = products.filter(p => {
                     if (sectionId === 'supporter-ranks') return p.id.includes('supporter-role');
                     if (sectionId === 'global-boosts') return p.id.includes('lootboost');
@@ -233,18 +214,135 @@ function renderProducts() {
         }
     });
 
-    // Re-attach event listeners after rendering products
+    // Attach event listeners after rendering products
     attachProductButtonListeners();
 }
 
-function renderCartItems() {
-    const cartItemsList = document.getElementById('cart-items');
-    const cartTotalSpan = document.getElementById('cart-total');
-    let total = 0;
+// Attaches event listeners to "View Details" and "Add to Cart" buttons
+function attachProductButtonListeners() {
+    document.querySelectorAll('.view-details-button').forEach(button => {
+        // Remove existing listener to prevent duplicates on re-render
+        button.removeEventListener('click', handleViewDetailsClick);
+        button.addEventListener('click', handleViewDetailsClick);
+    });
 
+    document.querySelectorAll('.add-to-cart-button').forEach(button => {
+        // Remove existing listener to prevent duplicates
+        button.removeEventListener('click', handleAddToCartClick);
+        button.addEventListener('click', handleAddToCartClick);
+    });
+}
+
+// Handler for "View Details" button click
+function handleViewDetailsClick(event) {
+    const productId = event.currentTarget.dataset.productId;
+    openProductModal(productId);
+}
+
+// Handler for "Add to Cart" button click (from product tile)
+function handleAddToCartClick(event) {
+    const productId = event.currentTarget.dataset.productId;
+    addToCart(productId);
+    alert("Item added to cart!");
+}
+
+// Opens the product details modal and populates it
+function openProductModal(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product && productDetailsModal && modalProductImage && modalProductName && modalProductDescription && modalProductBenefits && modalProductPrice && modalAddToCartButton) {
+        modalProductImage.src = product.image;
+        modalProductImage.alt = product.name;
+        modalProductName.textContent = product.name;
+        modalProductDescription.textContent = product.description;
+        modalProductPrice.textContent = product.price.toFixed(2);
+
+        modalProductBenefits.innerHTML = ''; // Clear previous benefits
+        if (product.features && product.features.length > 0) {
+            product.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                modalProductBenefits.appendChild(li);
+            });
+            modalProductBenefits.style.display = 'block'; // Show list if features exist
+        } else {
+            modalProductBenefits.style.display = 'none'; // Hide list if no features
+        }
+
+        // Update the "Add to Cart" button in the modal to add the current product
+        modalAddToCartButton.onclick = () => {
+            addToCart(product.id);
+            closeProductModal(); // Close modal after adding to cart
+            alert(`${product.name} added to cart!`);
+        };
+
+        productDetailsModal.style.display = 'flex'; // Show the modal
+    } else {
+        console.error("Failed to open product modal or product not found:", productId);
+    }
+}
+
+// Closes the product details modal
+function closeProductModal() {
+    if (productDetailsModal) {
+        productDetailsModal.style.display = 'none';
+    }
+}
+
+// Updates the cart item count in the header and saves cart to local storage
+function updateCartCount() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartItemCountSpan) {
+        cartItemCountSpan.textContent = totalItems;
+    }
+    localStorage.setItem('shoppingCart', JSON.stringify(cart));
+}
+
+// Adds a product to the cart
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            // Add new item with necessary properties for cart display
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
+        updateCartCount();
+        console.log(`Added ${product.name} to cart. Current cart:`, cart);
+    } else {
+        console.error("Product not found:", productId);
+    }
+}
+
+// Removes an item (or decrements quantity) from the cart
+function removeFromCart(productId) {
+    const itemIndex = cart.findIndex(item => item.id === productId);
+    if (itemIndex > -1) {
+        const item = cart[itemIndex];
+        if (item.quantity > 1) {
+            item.quantity--;
+        } else {
+            cart.splice(itemIndex, 1); // Remove completely if quantity is 1
+        }
+        updateCartCount();
+        renderCartItems(); // Re-render cart modal content
+        console.log(`Removed/decremented ${item.name}. Current cart:`, cart);
+    }
+}
+
+// Renders the items inside the cart modal
+function renderCartItems() {
     if (!cartItemsList || !cartTotalSpan) return;
 
     cartItemsList.innerHTML = ''; // Clear existing items
+    let total = 0;
 
     if (cart.length === 0) {
         cartItemsList.innerHTML = '<li class="empty-cart-message">Your cart is empty.</li>';
@@ -275,35 +373,25 @@ function renderCartItems() {
     });
 }
 
-function removeFromCart(productId) {
-    const itemIndex = cart.findIndex(item => item.id === productId);
-    if (itemIndex > -1) {
-        cart.splice(itemIndex, 1); // Remove the item
-        saveCart();
-        renderCartItems(); // Re-render cart after removal
-        updateCartCount(); // Update header count
-    }
-}
-
+// Opens the shopping cart modal
 function openCartModal() {
-    const cartModal = document.getElementById('cart-modal');
     if (cartModal) {
         renderCartItems(); // Render items before opening
         cartModal.style.display = 'flex'; // Use flex for centering
     }
 }
 
+// Closes the shopping cart modal
 function closeCartModal() {
-    const cartModal = document.getElementById('cart-modal');
     if (cartModal) {
         cartModal.style.display = 'none';
     }
 }
 
+// Handles the checkout process
 function checkout() {
     if (cart.length === 0) {
-        // Using a custom message box instead of alert()
-        showCustomMessageBox("Your cart is empty. Please add items before checking out.", "Empty Cart", "warning");
+        alert("Your cart is empty. Please add items before checking out.");
         return;
     }
 
@@ -312,174 +400,37 @@ function checkout() {
     if (storeCredit >= total) {
         storeCredit -= total;
         cart = []; // Clear cart
-        saveCart();
-        localStorage.setItem('storeCredit', storeCredit.toFixed(2)); // Save updated credit
-        updateStoreCreditDisplay();
-        updateCartCount();
+        updateStoreCreditDisplay(); // Save updated credit
+        updateCartCount(); // Update header count and save cart
         closeCartModal();
-        showCustomMessageBox("Checkout successful! Your items have been processed.", "Purchase Complete", "success");
+        alert("Checkout successful! Your items have been processed.");
     } else {
-        // Using a custom message box instead of alert()
-        showCustomMessageBox("Insufficient store credit. Please add more credit to complete your purchase.", "Insufficient Funds", "error");
+        alert("Insufficient store credit. Please add more credit to complete your purchase.");
     }
 }
 
-// Custom Message Box (instead of alert/confirm)
-function showCustomMessageBox(message, title, type = 'info') {
-    const messageBoxOverlay = document.createElement('div');
-    messageBoxOverlay.className = 'message-box-overlay';
-    messageBoxOverlay.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: rgba(0, 0, 0, 0.7); display: flex;
-        justify-content: center; align-items: center; z-index: 1000;
-    `;
-
-    const messageBox = document.createElement('div');
-    messageBox.className = 'message-box';
-    messageBox.style.cssText = `
-        background-color: #282828; padding: 25px; border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); max-width: 400px;
-        text-align: center; color: #f0f0f0; font-family: 'Open Sans', sans-serif;
-        position: relative;
-    `;
-
-    const titleElement = document.createElement('h3');
-    titleElement.textContent = title;
-    titleElement.style.cssText = `
-        color: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#DC3545' : type === 'warning' ? '#FFC107' : '#87CEEB'};
-        margin-top: 0; margin-bottom: 15px; font-size: 1.4em;
-    `;
-
-    const messageElement = document.createElement('p');
-    messageElement.textContent = message;
-    messageElement.style.cssText = `
-        margin-bottom: 20px; font-size: 1em;
-    `;
-
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'OK';
-    closeButton.style.cssText = `
-        background-color: #FF69B4; color: white; padding: 10px 20px;
-        border: none; border-radius: 5px; cursor: pointer;
-        font-size: 1em; transition: background-color 0.3s ease;
-    `;
-    closeButton.onmouseover = () => closeButton.style.backgroundColor = '#1E90FF';
-    closeButton.onmouseout = () => closeButton.style.backgroundColor = '#FF69B4';
-    closeButton.onclick = () => document.body.removeChild(messageBoxOverlay);
-
-    messageBox.appendChild(titleElement);
-    messageBox.appendChild(messageElement);
-    messageBox.appendChild(closeButton);
-    messageBoxOverlay.appendChild(messageBox);
-    document.body.appendChild(messageBoxOverlay);
-}
-
-
-// --- Product Details Modal Logic (NEW) ---
-const productDetailsModal = document.getElementById('product-details-modal');
-const modalProductImage = document.getElementById('modal-product-image');
-const modalProductName = document.getElementById('modal-product-name');
-const modalProductDescription = document.getElementById('modal-product-description');
-const modalProductBenefits = document.getElementById('modal-product-benefits');
-const modalProductPrice = document.getElementById('modal-product-price');
-const modalAddToCartButton = document.getElementById('modal-add-to-cart-button');
-const closeProductModalButton = productDetailsModal ? productDetailsModal.querySelector('.close-button') : null;
-
-let currentProductInModal = null; // To keep track of the product currently displayed in the modal
-
-function openProductModal(productId) {
-    const product = products.find(p => p.id === productId);
-    if (product && productDetailsModal && modalProductImage && modalProductName && modalProductDescription && modalProductBenefits && modalProductPrice && modalAddToCartButton) {
-        currentProductInModal = product; // Store the current product
-
-        modalProductImage.src = product.image;
-        modalProductImage.alt = product.name;
-        modalProductName.textContent = product.name;
-        modalProductDescription.textContent = product.description;
-        modalProductPrice.textContent = product.price.toFixed(2);
-
-        // Clear previous benefits
-        modalProductBenefits.innerHTML = '';
-        if (product.features && product.features.length > 0) {
-            product.features.forEach(feature => {
-                const li = document.createElement('li');
-                li.textContent = feature;
-                modalProductBenefits.appendChild(li);
-            });
-            modalProductBenefits.style.display = 'block'; // Show list if features exist
-        } else {
-            modalProductBenefits.style.display = 'none'; // Hide list if no features
-        }
-
-        // Update the "Add to Cart" button in the modal
-        modalAddToCartButton.onclick = () => {
-            if (currentProductInModal) {
-                addToCart(currentProductInModal.id);
-                closeProductModal(); // Close modal after adding to cart
-                showCustomMessageBox(`${currentProductInModal.name} added to cart!`, "Item Added", "success");
-            }
-        };
-
-        productDetailsModal.style.display = 'flex'; // Show the modal
-    } else {
-        console.error("Failed to open product modal or product not found:", productId);
-    }
-}
-
-function closeProductModal() {
-    if (productDetailsModal) {
-        productDetailsModal.style.display = 'none';
-        currentProductInModal = null; // Clear the reference
-    }
-}
-
-// Function to attach event listeners to product buttons
-function attachProductButtonListeners() {
-    document.querySelectorAll('.view-details-button').forEach(button => {
-        // Remove existing listener to prevent duplicates if renderProducts is called multiple times
-        button.removeEventListener('click', handleViewDetailsClick); 
-        button.addEventListener('click', handleViewDetailsClick);
-    });
-
-    document.querySelectorAll('.add-to-cart-button').forEach(button => {
-        // Remove existing listener to prevent duplicates
-        button.removeEventListener('click', handleAddToCartClick);
-        button.addEventListener('click', handleAddToCartClick);
-    });
-}
-
-function handleViewDetailsClick(event) {
-    const productId = event.currentTarget.dataset.productId;
-    openProductModal(productId);
-}
-
-function handleAddToCartClick(event) {
-    const productId = event.currentTarget.dataset.productId;
-    addToCart(productId);
-    showCustomMessageBox("Item added to cart!", "Item Added", "success");
-}
-
-
-// --- DOM Content Loaded ---
+// --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', () => {
-    loadCart(); // Load cart and credit on page load
+    // Load cart and credit on page load
+    updateStoreCreditDisplay(); // This also loads from localStorage
+    updateCartCount(); // This also loads from localStorage
 
     const isShopPage = document.body.id === 'shop-page';
-    const addCreditButton = document.getElementById('add-credit-button');
-    const cartButton = document.getElementById('cart-button');
-    const checkoutButton = document.getElementById('checkout-button');
-    const storeCreditDisplay = document.getElementById('store-credit-display');
 
     if (isShopPage) {
-        if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex'; // Ensure it's visible on shop page
+        // Ensure store credit display is visible on shop page
+        if (storeCreditDisplay) storeCreditDisplay.style.display = 'inline-flex'; // Use inline-flex as per original CSS
+        // Ensure cart button is visible on shop page
+        if (cartButton) cartButton.style.display = 'inline-flex'; // Use inline-flex as per original CSS
+
         renderProducts(); // Render products only on shop page
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', checkout);
     } else {
-        // Ensure they are hidden on other pages if they somehow appear
+        // Hide shop-specific elements on other pages
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
-        // The cart button is not in other HTML files, so no need to hide it via JS
+        if (cartButton) cartButton.style.display = 'none'; // Hide cart button if not on shop page
     }
 
     // Common modal close listeners for product details modal
@@ -496,9 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cart modal specific close listeners
-    const closeCartModalButton = document.getElementById('cart-modal') ? document.getElementById('cart-modal').querySelector('.close-button') : null;
-    const cartModal = document.getElementById('cart-modal');
-
+    const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button') : null; // Re-get for safety
     if (closeCartModalButton) {
         closeCartModalButton.addEventListener('click', closeCartModal);
     }
@@ -509,8 +458,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Initial updates for cart count (visible on all pages if cart button is present)
-    updateCartCount();
-    updateStoreCreditDisplay(); // Also update store credit display initially on shop page
 });
