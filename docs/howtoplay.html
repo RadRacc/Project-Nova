@@ -6,6 +6,58 @@
     <title>Project Nova - How to Play</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Specific styles for the How to Play page if needed */
+        #howtoplay-page nav a[href="howtoplay.html"].active-button {
+            background-color: #ff69b4; /* Active button color */
+            box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
+        }
+
+        .download-section {
+            background-color: #3a3a3a; /* Darker background for sections */
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .download-section h2 {
+            color: #87CEEB; /* Sky blue for section titles */
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #555;
+            padding-bottom: 10px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .download-section p {
+            font-size: 1.1em;
+            color: #e0e0e0;
+            margin-bottom: 25px;
+        }
+
+        .download-button {
+            background-color: #4CAF50; /* Green download button */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            text-decoration: none; /* Ensure no underline for button link */
+            display: inline-block; /* Allows padding and transitions */
+        }
+
+        .download-button:hover {
+            background-color: #45a049; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body id="howtoplay-page">
     <header>
@@ -23,14 +75,24 @@
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
                 <a href="wiki.html" class="button">Wiki</a>
+                <a href="links.html" class="button">Links</a> <!-- Added Links Button -->
             </nav>
         </div>
     </header>
 
     <main>
-        <section id="join-content">
-            <h2>Project Nova Download</h2>
-            <p>Unfortunately Project Nova is currently not open for playing.</p>
+        <section class="download-section" id="download-launcher">
+            <h2>Download Launcher</h2>
+            <p>Get our official Project Nova Launcher to easily install, update, and manage your game client. The launcher ensures you always have the latest version of the game.</p>
+            <a href="#" class="download-button">Download Launcher Now!</a>
+            <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Current Version: 1.0.0)</p>
+        </section>
+
+        <section class="download-section" id="download-client">
+            <h2>Download Client</h2>
+            <p>If you prefer a direct download or are having issues with the launcher, you can download the standalone game client here. Note that updates will need to be applied manually.</p>
+            <a href="#" class="download-button">Download Client Only</a>
+            <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Client Version: 1.0.0)</p>
         </section>
     </main>
 
@@ -39,5 +101,19 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set active button in nav
+            const currentPage = window.location.pathname.split('/').pop();
+            const navButtons = document.querySelectorAll('nav .button');
+            navButtons.forEach(button => {
+                if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
+                    button.classList.add('active-button');
+                } else {
+                    button.classList.remove('active-button');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
