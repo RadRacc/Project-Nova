@@ -131,7 +131,7 @@ const products = [
     }
 ];
 
-// --- Store Credit & Cart Logic ---
+// --- Store Credit & Cart Logic (Existing) ---
 let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
 let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
@@ -523,7 +523,8 @@ async function fetchItemsData() {
             item.Class = obj.querySelector('Class')?.textContent;
             item.SlotType = obj.querySelector('SlotType')?.textContent;
             item.Description = obj.querySelector('Description')?.textContent;
-            
+            item.Tag = obj.querySelector('Tag')?.textContent || 'N/A'; // Parse the new Tag
+
             // Collect other properties
             const damageMin = obj.querySelector('MinDamage')?.textContent;
             const damageMax = obj.querySelector('MaxDamage')?.textContent;
@@ -581,7 +582,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         filteredItems = filteredItems.filter(item => item.SlotType === filterSlotType);
     }
 
-    // Filter by search query
+    // Filter by search query (includes tags now)
     if (searchQuery) {
         const lowerCaseQuery = searchQuery.toLowerCase();
         filteredItems = filteredItems.filter(item =>
@@ -589,7 +590,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             item.Description?.toLowerCase().includes(lowerCaseQuery) ||
             item.id?.toLowerCase().includes(lowerCaseQuery) ||
             (item.Class && item.Class.toLowerCase().includes(lowerCaseQuery)) ||
-            (slotTypeMap[item.SlotType] && slotTypeMap[item.SlotType].toLowerCase().includes(lowerCaseQuery))
+            (slotTypeMap[item.SlotType] && slotTypeMap[item.SlotType].toLowerCase().includes(lowerCaseQuery)) ||
+            (item.Tag && item.Tag.toLowerCase().includes(lowerCaseQuery)) // Search by tag
         );
     }
 
@@ -602,12 +604,18 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         const itemCard = document.createElement('div');
         itemCard.className = 'item-card';
 
-        // Basic image placeholder (you might want to map item.id to actual images)
-        const imageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
+        // Construct image URL from the new icons/items folder
+        // Use item.id to create the file name, assuming PNG format
+        const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, ''); // Sanitize ID for filename
+        const imagePath = `icons/items/${itemImageName}.png`;
+
+        // Fallback image using placehold.co in case the specific image is not found
+        const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
 
         itemCard.innerHTML = `
-            <img src="${imageUrl}" alt="${item.DisplayId || item.id} Icon">
+            <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
             <h3>${item.DisplayId || item.id}</h3>
+            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <!-- Display the tag with dynamic class for styling -->
             <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
             <p><strong>Description:</strong> ${item.Description || 'No description provided.'}</p>
             ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
@@ -671,6 +679,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Common modal close listeners for product details modal
+    const closeProductModalButton = document.getElementById('product-details-modal') ? document.getElementById('product-details-modal').querySelector('.close-button') : null;
+    const productDetailsModal = document.getElementById('product-details-modal');
+
     if (closeProductModalButton) {
         closeProductModalButton.addEventListener('click', closeProductModal);
     }
@@ -684,6 +695,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Cart modal specific close listeners
     const closeCartModalButton = document.getElementById('cart-modal') ? document.getElementById('cart-modal').querySelector('.close-button') : null;
+    const cartModal = document.getElementById('cart-modal');
+
     if (closeCartModalButton) {
         closeCartModalButton.addEventListener('click', closeCartModal);
     }
@@ -695,18 +708,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Load cart and credit on page load (common to all pages with header elements)
+    // Initial updates for cart count (common to all pages with header elements)
     updateStoreCreditDisplay();
     updateCartCount();
-
-    // Set active button in nav (common to all pages)
-    const currentPage = window.location.pathname.split('/').pop();
-    const navButtons = document.querySelectorAll('nav .button');
-    navButtons.forEach(button => {
-        if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
-            button.classList.add('active-button');
-        } else {
-            button.classList.remove('active-button');
-        }
-    });
 });
