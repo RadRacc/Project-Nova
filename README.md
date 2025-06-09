@@ -5,6 +5,14 @@ Visit our Website [WIP]! https://radracc.github.io/Project-Nova/
 
 Join our Discord! https://discord.gg/v7Kd4v2jQ6
 
+# Features
+- All Realm of the Mad God classes. (including Samurai, Bard, Summoner, and Kensei)
+- Custom Items
+- Custom Skins
+- Frequent Updates
+- Website (+ Wiki)
+- Discord (View Discord for Roadmap)
+
 # Information
 This contains the website and source code for my Discord server "Project Nova", a RotMG Private Server.
 
