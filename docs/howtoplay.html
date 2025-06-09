@@ -13,14 +13,33 @@
             box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
         }
 
-        /* --- Updated .download-section styles to match about.html scheme --- */
+        /* Container for horizontal sections */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+            gap: 30px; /* Space between sections */
+            justify-content: center; /* Center items in the grid */
+            align-items: start; /* Align items to the top of their grid cell */
+            margin-top: 40px; /* Space from main content heading */
+            padding: 0 20px; /* Add some padding to the sides */
+            max-width: 1200px; /* Match main content max-width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Individual download section styling */
         .download-section {
             background-color: #282828; /* Darker background, similar to footer/header for content blocks */
             padding: 30px;
-            margin-bottom: 30px; /* Ensures vertical spacing between sections */
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             text-align: center;
+            flex-grow: 1; /* Allow sections to grow within the grid */
+            margin-bottom: 0; /* Remove individual bottom margin since gap handles it */
+            height: 100%; /* Ensure sections take full height of grid cell */
+            display: flex; /* Use flexbox for vertical alignment within the section */
+            flex-direction: column;
+            justify-content: space-between; /* Push content apart if needed */
         }
 
         .download-section h2 {
@@ -37,8 +56,8 @@
             font-size: 1.1em;
             color: #f0f0f0; /* Light text, matching body text color */
             margin-bottom: 25px;
+            flex-grow: 1; /* Allow description to take space */
         }
-        /* --- End of Updated Styles --- */
 
         .download-button {
             background-color: #4CAF50; /* Green download button */
@@ -53,11 +72,20 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             text-decoration: none;
             display: inline-block;
+            margin-top: auto; /* Push button to bottom if section has variable height */
         }
 
         .download-button:hover {
             background-color: #45a049;
             transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .download-grid {
+                grid-template-columns: 1fr; /* Stack sections vertically on smaller screens */
+                padding: 0 10px;
+            }
         }
     </style>
 </head>
@@ -83,18 +111,26 @@
     </header>
 
     <main>
-        <section class="download-section" id="download-launcher">
-            <h2>Download Launcher</h2>
-            <p>Get our official Project Nova Launcher to easily install, update, and manage your game client. The launcher ensures you always have the latest version of the game.</p>
-            <a href="#" class="download-button">Download Launcher Now!</a>
-            <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Current Version: 1.0.0)</p>
-        </section>
+        <section id="join-content">
+            <!-- This h2 will serve as the overall heading for the download section -->
+            <h2>Get Project Nova</h2>
+            <p style="text-align: center; margin-bottom: 40px; color: #f0f0f0;">Choose your preferred download method below to start your adventure!</p>
 
-        <section class="download-section" id="download-client">
-            <h2>Download Client</h2>
-            <p>If you prefer a direct download or are having issues with the launcher, you can download the standalone game client here. Note that updates will need to be applied manually.</p>
-            <a href="#" class="download-button">Download Client Only</a>
-            <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Client Version: 1.0.0)</p>
+            <div class="download-grid">
+                <section class="download-section" id="download-launcher">
+                    <h2>Download Launcher</h2>
+                    <p>Get our official Project Nova Launcher to easily install, update, and manage your game client. The launcher ensures you always have the latest version of the game.</p>
+                    <a href="#" class="download-button">Download Launcher Now!</a>
+                    <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Current Version: 1.0.0)</p>
+                </section>
+
+                <section class="download-section" id="download-client">
+                    <h2>Download Client</h2>
+                    <p>If you prefer a direct download or are having issues with the launcher, you can download the standalone game client here. Note that updates will need to be applied manually.</p>
+                    <a href="#" class="download-button">Download Client Only</a>
+                    <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Client Version: 1.0.0)</p>
+                </section>
+            </div>
         </section>
     </main>
 
