@@ -200,6 +200,12 @@ const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
 
+// How to Play specific elements (for server status)
+const serverStatusText = document.getElementById('server-status-text');
+const serverStatusCircle = document.getElementById('server-status-circle');
+const serverStatusDropdown = document.getElementById('server-status-select');
+const setServerStatusButton = document.getElementById('set-server-status-button');
+
 
 // --- FUNCTIONS ---
 
@@ -230,7 +236,10 @@ function renderProducts() {
                 productGrid.innerHTML = ''; // Clear existing products
 
                 const sectionProducts = products.filter(p => {
-                    if (sectionId === 'supporter-ranks') return p.id.includes('supporter-role');
+                    if (sectionId === 'supporter-ranks') {
+                        // FIX: Use startsWith to correctly filter all supporter roles
+                        return p.id.startsWith('supporter-');
+                    }
                     if (sectionId === 'global-boosts') return p.id.includes('lootboost');
                     if (sectionId === 'currency-packs') return p.id.includes('currency-pack');
                     return false;
@@ -504,7 +513,7 @@ function showCustomMessageBox(message, title, type = 'info') {
 }
 
 
-// --- WIKI SPECIFIC FUNCTIONS (keep this) ---
+// --- WIKI SPECIFIC FUNCTIONS ---
 
 // Function to fetch and parse items.txt
 async function fetchItemsData() {
@@ -635,6 +644,26 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 }
 
 
+// --- How to Play Page Specific Functions (Server Status) ---
+function updateServerStatus(status) {
+    if (serverStatusText && serverStatusCircle) {
+        if (status === 'Online') {
+            serverStatusText.textContent = 'Online';
+            serverStatusCircle.classList.remove('offline');
+            serverStatusCircle.classList.add('online');
+        } else if (status === 'Down') {
+            serverStatusText.textContent = 'Down';
+            serverStatusCircle.classList.remove('online');
+            serverStatusCircle.classList.add('offline');
+        } else {
+            // Default or 'Checking...' state
+            serverStatusText.textContent = 'Checking...';
+            serverStatusCircle.classList.remove('online', 'offline');
+        }
+    }
+}
+
+
 // --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', async () => {
     // Determine the current page
@@ -661,7 +690,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isShopPage) {
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
         if (cartButton) cartButton.style.display = 'flex'; // Ensure cart button is visible
-        renderProducts();
+        renderProducts(); // Renders products for all sections on shop page
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', checkout);
@@ -697,29 +726,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // How to Play page specific logic (for server status)
     if (isHowToPlayPage) {
-        const serverStatusText = document.getElementById('server-status-text');
-        const serverStatusCircle = document.getElementById('server-status-circle');
+        // Initial status set to 'Checking...' or from a default
+        updateServerStatus('Checking...');
 
-        function updateServerStatus() {
-            // Simulate server status (replace with actual API call)
-            const isServerOnline = Math.random() < 0.8; // 80% chance for demo
-
-            if (isServerOnline) {
-                if (serverStatusText) serverStatusText.textContent = 'Online';
-                if (serverStatusCircle) {
-                    serverStatusCircle.classList.remove('offline');
-                    serverStatusCircle.classList.add('online');
-                }
-            } else {
-                if (serverStatusText) serverStatusText.textContent = 'Down';
-                if (serverStatusCircle) {
-                    serverStatusCircle.classList.remove('online');
-                    serverStatusCircle.classList.add('offline');
-                }
-            }
+        if (setServerStatusButton && serverStatusDropdown) {
+            setServerStatusButton.addEventListener('click', () => {
+                const selectedStatus = serverStatusDropdown.value;
+                updateServerStatus(selectedStatus);
+            });
         }
-        updateServerStatus();
-        // setInterval(updateServerStatus, 60000); // Uncomment to refresh every minute
     }
 
 
