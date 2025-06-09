@@ -92,6 +92,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* For positioning the tag */
         }
 
         .item-card:hover {
@@ -126,6 +127,41 @@
             margin-bottom: 15px;
             border-radius: 5px;
         }
+
+        /* Wiki Item Tag Styles */
+        .item-card .item-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #1a1a1a; /* Dark text for tags */
+            background-color: #87ceeb; /* Default tag color (light blue) */
+            text-transform: uppercase;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            /* Optional: position absolutely if you want it in a corner */
+            /* position: absolute;
+            top: 10px;
+            right: 10px; */
+        }
+
+        /* Specific tag colors */
+        .item-card .item-tag.t0 { background-color: #a9a9a9; } /* DarkGray */
+        .item-card .item-tag.t1 { background-color: #c0c0c0; } /* Silver */
+        .item-card .item-tag.t2 { background-color: #ffd700; } /* Gold */
+        .item-card .item-tag.t3 { background-color: #00bfff; } /* DeepSkyBlue */
+        .item-card .item-tag.t4 { background-color: #8a2be2; } /* BlueViolet */
+        .item-card .item-tag.t5 { background-color: #ff4500; } /* OrangeRed */
+        /* Add more tiers as needed */
+
+        .item-card .item-tag.ut { background-color: #ff69b4; } /* HotPink for UT */
+        .item-card .item-tag.st { background-color: #32cd32; } /* LimeGreen for ST */
+        .item-card .item-tag.lg { background-color: #ff0000; } /* Red for Legendary */
+        .item-card .item-tag.event { background-color: #ffa500; } /* Orange for Event */
+
+
     </style>
 </head>
 <body id="wiki-page">
@@ -201,8 +237,6 @@
 
     <script src="script.js"></script>
     <script>
-        // This inline script is just for setting the active nav button and will be
-        // subsumed by script.js's general DOMContentLoaded listener.
         document.addEventListener('DOMContentLoaded', () => {
             const currentPage = window.location.pathname.split('/').pop();
             const navButtons = document.querySelectorAll('nav .button');
@@ -214,7 +248,6 @@
                 }
             });
             // Initial display of all items when wiki loads (handled by script.js)
-            // Ensure this is only called if fetchItemsData and displayItems are defined in script.js
             if (typeof fetchItemsData === 'function' && typeof displayItems === 'function') {
                 fetchItemsData().then(() => {
                     displayItems(); // Display all items initially
