@@ -131,11 +131,11 @@ const products = [
     }
 ];
 
-// --- Store Credit & Cart Logic (Existing) ---
+// --- Store Credit & Cart Logic ---
 let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
 let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
-// --- Wiki Item Data ---
+// --- Wiki Item Data (keep this part as it is used by wiki.html) ---
 let wikiItemsData = []; // To store parsed data from items.txt
 
 // Mapping SlotType numbers to readable names for display
@@ -170,11 +170,16 @@ const slotTypeMap = {
     "45": "Mace"
 };
 
+
 // --- DOM Elements (get references once) ---
+// Global elements (used across multiple pages)
 const storeCreditDisplay = document.getElementById('store-credit-display');
 const storeCreditAmountSpan = document.getElementById('store-credit-amount');
 const addCreditButton = document.getElementById('add-credit-button');
+const cartButton = document.getElementById('cart-button');
+const cartItemCountSpan = document.getElementById('cart-item-count');
 
+// Modals (used by shop page)
 const productDetailsModal = document.getElementById('product-details-modal');
 const modalProductImage = document.getElementById('modal-product-image');
 const modalProductName = document.getElementById('modal-product-name');
@@ -187,10 +192,10 @@ const closeProductModalButton = productDetailsModal ? productDetailsModal.queryS
 const cartModal = document.getElementById('cart-modal');
 const cartItemsList = document.getElementById('cart-items');
 const cartTotalSpan = document.getElementById('cart-total');
-const cartButton = document.getElementById('cart-button');
 const checkoutButton = document.getElementById('checkout-button');
-const cartItemCountSpan = document.getElementById('cart-item-count'); // For the count badge in header
+const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button') : null;
 
+// Wiki specific elements
 const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
@@ -499,7 +504,7 @@ function showCustomMessageBox(message, title, type = 'info') {
 }
 
 
-// --- WIKI SPECIFIC FUNCTIONS ---
+// --- WIKI SPECIFIC FUNCTIONS (keep this) ---
 
 // Function to fetch and parse items.txt
 async function fetchItemsData() {
@@ -629,32 +634,44 @@ function displayItems(filterSlotType = null, searchQuery = '') {
     });
 }
 
-// --- DOM Content Loaded ---
+
+// --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Determine if we are on the shop page or wiki page
+    // Determine the current page
+    const currentPage = window.location.pathname.split('/').pop();
     const isShopPage = document.body.id === 'shop-page';
     const isWikiPage = document.body.id === 'wiki-page';
+    const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
-    // Get common DOM elements for shop
-    const addCreditButton = document.getElementById('add-credit-button');
-    const cartButton = document.getElementById('cart-button');
-    const checkoutButton = document.getElementById('checkout-button');
-    const storeCreditDisplay = document.getElementById('store-credit-display');
+    // Set active button in nav for all pages
+    const navButtons = document.querySelectorAll('nav .button');
+    navButtons.forEach(button => {
+        if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
+            button.classList.add('active-button');
+        } else {
+            button.classList.remove('active-button');
+        }
+    });
 
-    // Handle shop page specific logic
+    // Load cart and credit on page load (common to all pages with header elements)
+    updateStoreCreditDisplay();
+    updateCartCount();
+
+    // Shop page specific logic
     if (isShopPage) {
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
-        renderProducts(); // Render products only on shop page
+        if (cartButton) cartButton.style.display = 'flex'; // Ensure cart button is visible
+        renderProducts();
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', checkout);
     } else {
-        // Hide shop-specific elements on other pages
+        // Hide shop-specific elements on other pages if they exist
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
         if (cartButton) cartButton.style.display = 'none';
     }
 
-    // Handle wiki page specific logic
+    // Wiki page specific logic
     if (isWikiPage) {
         await fetchItemsData(); // Fetch and parse items.txt
         displayItems(); // Display all items initially
@@ -664,7 +681,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             link.addEventListener('click', (event) => {
                 event.preventDefault(); // Prevent default link behavior
                 const slotType = event.target.dataset.slottype;
-                wikiSearchInput.value = ''; // Clear search bar when category is clicked
+                if (wikiSearchInput) wikiSearchInput.value = ''; // Clear search bar when category is clicked
                 displayItems(slotType); // Filter and display items by SlotType
             });
         });
@@ -678,14 +695,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Common modal close listeners for product details modal
-    const closeProductModalButton = document.getElementById('product-details-modal') ? document.getElementById('product-details-modal').querySelector('.close-button') : null;
-    const productDetailsModal = document.getElementById('product-details-modal');
+    // How to Play page specific logic (for server status)
+    if (isHowToPlayPage) {
+        const serverStatusText = document.getElementById('server-status-text');
+        const serverStatusCircle = document.getElementById('server-status-circle');
 
-    if (closeProductModalButton) {
-        closeProductModalButton.addEventListener('click', closeProductModal);
+        function updateServerStatus() {
+            // Simulate server status (replace with actual API call)
+            const isServerOnline = Math.random() < 0.8; // 80% chance for demo
+
+            if (isServerOnline) {
+                if (serverStatusText) serverStatusText.textContent = 'Online';
+                if (serverStatusCircle) {
+                    serverStatusCircle.classList.remove('offline');
+                    serverStatusCircle.classList.add('online');
+                }
+            } else {
+                if (serverStatusText) serverStatusText.textContent = 'Down';
+                if (serverStatusCircle) {
+                    serverStatusCircle.classList.remove('online');
+                    serverStatusCircle.classList.add('offline');
+                }
+            }
+        }
+        updateServerStatus();
+        // setInterval(updateServerStatus, 60000); // Uncomment to refresh every minute
     }
+
+
+    // Common modal close listeners (for shop modals, if they exist on the page)
     if (productDetailsModal) {
+        if (closeProductModalButton) {
+            closeProductModalButton.addEventListener('click', closeProductModal);
+        }
         productDetailsModal.addEventListener('click', (event) => {
             if (event.target === productDetailsModal) {
                 closeProductModal();
@@ -693,22 +735,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Cart modal specific close listeners
-    const closeCartModalButton = document.getElementById('cart-modal') ? document.getElementById('cart-modal').querySelector('.close-button') : null;
-    const cartModal = document.getElementById('cart-modal');
-
-    if (closeCartModalButton) {
-        closeCartModalButton.addEventListener('click', closeCartModal);
-    }
     if (cartModal) {
+        if (closeCartModalButton) {
+            closeCartModalButton.addEventListener('click', closeCartModal);
+        }
         cartModal.addEventListener('click', (event) => {
             if (event.target === cartModal) {
                 closeCartModal();
             }
         });
     }
-
-    // Initial updates for cart count (common to all pages with header elements)
-    updateStoreCreditDisplay();
-    updateCartCount();
 });
