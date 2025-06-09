@@ -97,6 +97,7 @@
             justify-content: center;
             gap: 10px; /* Space between text and indicator */
             padding-bottom: 10px; /* Space above content */
+            flex-wrap: wrap; /* Allow content to wrap on small screens */
         }
 
         .status-circle {
@@ -126,7 +127,7 @@
         }
     </style>
 </head>
-<body id="howtoplay-page">
+<body id="howtoplay-page" data-server-status="Online">
     <header>
         <h1>Project Nova</h1>
         <h6>RadRacc & MaYo</h6>
@@ -141,11 +142,10 @@
                 <a href="howtoplay.html" class="button active-button">How to Play</a>
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
-                <!-- Assuming you have these pages, if not, remove or adjust -->
                 <a href="wiki.html" class="button">Wiki</a>
+                <a href="links.html" class="button">Links</a>
             </nav>
         </div>
-        <!-- Server Status Indicator -->
         <div class="server-status">
             Server Status: <span id="server-status-text">Checking...</span> <span id="server-status-circle" class="status-circle"></span>
         </div>
@@ -179,47 +179,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set active button in nav
-            const currentPage = window.location.pathname.split('/').pop();
-            const navButtons = document.querySelectorAll('nav .button');
-            navButtons.forEach(button => {
-                if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
-                    button.classList.add('active-button');
-                } else {
-                    button.classList.remove('active-button');
-                }
-            });
-
-            // --- Server Status Logic ---
-            const serverStatusText = document.getElementById('server-status-text');
-            const serverStatusCircle = document.getElementById('server-status-circle');
-
-            // Function to update server status (replace with actual API call if available)
-            function updateServerStatus() {
-                // Simulate server status (can be replaced with an actual fetch to a server status API)
-                // For demonstration, let's say the server is usually online.
-                const isServerOnline = Math.random() < 0.8; // 80% chance of being online for demo
-
-                if (isServerOnline) {
-                    if (serverStatusText) serverStatusText.textContent = 'Online';
-                    if (serverStatusCircle) {
-                        serverStatusCircle.classList.remove('offline');
-                        serverStatusCircle.classList.add('online');
-                    }
-                } else {
-                    if (serverStatusText) serverStatusText.textContent = 'Down';
-                    if (serverStatusCircle) {
-                        serverStatusCircle.classList.remove('online');
-                        serverStatusCircle.classList.add('offline');
-                    }
-                }
-            }
-            updateServerStatus();
-            // Optional: Update status periodically (e.g., every minute)
-            // setInterval(updateServerStatus, 60000); // Uncomment for real-time updates
-        });
-    </script>
 </body>
 </html>
