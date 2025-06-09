@@ -126,6 +126,7 @@ nav .button.active-button:hover {
     justify-content: center;
     gap: 10px; /* Space between text and indicator */
     padding-bottom: 10px; /* Space above content */
+    flex-wrap: wrap; /* Allow content to wrap on small screens */
 }
 
 .status-circle {
@@ -150,11 +151,11 @@ nav .button.active-button:hover {
 main {
     padding: 40px 20px;
     max-width: 1200px;
-    margin: 0 auto; /* Center the main content */
+    margin: 0 auto;
 }
 
 section {
-    background-color: #282828; /* Darker panel background */
+    background-color: #282828;
     padding: 30px;
     margin-bottom: 30px;
     border-radius: 10px;
@@ -162,7 +163,7 @@ section {
 }
 
 section h2 {
-    color: #ff69b4; /* Pink headings */
+    color: #ff69b4;
     font-size: 2.2em;
     text-align: center;
     margin-bottom: 25px;
@@ -183,7 +184,7 @@ section p {
 }
 
 section a {
-    color: #1e90ff; /* Dodger blue links */
+    color: #1e90ff;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.2s ease;
@@ -191,7 +192,7 @@ section a {
 
 section a:hover {
     text-decoration: underline;
-    color: #87ceeb; /* Lighter blue on hover */
+    color: #87ceeb;
 }
 
 /* Footer */
@@ -866,4 +867,3 @@ footer {
 .item-card .item-tag.st { background-color: #32cd32; }
 .item-card .item-tag.lg { background-color: #ff0000; }
 .item-card .item-tag.event { background-color: #ffa500; }
-
