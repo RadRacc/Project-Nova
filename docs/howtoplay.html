@@ -16,17 +16,14 @@
         /* Container for horizontal sections */
         .download-grid {
             display: grid;
-            /* Adjusted minmax slightly to give more room, ensuring proper fitting */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            /* Adjusted minmax to ensure items fit and wrap gracefully */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px; /* Space between sections */
             justify-content: center; /* Center items in the grid */
             align-items: start; /* Align items to the top of their grid cell */
             margin-top: 40px; /* Space from main content heading */
-            /* Removed padding from download-grid as main already has padding */
-            /* padding: 0 20px; */ 
-            max-width: 1200px; /* Match main content max-width */
-            margin-left: auto;
-            margin-right: auto;
+            padding: 0 20px; /* Add horizontal padding to the grid container itself */
+            box-sizing: border-box; /* Include padding in the element's total width */
         }
 
         /* Individual download section styling */
@@ -36,12 +33,11 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             text-align: center;
-            flex-grow: 1; /* Allow sections to grow within the grid */
-            margin-bottom: 0; /* Remove individual bottom margin since gap handles it */
-            height: 100%; /* Ensure sections take full height of grid cell */
             display: flex; /* Use flexbox for vertical alignment within the section */
             flex-direction: column;
             justify-content: space-between; /* Push content apart if needed */
+            height: 100%; /* Ensure sections take full height of grid cell */
+            box-sizing: border-box; /* Include padding in the element's total width */
         }
 
         .download-section h2 {
@@ -86,9 +82,47 @@
         @media (max-width: 768px) {
             .download-grid {
                 grid-template-columns: 1fr; /* Stack sections vertically on smaller screens */
-                /* Re-added padding here as it might be needed when stacking */
-                padding: 0 10px;
+                padding: 0 15px; /* Adjust padding for smaller screens if necessary */
             }
+        }
+
+        /* Server Status Indicator styles */
+        .server-status {
+            text-align: center;
+            margin-top: 15px; /* Space below navigation */
+            font-size: 1.1em;
+            color: #f0f0f0;
+            display: flex; /* Use flexbox for centering content */
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between text and indicator */
+            padding-bottom: 10px; /* Space above content */
+        }
+
+        .status-circle {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
+            border: 2px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+        }
+
+        .status-circle.online {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .status-circle.offline {
+            background-color: #f44336; /* Red */
+        }
+
+        /* Adjust main padding to ensure grid content doesn't hit edges */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px; /* General padding for main content area */
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -111,11 +145,13 @@
                 <a href="links.html" class="button">Links</a>
             </nav>
         </div>
+        <div class="server-status">
+            Server Status: <span id="server-status-text">Checking...</span> <span id="server-status-circle" class="status-circle"></span>
+        </div>
     </header>
 
     <main>
         <section id="join-content">
-            <!-- This h2 will serve as the overall heading for the download section -->
             <h2>Get Project Nova</h2>
             <p style="text-align: center; margin-bottom: 40px; color: #f0f0f0;">Choose your preferred download method below to start your adventure!</p>
 
@@ -154,6 +190,32 @@
                     button.classList.remove('active-button');
                 }
             });
+
+            // --- Server Status Logic ---
+            const serverStatusText = document.getElementById('server-status-text');
+            const serverStatusCircle = document.getElementById('server-status-circle');
+
+            // Function to update server status (replace with actual API call if available)
+            function updateServerStatus() {
+                // Simulate server status (can be replaced with an actual fetch to a server status API)
+                // For demonstration, let's say the server is usually online.
+                const isServerOnline = Math.random() < 0.8; // 80% chance of being online for demo
+
+                if (isServerOnline) {
+                    serverStatusText.textContent = 'Online';
+                    serverStatusCircle.classList.remove('offline');
+                    serverStatusCircle.classList.add('online');
+                } else {
+                    serverStatusText.textContent = 'Down';
+                    serverStatusCircle.classList.remove('online');
+                    serverStatusCircle.classList.add('offline');
+                }
+            }
+
+            // Initial status update
+            updateServerStatus();
+            // Optional: Update status periodically (e.g., every minute)
+            // setInterval(updateServerStatus, 60000); // Uncomment for real-time updates
         });
     </script>
 </body>
