@@ -16,12 +16,14 @@
         /* Container for horizontal sections */
         .download-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+            /* Adjusted minmax slightly to give more room, ensuring proper fitting */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 30px; /* Space between sections */
             justify-content: center; /* Center items in the grid */
             align-items: start; /* Align items to the top of their grid cell */
             margin-top: 40px; /* Space from main content heading */
-            padding: 0 20px; /* Add some padding to the sides */
+            /* Removed padding from download-grid as main already has padding */
+            /* padding: 0 20px; */ 
             max-width: 1200px; /* Match main content max-width */
             margin-left: auto;
             margin-right: auto;
@@ -60,8 +62,8 @@
         }
 
         .download-button {
-            background-color: #4CAF50; /* Green download button */
-            color: white;
+            background-color: #ff69b4; /* Changed to pink */
+            color: white; /* Ensure text is white */
             padding: 12px 25px;
             border: none;
             border-radius: 8px;
@@ -76,7 +78,7 @@
         }
 
         .download-button:hover {
-            background-color: #45a049;
+            background-color: #1e90ff; /* Changed to blue on hover */
             transform: translateY(-2px);
         }
 
@@ -84,6 +86,7 @@
         @media (max-width: 768px) {
             .download-grid {
                 grid-template-columns: 1fr; /* Stack sections vertically on smaller screens */
+                /* Re-added padding here as it might be needed when stacking */
                 padding: 0 10px;
             }
         }
