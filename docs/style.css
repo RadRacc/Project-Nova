@@ -13,7 +13,7 @@ header {
     background-color: #222;
     color: #fff;
     padding: 20px 0;
-    text-align: center;
+    text-align: center; /* This centers the inline/inline-block content like h1, h6, p */
     border-bottom: 3px solid #333;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     position: relative; /* Essential for absolute positioning of children */
@@ -38,12 +38,13 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Discord Logo in Header */
+/* Discord Logo in Header - FIXED POSITIONING */
 .discord-logo-link {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 20px; /* CORRECTED: Should be left for top-left position */
     transition: transform 0.2s ease;
+    z-index: 10; /* Ensure it's above other elements if needed */
 }
 
 .discord-logo-link:hover {
@@ -72,7 +73,6 @@ nav {
     display: flex;
     justify-content: center;
     gap: 20px;
-    /* margin-top: 20px; REMOVED as it's now part of nav-container */
 }
 
 nav .button {
@@ -179,6 +179,9 @@ footer {
     justify-content: flex-end; /* Push content to the right */
     padding-right: 20px; /* Add some padding from the right edge */
     box-sizing: border-box; /* Include padding in width */
+    position: absolute; /* Position relative to the header */
+    top: 20px;
+    right: 20px;
 }
 
 #store-credit-display {
@@ -239,6 +242,19 @@ footer {
     width: 24px;
     height: 24px;
     filter: invert(1); /* Make icon white */
+}
+
+
+/* Update for #store-credit-display to fit header context */
+#store-credit-display {
+    background-color: #3a3a3a;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-flex; /* Use inline-flex to keep content together */
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Space between elements */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    margin-top: 0; /* Remove default margin-top from original rule */
 }
 
 /* Product Grid */
@@ -685,6 +701,9 @@ footer {
     }
 
     #shop-page header .header-right-container {
+        position: static; /* Remove absolute positioning on small screens */
+        top: auto;
+        right: auto;
         flex-direction: column; /* Stack credit and cart vertically */
         gap: 10px;
         padding-right: 0;
@@ -738,7 +757,7 @@ footer {
 
     .discord-logo-link {
         top: 10px;
-        right: 10px;
+        left: 10px; /* Adjust for very small screens if needed */
     }
     .discord-logo {
         width: 30px;
@@ -785,114 +804,14 @@ footer {
         height: 25px;
         font-size: 1em;
     }
-}
 
-.discord-logo {
-    width: 40px; /* Smaller size */
-    height: auto;
-    border-radius: 50%;
-    transition: transform 0.2s ease-in-out;
-}
-
-.discord-logo-link {
-    position: absolute; /* Position relative to the header */
-    top: 20px; /* Adjust as needed for vertical alignment */
-    left: 20px; /* Adjust as needed for horizontal alignment */
-    z-index: 1000; /* Ensure it's above other content */
-    display: block; /* Make sure the link behaves like a block */
-}
-
-/* --- News Page Specific Styles (NEW ADDITIONS) --- */
-/* These styles are extracted from your original news.html's inline <style> */
-
-/* The body styles are already handled by the general body rule, but if news page needs a distinct background */
-body#news-page {
-    background-color: #1a1a1a; /* Consistent with general body background */
-}
-
-/* The main h1 in news.html is now an h2 within a section, so apply styling to that h2 */
-#news-section h2 {
-    color: #FF69B4; /* Hot Pink */
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.2em; /* Adjusted to fit within a section h2 */
-    border-bottom: 2px solid #FF69B4; /* Underline effect */
-    padding-bottom: 10px;
-    display: inline-block; /* Makes border-bottom fit content */
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content; /* Adjust width to content */
-}
-
-#news-section .container { /* Apply container styles to the section content */
-    max-width: 800px; /* Limit width for better readability */
-    margin: 0 auto; /* Center the content */
-    padding: 0 15px; /* Add some side padding */
-}
-
-.news-item {
-    background-color: #3a3a3a; /* Slightly darker than ContentPanel for contrast */
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
-}
-.news-item:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-}
-.news-item h3 { /* Changed from h2 to h3 as per newsWeb.html structure */
-    color: #FF69B4; /* Hot Pink for news titles */
-    font-size: 1.6em;
-    margin-top: 0;
-    margin-bottom: 10px;
-    word-wrap: break-word; /* Prevent long titles from overflowing */
-}
-.news-item .date {
-    color: #87CEEB; /* SkyBlue for dates */
-    font-size: 0.9em;
-    font-style: italic;
-    margin-bottom: 15px;
-    display: block; /* Ensures date is on its own line */
-}
-.news-item p {
-    margin-bottom: 15px;
-    word-wrap: break-word;
-}
-.news-item ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    padding: 0;
-    list-style-position: outside; /* Bullet points outside the text block */
-}
-.news-item li {
-    margin-bottom: 8px;
-    word-wrap: break-word;
-}
-/* General 'a' tag styles are already defined, but specific news-item links can be refined if needed */
-.news-item a {
-    color: #1E90FF; /* Dodger Blue for links, matching button hover */
-    text-decoration: none;
-}
-.news-item a:hover {
-    text-decoration: underline;
-}
-.news-item hr { /* If you want horizontal rules within news items */
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #555, rgba(0, 0, 0, 0));
-    margin: 30px 0;
-}
-/* Responsive adjustments for smaller screens (if WebBrowser resizes) */
-@media (max-width: 600px) {
-    body#news-page {
-        margin: 10px;
+    #cart-summary p {
+        font-size: 1.1em;
     }
-    #news-section h2 { /* Adjusted for smaller screens */
-        font-size: 1.8em;
-    }
-    .news-item {
-        padding: 15px;
+
+    #checkout-button {
+        padding: 10px 20px;
+        font-size: 1.1em;
     }
 }
 
