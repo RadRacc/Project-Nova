@@ -157,7 +157,8 @@ const cartButton = document.getElementById('cart-button');
 const checkoutButton = document.getElementById('checkout-button');
 const cartItemCountSpan = document.getElementById('cart-item-count'); // For the count badge in header
 
-// --- FUNCTIONS (SHOP) ---
+
+// --- SHOP FUNCTIONS ---
 
 // Updates the displayed store credit and saves to local storage
 function updateStoreCreditDisplay() {
@@ -378,6 +379,14 @@ function openCartModal() {
     if (cartModal) {
         renderCartItems(); // Render items before opening
         cartModal.style.display = 'flex'; // Use flex for centering
+
+        // Update checkout button with Discord username if available
+        const discordUser = JSON.parse(localStorage.getItem('discordUser'));
+        if (checkoutButton && discordUser && discordUser.username) {
+            checkoutButton.setAttribute('data-discord-username', discordUser.username);
+        } else if (checkoutButton) {
+            checkoutButton.removeAttribute('data-discord-username');
+        }
     }
 }
 
@@ -390,94 +399,80 @@ function closeCartModal() {
 
 // Handles the checkout process
 function checkout() {
+    console.log("DEBUG: checkout() function started."); // DEBUG LOG 1
+
     if (cart.length === 0) {
+        console.log("DEBUG: Cart is empty, returning."); // DEBUG LOG 2
         alert("Your cart is empty. Please add items before checking out.");
         return;
     }
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    console.log("DEBUG: Cart total calculated:", total.toFixed(2)); // DEBUG LOG 3
 
     if (storeCredit >= total) {
         storeCredit -= total;
+        const purchasedItems = [...cart]; // Copy cart items before clearing
         cart = []; // Clear cart
         updateStoreCreditDisplay(); // Save updated credit
         updateCartCount(); // Update header count and save cart
         closeCartModal();
         alert("Checkout successful! Your items have been processed.");
+        console.log("DEBUG: Checkout successful, attempting to send notification."); // DEBUG LOG 4
+
+        // Get Discord username for notification (if logged in)
+        const discordUsername = checkoutButton.getAttribute('data-discord-username') || 'Guest User';
+        sendPurchaseNotificationToDiscord(discordUsername, purchasedItems);
+
     } else {
+        console.log("DEBUG: Insufficient store credit, returning."); // DEBUG LOG 5
         alert("Insufficient store credit. Please add more credit to complete your purchase.");
     }
 }
 
-// --- WIKI LOGIC ---
+
+// --- WIKI LOGIC (Existing from previous request) ---
 let allWikiItems = []; // Store all parsed items
 let currentCategory = 'all';
 let currentSubcategory = null;
 let currentSearchTerm = '';
 
-const itemSearchBar = document.getElementById('item-search-bar');
-const categoryButtonsContainer = document.querySelector('#wiki-content .category-buttons');
-const subcategoryContainer = document.getElementById('subcategory-container');
-const subcategoryButtonsContainer = document.querySelector('#subcategory-container .subcategory-buttons');
-const itemDisplayArea = document.getElementById('item-display-area');
+const itemSearchBar = document.getElementById('item-search-bar'); // This is for the script.js wiki logic
+const categoryButtonsContainer = document.querySelector('#wiki-content .category-buttons'); // This is for the script.js wiki logic
+const subcategoryContainer = document.getElementById('subcategory-container'); // This is for the script.js wiki logic
+const subcategoryButtonsContainer = document.querySelector('#subcategory-container .subcategory-buttons'); // This is for the script.js wiki logic
+const itemDisplayArea = document.getElementById('item-display-area'); // This is for the script.js wiki logic
 
-// Mapping SlotType to display categories/subcategories
-// These correspond to the <SlotType> XML tag
+// Mapping SlotType to display categories/subcategories (from previous request)
 const slotTypeToCategory = {
-    // Weapons
-    '1': { main: 'equipment', sub: 'Swords' },
-    '2': { main: 'equipment', sub: 'Daggers' },
-    '3': { main: 'equipment', sub: 'Bows' },
-    '8': { main: 'equipment', sub: 'Staffs' },
-    '9': { main: 'equipment', sub: 'Wands' },
-    '33': { main: 'equipment', sub: 'Katanas' },
-    '44': { main: 'equipment', sub: 'Wands' }, // Crystal Wand
-    '45': { main: 'equipment', sub: 'Daggers' }, // Kunai (Dagger-like)
-    '46': { main: 'equipment', sub: 'Heavy Weapons' }, // Scythe (assuming it's a heavy weapon)
-
-    // Armors
-    '17': { main: 'equipment', sub: 'Heavy Armor' }, // Plate Armor
-    '18': { main: 'equipment', sub: 'Light Armor' }, // Leather Armor
-    '19': { main: 'equipment', sub: 'Robes' }, // Robe
-    '24': { main: 'equipment', sub: 'Heavy Armor' }, // Helm (Heavy)
-    '27': { main: 'equipment', sub: 'Heavy Armor' }, // Shield (Heavy)
-    '47': { main: 'equipment', sub: 'Heavy Armor' }, // Chainmail
-    '48': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Helm
-    '49': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Shield
-    '50': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Armor
-    '51': { main: 'equipment', sub: 'Light Armor' }, // Light Armor
-    '52': { main: 'equipment', sub: 'Light Armor' }, // Light Helm
-    '53': { main: 'equipment', sub: 'Light Armor' }, // Light Shield
-    '54': { main: 'equipment', sub: 'Light Armor' }, // Light Armor
-    '55': { main: 'equipment', sub: 'Robes' }, // Robe
-    '56': { main: 'equipment', sub: 'Robes' }, // Robe Helm
-    '57': 'equipment', // Robe Shield (No subcategory for this yet, keep as equipment)
-    '58': { main: 'equipment', sub: 'Robes' }, // Robe
-
-    // Abilities / Consumables / Rings (categorized as 'abilities' for simplicity, could be 'utility' or 'accessories')
-    '20': { main: 'accessories', sub: 'Rings' }, // Ring
-    '21': { main: 'consumables', sub: 'Potions' }, // Potion (Health, Mana, Stat Potions)
-    '25': { main: 'abilities', sub: 'Quivers' }, // Quiver (Ranger ability)
-    '26': { main: 'abilities', sub: 'Tomes' }, // Tome (Priest ability)
-    '28': { main: 'abilities', sub: 'Cloaks' }, // Cloak (Rogue ability)
-    '29': { main: 'abilities', sub: 'Sheaths' }, // Sheath (Samurai ability)
-    '30': { main: 'abilities', sub: 'Orbs' }, // Orb (Mystic ability)
-    '31': { main: 'abilities', sub: 'Poisons' }, // Poison (Assassin ability)
-    '32': { main: 'abilities', sub: 'Scepters' }, // Scepter (Sorcerer ability)
-    '34': { main: 'abilities', sub: 'Skulls' }, // Skull (Necromancer ability)
-    '35': { main: 'abilities', sub: 'Seals' }, // Seal (Paladin ability)
-    '36': { main: 'abilities', sub: 'Spells' }, // Spell (Wizard ability)
-    '37': { main: 'abilities', sub: 'Stars' }, // Star (Ninja ability)
-    '38': { main: 'abilities', sub: 'Lutes' }, // Lute (Bard ability)
-    '39': { main: 'abilities', sub: 'Traps' }, // Trap (Huntress ability)
-    '40': { main: 'abilities', sub: 'Prisms' }, // Prism (Trickster ability)
-    '41': { main: 'abilities', sub: 'Effusions' }, // Effusion
-    '42': { main: 'abilities', sub: 'Scabbards' }, // Scabbard
-    '43': { main: 'abilities', sub: 'Orbs' }, // Orb of Aether
+    '1': { main: 'equipment', sub: 'Swords' }, '2': { main: 'equipment', sub: 'Daggers' },
+    '3': { main: 'equipment', sub: 'Bows' }, '8': { main: 'equipment', sub: 'Staffs' },
+    '9': { main: 'equipment', sub: 'Wands' }, '33': { main: 'equipment', sub: 'Katanas' },
+    '44': { main: 'equipment', sub: 'Wands' }, '45': { main: 'equipment', sub: 'Daggers' },
+    '46': { main: 'equipment', sub: 'Heavy Weapons' },
+    '17': { main: 'equipment', sub: 'Heavy Armor' }, '18': { main: 'equipment', sub: 'Light Armor' },
+    '19': { main: 'equipment', sub: 'Robes' }, '24': { main: 'equipment', sub: 'Heavy Armor' },
+    '27': { main: 'equipment', sub: 'Heavy Armor' }, '47': { main: 'equipment', sub: 'Heavy Armor' },
+    '48': { main: 'equipment', sub: 'Heavy Armor' }, '49': { main: 'equipment', sub: 'Heavy Armor' },
+    '50': { main: 'equipment', sub: 'Heavy Armor' }, '51': { main: 'equipment', sub: 'Light Armor' },
+    '52': { main: 'equipment', sub: 'Light Armor' }, '53': { main: 'equipment', sub: 'Light Armor' },
+    '54': { main: 'equipment', sub: 'Light Armor' }, '55': { main: 'equipment', sub: 'Robes' },
+    '56': { main: 'equipment', sub: 'Robes' }, '57': { main: 'equipment', sub: 'Robes' },
+    '58': { main: 'equipment', sub: 'Robes' },
+    '20': { main: 'accessories', sub: 'Rings' }, '21': { main: 'consumables', sub: 'Potions' },
+    '25': { main: 'abilities', sub: 'Quivers' }, '26': { main: 'abilities', sub: 'Tomes' },
+    '28': { main: 'abilities', sub: 'Cloaks' }, '29': { main: 'abilities', sub: 'Sheaths' },
+    '30': { main: 'abilities', sub: 'Orbs' }, '31': { main: 'abilities', sub: 'Poisons' },
+    '32': { main: 'abilities', sub: 'Scepters' }, '34': { main: 'abilities', sub: 'Skulls' },
+    '35': { main: 'abilities', sub: 'Seals' }, '36': { main: 'abilities', sub: 'Spells' },
+    '37': { main: 'abilities', sub: 'Stars' }, '38': { main: 'abilities', sub: 'Lutes' },
+    '39': { main: 'abilities', sub: 'Traps' }, '40': { main: 'abilities', sub: 'Prisms' },
+    '41': { main: 'abilities', sub: 'Effusions' }, '42': { main: 'abilities', sub: 'Scabbards'},
+    '43': { main: 'abilities', sub: 'Orbs'},
 };
 
 
-// Function to fetch and parse items.txt
+// Function to fetch and parse items.txt (from previous request)
 async function loadWikiItems() {
     try {
         const response = await fetch('items.txt');
@@ -488,12 +483,12 @@ async function loadWikiItems() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, "text/xml");
 
-        const objectElements = xmlDoc.querySelectorAll('Object[Item]'); // Only get elements that are items
+        const objectElements = xmlDoc.querySelectorAll('Object[Item]');
         allWikiItems = Array.from(objectElements).map(objElement => {
             const id = objElement.getAttribute('id');
-            const typeHex = objElement.getAttribute('type'); // Hex ID for texture lookup
+            const typeHex = objElement.getAttribute('type');
             const description = objElement.querySelector('Description')?.textContent || 'No description.';
-            const slotType = objElement.querySelector('SlotType')?.textContent; // Numeric SlotType
+            const slotType = objElement.querySelector('SlotType')?.textContent;
 
             let category = 'misc';
             let subcategoryName = 'Other';
@@ -503,41 +498,25 @@ async function loadWikiItems() {
                 category = mapping.main || 'misc';
                 subcategoryName = mapping.sub || 'Other';
             } else {
-                 // Fallback for items without a clear SlotType mapping or if SlotType is missing
                  const itemClass = objElement.querySelector('Class')?.textContent;
                  if (itemClass === 'Equipment') {
                      category = 'equipment';
                      subcategoryName = 'Miscellaneous Equipment';
-                 } else if (itemClass === 'Ability') { // Assuming abilities have <Class>Ability</Class>
+                 } else if (itemClass === 'Ability') {
                      category = 'abilities';
                      subcategoryName = 'Miscellaneous Abilities';
-                 } else if (objElement.querySelector('Usable')) { // Generic usable items
+                 } else if (objElement.querySelector('Usable')) {
                      category = 'consumables';
                      subcategoryName = 'Consumables';
                  }
             }
 
-
-            // Extract Texture File and Index for image display
-            const textureFile = objElement.querySelector('Texture File')?.textContent || 'lofiObj5'; // Default to a common texture file
-            const textureIndex = objElement.querySelector('Texture Index')?.textContent || '0x00'; // Default to 0x00
-
-
-            // Calculate image position within a 16-column sheet to generate a placeholder sprite
-            // This is a conceptual placeholder as actual sprite sheet parsing and rendering is complex.
-            // For now, we'll use a dynamic placeholder image service.
+            const textureFile = objElement.querySelector('Texture File')?.textContent || 'lofiObj5';
+            const textureIndex = objElement.querySelector('Texture Index')?.textContent || '0x00';
             const indexDecimal = parseInt(textureIndex, 16);
-            const spriteRow = Math.floor(indexDecimal / 16) + 1;
-            const spriteCol = (indexDecimal % 16) + 1;
-            const spriteSize = 16; // Standard RotMG sprite size
+            const spriteSize = 16;
+            const itemImageSrc = `https://placehold.co/${spriteSize}x${spriteSize}/333333/FFFFFF?text=${id.substring(0, Math.min(id.length, 3))}`;
 
-            // Placeholder image URL
-            const itemImageSrc = `https://placehold.co/${spriteSize}x${spriteSize}/333333/FFFFFF?text=${id.substring(0, 3)}`; // Placeholder with first 3 chars of ID
-
-            // If you had actual individual item icons, you would use a path like:
-            // `icons/items/${id}.png` or `icons/item_type_${typeHex}.png`
-
-            // Projectile info (if exists)
             const projectileElement = objElement.querySelector('Projectile');
             let projectileInfo = null;
             if (projectileElement) {
@@ -551,57 +530,30 @@ async function loadWikiItems() {
                     conditionEffect: projectileElement.querySelector('ConditionEffect')?.textContent,
                 };
             }
-
-
             return {
-                id: id,
-                typeHex: typeHex, // Original Hex ID
-                description: description.replace(/\\n/g, '<br>'), // Replace \n with <br> for HTML rendering
-                slotType: slotType, // Numeric SlotType
-                category: category, // 'equipment', 'abilities', 'consumables', 'misc'
-                subcategory: subcategoryName, // 'Swords', 'Robes', 'Spells', 'Potions' etc.
-                textureFile: textureFile,
-                textureIndex: textureIndex,
-                itemImageSrc: itemImageSrc, // The generated placeholder image
-                projectileInfo: projectileInfo, // Add projectile details
+                id: id, typeHex: typeHex, description: description.replace(/\\n/g, '<br>'),
+                slotType: slotType, category: category, subcategory: subcategoryName,
+                textureFile: textureFile, textureIndex: textureIndex,
+                itemImageSrc: itemImageSrc, projectileInfo: projectileInfo,
             };
         });
 
-        console.log("Loaded Items:", allWikiItems); // Debugging
-        // Initial render of all items
+        console.log("Loaded Items:", allWikiItems);
         renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
-        if (itemDisplayArea) {
-            itemDisplayArea.innerHTML = ''; // Clear loading message if successful
-        }
-
-
+        if (itemDisplayArea) { itemDisplayArea.innerHTML = ''; }
     } catch (e) {
         console.error("Failed to load or parse items.txt:", e);
-        if (itemDisplayArea) {
-            itemDisplayArea.innerHTML = '<p>Error loading items. Please ensure "items.txt" is in the correct directory and valid XML format, then try again.</p>';
-        }
+        if (itemDisplayArea) { itemDisplayArea.innerHTML = '<p>Error loading items. Please ensure "items.txt" is in the correct directory and valid XML format, then try again.</p>'; }
     }
 }
 
-// Function to render items on the wiki page based on filters and search
+// Function to render items on the wiki page based on filters and search (from previous request)
 function renderWikiItems(filterCategory, filterSubcategory, searchTerm) {
     if (!itemDisplayArea) return;
-
-    itemDisplayArea.innerHTML = ''; // Clear previous items
-
+    itemDisplayArea.innerHTML = '';
     let itemsToRender = allWikiItems;
-
-    // Apply main category filter
-    if (filterCategory !== 'all') {
-        itemsToRender = itemsToRender.filter(item => item.category === filterCategory);
-    }
-
-    // Apply subcategory filter
-    if (filterSubcategory && filterSubcategory !== currentCategory) { // Only filter by subcategory if one is selected and not the main 'all'
-         itemsToRender = itemsToRender.filter(item => item.subcategory === filterSubcategory);
-    }
-
-    // Apply search term filter
+    if (filterCategory !== 'all') { itemsToRender = itemsToRender.filter(item => item.category === filterCategory); }
+    if (filterSubcategory && !filterSubcategory.includes('-all')) { itemsToRender = itemsToRender.filter(item => item.subcategory === filterSubcategory); }
     if (searchTerm !== '') {
         const lowerCaseSearchTerm = searchTerm.toLowerCase();
         itemsToRender = itemsToRender.filter(item =>
@@ -609,34 +561,30 @@ function renderWikiItems(filterCategory, filterSubcategory, searchTerm) {
             item.description.toLowerCase().includes(lowerCaseSearchTerm)
         );
     }
-
-    // Sort items alphabetically by ID for consistent display
     itemsToRender.sort((a, b) => a.id.localeCompare(b.id));
-
-
     if (itemsToRender.length === 0) {
         itemDisplayArea.innerHTML = '<p>No items found matching your criteria. Try adjusting your filters or search term.</p>';
         return;
     }
-
     itemsToRender.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.className = 'wiki-item';
-
         let projectileDetails = '';
         if (item.projectileInfo) {
             projectileDetails = `
-                <p><strong>Projectile:</strong> ${item.projectileInfo.objectId || 'N/A'}</p>
-                <ul>
-                    <li>Min Damage: ${item.projectileInfo.minDamage || 'N/A'}</li>
-                    <li>Max Damage: ${item.projectileInfo.maxDamage || 'N/A'}</li>
-                    <li>Speed: ${item.projectileInfo.speed || 'N/A'}</li>
-                    <li>Lifetime: ${item.projectileInfo.lifetimeMS || 'N/A'}ms</li>
-                    ${item.projectileInfo.conditionEffect ? `<li>Effect: ${item.projectileInfo.conditionEffect}</li>` : ''}
-                </ul>
+                <div class="projectile-info">
+                    <h4>Projectile:</h4>
+                    <ul>
+                        <li><strong>Object Id:</strong> ${item.projectileInfo.objectId || 'N/A'}</li>
+                        <li><strong>Damage:</strong> ${item.projectileInfo.minDamage || 'N/A'} - ${item.projectileInfo.maxDamage || 'N/A'}</li>
+                        <li><strong>Speed:</strong> ${item.projectileInfo.speed || 'N/A'}</li>
+                        <li><strong>Lifetime:</strong> ${item.projectileInfo.lifetimeMS || 'N/A'}ms</li>
+                        ${item.projectileInfo.size ? `<li><strong>Size:</strong> ${item.projectileInfo.size}</li>` : ''}
+                        ${item.projectileInfo.conditionEffect ? `<li><strong>Effect:</strong> ${item.projectileInfo.conditionEffect}</li>` : ''}
+                    </ul>
+                </div>
             `;
         }
-
         itemElement.innerHTML = `
             <img src="${item.itemImageSrc}" alt="${item.id}" title="${item.id}">
             <div class="item-details">
@@ -651,55 +599,36 @@ function renderWikiItems(filterCategory, filterSubcategory, searchTerm) {
     });
 }
 
-// Function to update subcategory buttons based on the main category selected
+// Function to update subcategory buttons based on the main category selected (from previous request)
 function updateSubcategories(selectedCategory) {
     subcategoryButtonsContainer.innerHTML = '';
     let subcategoriesToShow = [];
-
-    // Define subcategories based on main categories
     if (selectedCategory === 'equipment') {
         subcategoriesToShow = [
-            { name: 'All Equipment', filter: 'equipment-all' }, // Special filter for "all equipment"
-            { name: 'Swords', filter: 'Swords' },
-            { name: 'Daggers', filter: 'Daggers' },
-            { name: 'Bows', filter: 'Bows' },
-            { name: 'Staffs', filter: 'Staffs' },
-            { name: 'Wands', filter: 'Wands' },
-            { name: 'Katanas', filter: 'Katanas' },
-            { name: 'Heavy Weapons', filter: 'Heavy Weapons' }, // For Scythes etc.
-            { name: 'Heavy Armor', filter: 'Heavy Armor' },
-            { name: 'Light Armor', filter: 'Light Armor' },
-            { name: 'Robes', filter: 'Robes' },
-            { name: 'Rings', filter: 'Rings' },
+            { name: 'All Equipment', filter: 'equipment-all' }, { name: 'Swords', filter: 'Swords' },
+            { name: 'Daggers', filter: 'Daggers' }, { name: 'Bows', filter: 'Bows' },
+            { name: 'Staffs', filter: 'Staffs' }, { name: 'Wands', filter: 'Wands' },
+            { name: 'Katanas', filter: 'Katanas' }, { name: 'Heavy Weapons', filter: 'Heavy Weapons' },
+            { name: 'Heavy Armor', filter: 'Heavy Armor' }, { name: 'Light Armor', filter: 'Light Armor' },
+            { name: 'Robes', filter: 'Robes' }, { name: 'Rings', filter: 'Rings' },
         ];
     } else if (selectedCategory === 'abilities') {
         subcategoriesToShow = [
-            { name: 'All Abilities', filter: 'abilities-all' }, // Special filter for "all abilities"
-            { name: 'Spells', filter: 'Spells' },
-            { name: 'Tomes', filter: 'Tomes' },
-            { name: 'Seals', filter: 'Seals' },
-            { name: 'Shields', filter: 'Shields' }, // RotMG shields are abilities for Knight/Paladin
-            { name: 'Poisons', filter: 'Poisons' },
-            { name: 'Cloaks', filter: 'Cloaks' },
-            { name: 'Quivers', filter: 'Quivers' },
-            { name: 'Skulls', filter: 'Skulls' },
-            { name: 'Scepters', filter: 'Scepters' },
-            { name: 'Stars', filter: 'Stars' },
-            { name: 'Lutes', filter: 'Lutes' },
-            { name: 'Traps', filter: 'Traps' },
-            { name: 'Prisms', filter: 'Prisms' },
-            { name: 'Effusions', filter: 'Effusions'},
-            { name: 'Scabbards', filter: 'Scabbards'},
+            { name: 'All Abilities', filter: 'abilities-all' }, { name: 'Spells', filter: 'Spells' },
+            { name: 'Tomes', filter: 'Tomes' }, { name: 'Seals', filter: 'Seals' },
+            { name: 'Shields', filter: 'Shields' }, { name: 'Poisons', filter: 'Poisons' },
+            { name: 'Cloaks', filter: 'Cloaks' }, { name: 'Quivers', filter: 'Quivers' },
+            { name: 'Skulls', filter: 'Skulls' }, { name: 'Scepters', filter: 'Scepters' },
+            { name: 'Stars', filter: 'Stars' }, { name: 'Lutes', filter: 'Lutes' },
+            { name: 'Traps', filter: 'Traps' }, { name: 'Prisms', filter: 'Prisms' },
+            { name: 'Effusions', filter: 'Effusions'}, { name: 'Scabbards', filter: 'Scabbards'},
             { name: 'Orbs', filter: 'Orbs'},
         ];
     } else if (selectedCategory === 'consumables') {
         subcategoriesToShow = [
-            { name: 'All Consumables', filter: 'consumables-all' },
-            { name: 'Potions', filter: 'Potions' } // If there are other types of consumables besides Potions, add them
+            { name: 'All Consumables', filter: 'consumables-all' }, { name: 'Potions', filter: 'Potions' }
         ];
     }
-
-
     if (subcategoriesToShow.length > 0) {
         subcategoryContainer.style.display = 'block';
         subcategoriesToShow.forEach(sub => {
@@ -707,19 +636,15 @@ function updateSubcategories(selectedCategory) {
             button.className = 'subcategory-button';
             button.textContent = sub.name;
             button.dataset.subcategory = sub.filter;
-            // Set initial active state for subcategories (e.g., if 'All Equipment' is default)
             if (currentSubcategory === null && sub.filter.includes('-all')) {
-                 button.classList.add('active'); // Activate 'All X' button by default for its category
-                 currentSubcategory = sub.filter; // Set currentSubcategory to 'all' for the specific category
+                 button.classList.add('active');
+                 currentSubcategory = sub.filter;
             } else if (currentSubcategory === sub.filter) {
                 button.classList.add('active');
             }
-
             button.addEventListener('click', () => {
                 currentSubcategory = sub.filter;
-                // Deactivate all subcategory buttons
                 document.querySelectorAll('.subcategory-button').forEach(btn => btn.classList.remove('active'));
-                // Activate clicked button
                 button.classList.add('active');
                 renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
             });
@@ -727,97 +652,273 @@ function updateSubcategories(selectedCategory) {
         });
     } else {
         subcategoryContainer.style.display = 'none';
-        currentSubcategory = null; // Ensure subcategory is null if no subcategories exist
+        currentSubcategory = null;
     }
-    // Handle the case where a main category without subcategories is selected
-    // or if 'all' is selected, ensure subcategory filter is cleared/managed
-    if (selectedCategory === 'all') {
+    if (selectedCategory === 'all' || subcategoriesToShow.length === 0) {
         subcategoryContainer.style.display = 'none';
         currentSubcategory = null;
     }
 }
 
 
+// --- DISCORD VERIFICATION LOGIC (from previous request, kept for context) ---
+// REPLACE WITH YOUR ACTUAL DISCORD CLIENT ID AND REDIRECT URI
+const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; // <--- IMPORTANT: Replace this
+const DISCORD_REDIRECT_URI = 'http://localhost:8000/index.html'; // <--- IMPORTANT: Replace this
+const DISCORD_SCOPES = 'identify';
+
+const discordVerifyButton = document.getElementById('discord-verify-button');
+const discordStatusDiv = document.getElementById('discord-status');
+const discordUserInfoDiv = document.getElementById('discord-user-info');
+const discordAvatarImg = document.getElementById('discord-avatar');
+const discordUsernameSpan = document.getElementById('discord-username');
+const discordIdSpan = document.getElementById('discord-id');
+const discordLogoutButton = document.getElementById('discord-logout-button');
+
+let discordAccessToken = localStorage.getItem('discordAccessToken');
+
+function startDiscordOAuth() {
+    const oauthUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&scope=${DISCORD_SCOPES}`;
+    window.location.href = oauthUrl;
+}
+
+async function handleDiscordRedirect() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const error = urlParams.get('error');
+
+    if (error) {
+        discordStatusDiv.textContent = `Discord verification failed: ${error}.`;
+        discordStatusDiv.classList.add('error');
+        console.error("Discord OAuth error:", error);
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+
+    if (code) {
+        discordStatusDiv.textContent = 'Attempting Discord login...';
+        discordStatusDiv.classList.remove('error');
+
+        // --- IMPORTANT SECURITY WARNING ---
+        // In a production environment, the following token exchange
+        // MUST happen on a secure backend server to protect your CLIENT_SECRET.
+        // This client-side code is for demonstration purposes only.
+        // --- END SECURITY WARNING ---
+
+        const backendTokenExchangeUrl = 'http://127.0.0.1:5000/api/discord-token-exchange'; // Conceptual backend endpoint
+
+        try {
+            const response = await fetch(backendTokenExchangeUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code, redirect_uri: DISCORD_REDIRECT_URI }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.access_token) {
+                discordAccessToken = data.access_token;
+                localStorage.setItem('discordAccessToken', discordAccessToken);
+                await fetchDiscordUserInfo(discordAccessToken);
+            } else {
+                console.error('Simulated token exchange failed, assuming no backend or invalid response:', data);
+                discordStatusDiv.textContent = 'Simulated login failed. (Requires backend for actual token exchange).';
+                discordStatusDiv.classList.add('error');
+                const promptToken = prompt("Paste your Discord Access Token here (for demo):");
+                if (promptToken) {
+                    discordAccessToken = promptToken;
+                    localStorage.setItem('discordAccessToken', discordAccessToken);
+                    await fetchDiscordUserInfo(discordAccessToken);
+                }
+            }
+        } catch (e) {
+            console.error('Error during simulated Discord token exchange:', e);
+            discordStatusDiv.textContent = 'Error during simulated Discord token exchange. (Check console for details).';
+            discordStatusDiv.classList.add('error');
+            const promptToken = prompt("Paste your Discord Access Token here (for demo):");
+            if (promptToken) {
+                discordAccessToken = promptToken;
+                localStorage.setItem('discordAccessToken', discordAccessToken);
+                await fetchDiscordUserInfo(discordAccessToken);
+            }
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
+
+async function fetchDiscordUserInfo(token) {
+    if (!token) { clearDiscordSession(); return; }
+    try {
+        const userResponse = await fetch('https://discord.com/api/v10/users/@me', {
+            headers: { authorization: `Bearer ${token}` },
+        });
+        const userData = await userResponse.json();
+
+        if (userResponse.ok) {
+            discordStatusDiv.textContent = 'Discord account verified!';
+            discordStatusDiv.classList.remove('error');
+            displayDiscordUserInfo(userData);
+            localStorage.setItem('discordUser', JSON.stringify(userData));
+        } else {
+            discordStatusDiv.textContent = 'Failed to fetch Discord user info. Token might be invalid.';
+            discordStatusDiv.classList.add('error');
+            console.error('Failed to fetch user data:', userData);
+            clearDiscordSession();
+        }
+    } catch (e) {
+        discordStatusDiv.textContent = 'Error fetching Discord user info.';
+        discordStatusDiv.classList.add('error');
+        console.error('Error in fetchDiscordUserInfo:', e);
+        clearDiscordSession();
+    }
+}
+
+function displayDiscordUserInfo(user) {
+    if (discordUserInfoDiv && discordAvatarImg && discordUsernameSpan && discordIdSpan) {
+        const avatarUrl = user.avatar
+            ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+            : `https://cdn.discordapp.com/embed/avatars/${user.discriminator % 5}.png`;
+        
+        discordAvatarImg.src = avatarUrl;
+        discordAvatarImg.alt = `${user.username}'s avatar`;
+        discordUsernameSpan.textContent = user.username;
+        discordIdSpan.textContent = user.id;
+        discordUserInfoDiv.style.display = 'flex';
+        if (discordVerifyButton) discordVerifyButton.style.display = 'none';
+    }
+}
+
+function clearDiscordSession() {
+    localStorage.removeItem('discordAccessToken');
+    localStorage.removeItem('discordUser');
+    discordAccessToken = null;
+    if (discordUserInfoDiv) discordUserInfoDiv.style.display = 'none';
+    if (discordVerifyButton) discordVerifyButton.style.display = 'block';
+    if (discordStatusDiv) {
+        discordStatusDiv.textContent = 'Not logged in with Discord.';
+        discordStatusDiv.classList.remove('error');
+    }
+    console.log('Discord session cleared.');
+}
+
+// --- Discord Purchase Notification (Sends to Backend) ---
+// This function sends purchase data to your backend, which then sends to Discord.
+async function sendPurchaseNotificationToDiscord(username, purchasedItems) {
+    console.log("DEBUG: sendPurchaseNotificationToDiscord() called."); // DEBUG LOG 6
+    const backendNotifyUrl = 'http://127.0.0.1:5000/api/purchase-notify'; // <--- MATCH YOUR BACKEND URL AND ROUTE
+
+    try {
+        console.log("DEBUG: Sending data to backend:", { username, items: purchasedItems }); // DEBUG LOG 7
+        const response = await fetch(backendNotifyUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                items: purchasedItems,
+            }),
+        });
+
+        if (response.ok) {
+            console.log('DEBUG: Purchase notification successfully sent to backend (status OK).'); // DEBUG LOG 8
+            // You might want to parse response.json() here if your backend sends useful info back
+        } else {
+            const errorText = await response.text();
+            console.error('DEBUG: Failed to send purchase notification to backend:', response.status, errorText); // DEBUG LOG 9
+            alert(`Failed to send purchase notification to Discord (Status: ${response.status}). Please contact support if issue persists.`);
+        }
+    } catch (e) {
+        console.error('DEBUG: Error sending purchase notification to backend (network/fetch error):', e); // DEBUG LOG 10
+        alert('An error occurred while trying to notify Discord of your purchase. Please check your internet connection or contact support.');
+    }
+}
+
+
 // --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DEBUG: DOMContentLoaded fired."); // DEBUG LOG 11
+
     // Load cart and credit on page load
-    updateStoreCreditDisplay(); // This also loads from localStorage
-    updateCartCount(); // This also loads from localStorage
+    updateStoreCreditDisplay();
+    updateCartCount();
 
     const isShopPage = document.body.id === 'shop-page';
     const isWikiPage = document.body.id === 'wiki-page';
+    const isHomePage = document.body.id === 'home-page';
 
+    console.log("DEBUG: Current page ID:", document.body.id); // DEBUG LOG 12
 
     if (isShopPage) {
-        // Ensure store credit display is visible on shop page
+        console.log("DEBUG: On Shop Page logic branch."); // DEBUG LOG 13
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'inline-flex';
-        // Ensure cart button is visible on shop page
         if (cartButton) cartButton.style.display = 'inline-flex';
 
-        renderProducts(); // Render products only on shop page
+        renderProducts();
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
-        if (checkoutButton) checkoutButton.addEventListener('click', checkout);
+
+        // **CRITICAL: Ensure checkoutButton exists before adding listener.**
+        if (checkoutButton) {
+            console.log("DEBUG: Attaching checkout button listener."); // DEBUG LOG 14
+            checkoutButton.addEventListener('click', checkout);
+        } else {
+            console.warn("WARN: Checkout button element not found on shop page."); // DEBUG LOG 15
+        }
+
     } else if (isWikiPage) {
-        loadWikiItems(); // Load and render wiki items on wiki page
+        console.log("DEBUG: On Wiki Page logic branch."); // DEBUG LOG 16
+        loadWikiItems();
 
-        if (itemSearchBar) {
-            itemSearchBar.addEventListener('input', (event) => {
-                currentSearchTerm = event.target.value;
-                renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
+        const wikiSearchInput = document.getElementById('wiki-search-input');
+        if (wikiSearchInput) {
+            wikiSearchInput.addEventListener('input', (event) => {
+                // The provided wiki.html has its own inline script for simple search/display,
+                // so this part of script.js related to itemSearchBar might not be directly linked
+                // if wiki.html's search is independent. If you integrate, ensure proper IDs match.
+                // For this example, assuming the wiki.html's search is separate.
             });
         }
 
-        if (categoryButtonsContainer) {
-            categoryButtonsContainer.addEventListener('click', (event) => {
-                const target = event.target;
-                if (target.classList.contains('category-button')) {
-                    // Deactivate all category buttons
-                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
-                    // Activate clicked button
-                    target.classList.add('active');
-
-                    currentCategory = target.dataset.category;
-                    currentSubcategory = null; // Reset subcategory when main category changes
-                    updateSubcategories(currentCategory); // Update subcategory buttons based on new main category
-                    renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
-                }
-            });
+    } else if (isHomePage) {
+        console.log("DEBUG: On Home Page logic branch."); // DEBUG LOG 17
+        if (discordVerifyButton) {
+            discordVerifyButton.addEventListener('click', startDiscordOAuth);
         }
-        // Initial setup for subcategories based on default 'all' or actual category
-        updateSubcategories(currentCategory);
-        // Ensure 'All Items' category button is active on load
-        document.querySelector('.category-button[data-category="all"]').classList.add('active');
+        if (discordLogoutButton) {
+            discordLogoutButton.addEventListener('click', clearDiscordSession);
+        }
+
+        handleDiscordRedirect();
+        if (discordAccessToken) {
+            fetchDiscordUserInfo(discordAccessToken);
+        } else {
+            clearDiscordSession();
+        }
+
     } else {
-        // Hide shop-specific elements on other pages
+        console.log("DEBUG: On other page logic branch, hiding shop elements."); // DEBUG LOG 18
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
-        if (cartButton) cartButton.style.display = 'none';
+        if (cartButton) cartButton.style.display = 'none'; // Corrected variable name from cartCreditDisplay
     }
 
-    // Common modal close listeners for product details modal
+    // Common modal close listeners
     if (closeProductModalButton) {
         closeProductModalButton.addEventListener('click', closeProductModal);
     }
     if (productDetailsModal) {
         productDetailsModal.addEventListener('click', (event) => {
-            // Close if clicking on the overlay itself, not the modal content
-            if (event.target === productDetailsModal) {
-                closeProductModal();
-            }
+            if (event.target === productDetailsModal) { closeProductModal(); }
         });
     }
 
-    // Cart modal specific close listeners
-    // Close button for cart modal is inside its content, so target it specifically
     const closeCartModalButtonElement = cartModal ? cartModal.querySelector('.close-button') : null;
     if (closeCartModalButtonElement) {
         closeCartModalButtonElement.addEventListener('click', closeCartModal);
     }
     if (cartModal) {
         cartModal.addEventListener('click', (event) => {
-            if (event.target === cartModal) {
-                closeCartModal();
-            }
+            if (event.target === cartModal) { closeCartModal(); }
         });
     }
 });
