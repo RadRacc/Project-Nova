@@ -8,96 +8,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Specific styles for the Wiki page */
-        /*
-            The rule below ensures the 'Wiki' button in the navigation is active
-            when on the wiki page. Note the general nav button active styling is
-            in style.css now with the .active-button class.
-        */
         #wiki-page nav a[href="wiki.html"] {
             background-color: #ff69b4; /* Active button color */
             box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
         }
 
-        .wiki-search-bar {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .wiki-search-bar input[type="text"] {
-            width: 80%;
-            max-width: 500px;
-            padding: 12px 20px;
-            border: 2px solid #555;
-            border-radius: 25px;
-            background-color: #333;
-            color: #f0f0f0;
-            font-size: 1.1em;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .wiki-search-bar input[type="text"]:focus {
-            border-color: #ff69b4;
-            box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
-        }
-
-        .wiki-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .wiki-category-card {
-            background-color: #3a3a3a;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .wiki-category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
-        }
-
-        .wiki-category-card h3 {
-            color: #87ceeb; /* Sky blue for category titles - intentionally different from main h2 */
-            font-size: 1.8em;
-            margin-top: 0;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #555;
-            padding-bottom: 10px;
-        }
-
-        .wiki-category-card ul {
-            list-style-type: none;
+        /* Styles for the main item list on the wiki page */
+        #wiki-main ul {
+            list-style-type: none; /* Remove default bullet points */
             padding: 0;
-            margin: 0;
-            text-align: left;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+            gap: 15px; /* Space between list items */
+            text-align: center;
         }
 
-        .wiki-category-card ul li {
-            margin-bottom: 8px;
+        #wiki-main ul li {
+            background-color: #3a3a3a;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-size: 1.2em;
+            font-weight: bold;
         }
 
-        .wiki-category-card ul li a {
-            color: #f0f0f0;
+        #wiki-main ul li:hover {
+            transform: translateY(-3px);
+            background-color: #4c4c4c; /* Slightly lighter on hover */
+        }
+
+        #wiki-main ul li a {
+            color: #f0f0f0; /* White text for readability */
             text-decoration: none;
-            font-size: 1.1em;
+            display: block; /* Make the entire list item clickable */
             transition: color 0.2s ease;
-            display: block; /* Make the whole area clickable */
-            padding: 5px 0;
         }
 
-        .wiki-category-card ul li a:hover {
-            color: #ff69b4; /* Pink on hover */
-            text-decoration: underline;
+        #wiki-main ul li a:hover {
+            color: #ff69b4; /* Pink text on hover */
+            text-decoration: none;
         }
     </style>
 </head>
@@ -116,139 +67,44 @@
                 <a href="howtoplay.html" class="button">How to Play</a>
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
-                <a href="wiki.html" class="button active-button">Wiki</a> <!-- NEW WIKI BUTTON active -->
+                <a href="wiki.html" class="button active-button">Wiki</a>
             </nav>
         </div>
     </header>
 
     <main>
         <section id="wiki-main">
-            <h2>Project Nova Wiki</h2>
-            <div class="wiki-search-bar">
-                <input type="text" id="wiki-search-input" placeholder="Search wiki items...">
-            </div>
-
-            <div class="wiki-categories">
-                <div class="wiki-category-card">
-                    <h3>Items</h3>
-                    <ul>
-                        <li><a href="#armor-section">Armor</a></li>
-                        <li><a href="#weapons-section">Weapons</a></li>
-                        <li><a href="#abilities-section">Abilities</a></li>
-                        <li><a href="#rings-section">Rings</a></li>
-                        <!-- Add more item categories here -->
-                    </ul>
-                </div>
-
-                <div class="wiki-category-card">
-                    <h3>Game Mechanics</h3>
-                    <ul>
-                        <li><a href="#stats-section">Stats</a></li>
-                        <li><a href="#dungeons-section">Dungeons</a></li>
-                        <li><a href="#enemies-section">Enemies & Bosses</a></li>
-                        <li><a href="#status-effects-section">Status Effects</a></li>
-                    </ul>
-                </div>
-
-                <div class="wiki-category-card">
-                    <h3>Classes</h3>
-                    <ul>
-                        <li><a href="#warrior-class">Warrior</a></li>
-                        <li><a href="#paladin-class">Paladin</a></li>
-                        <li><a href="#knight-class">Knight</a></li>
-                        <li><a href="#rogue-class">Rogue</a></li>
-                        <li><a href="#assassin-class">Assassin</a></li>
-                        <li><a href="#trickster-class">Trickster</a></li>
-                        <li><a href="#archer-class">Archer</a></li>
-                        <li><a href="#huntress-class">Huntress</a></li>
-                        <li><a href="#bard-class">Bard</a></li>
-                        <li><a href="#wizard-class">Wizard</a></li>
-                        <li><a href="#necromancer-class">Necromancer</a></li>
-                        <li><a href="#mystic-class">Mystic</a></li>
-                        <li><a href="#sorcerer-class">Sorcerer</a></li>
-                        <li><a href="#priest-class">Priest</a></li>
-                        <li><a href="#summoner-class">Summoner</a></li>
-                    </ul>
-                </div>
-
-                <!-- Add more main categories as needed -->
-            </div>
-
-            <section id="items-section">
-                <h2>Items</h2>
-                <div class="wiki-sub-categories">
-                    <div class="wiki-category-card">
-                        <h3>Armor</h3>
-                        <ul>
-                            <li><a href="#heavy-armor">Heavy Armor</a></li>
-                            <li><a href="#light-armor">Light Armor</a></li>
-                            <li><a href="#robe-armor">Robes</a></li>
-                        </ul>
-                    </div>
-                    <div class="wiki-category-card">
-                        <h3>Weapons</h3>
-                        <ul>
-                            <li><a href="#swords">Swords</a></li>
-                            <li><a href="#bows">Bows</a></li>
-                            <li><a href="#staffs">Staffs</a></li>
-                            <li><a href="#wands">Wands</a></li>
-                            <li><a href="#daggers">Daggers</a></li>
-                            <li><a href="#katanas">Katanas</a></li>
-                        </ul>
-                    </div>
-                    <div class="wiki-category-card">
-                        <h3>Abilities</h3>
-                        <ul>
-                            <li><a href="#spells">Spells (Wizard)</a></li>
-                            <li><a href="#tomes">Tomes (Priest)</a></li>
-                            <li><a href="#shields">Shields (Knight)</a></li>
-                            <li><a href="#quivers">Quivers (Archer)</a></li>
-                            <li><a href="#poisons">Poisons (Assassin)</a></li>
-                            <li><a href="#cloaks">Cloaks (Rogue)</a></li>
-                            <li><a href="#helms">Helms (Warrior)</a></li>
-                            <li><a href="#scepters">Scepters (Sorcerer)</a></li>
-                            <li><a href="#skulls">Skulls (Necromancer)</a></li>
-                            <li><a href="#prisms">Prisms (Trickster)</a></li>
-                            <li><a href="#seals">Seals (Paladin)</a></li>
-                            <li><a href="#stars">Stars (Ninja)</a></li>
-                            <li><a href="#lutes">Lutes (Bard)</a></li>
-                            <li><a href="#traps">Traps (Huntress)</a></li>
-                            <li><a href="#orbs">Orbs (Mystic)</a></li>
-                            <li><a href="#wakizashis">Wakizashis (Samurai)</a></li>
-                            <li><a href="#sheaths">Sheaths (Summoner)</a></li>
-                        </ul>
-                    </div>
-                    <div class="wiki-category-card">
-                        <h3>Rings</h3>
-                        <ul>
-                            <li><a href="#rings">All Rings</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Example section for a specific item page structure (hidden by default) -->
-            <section id="short-sword-item" style="display:none;">
-                <h2>Short Sword</h2>
-                <div class="item-details-content">
-                    <img src="https://placehold.co/100x100/FF69B4/FFFFFF?text=Sword" alt="Short Sword Icon">
-                    <p><strong>Class:</strong> Equipment</p>
-                    <p><strong>Slot Type:</strong> 1 (Weapon)</p>
-                    <p><strong>Tier:</strong> 0</p>
-                    <p><strong>Description:</strong> A steel short sword.</p>
-                    <p><strong>Rate of Fire:</strong> 1</p>
-                    <p><strong>Sound:</strong> weapon/blunt_sword</p>
-                    <h3>Projectile:</h3>
-                    <ul>
-                        <li><strong>Object Id:</strong> Blade</li>
-                        <li><strong>Speed:</strong> 100</li>
-                        <li><strong>Min Damage:</strong> 45</li>
-                        <li><strong>Max Damage:</strong> 90</li>
-                        <li><strong>Lifetime (MS):</strong> 350</li>
-                    </ul>
-                    <!-- Add more item properties as needed -->
-                </div>
-            </section>
+            <h2>Items</h2>
+            <ul>
+                <li><a href="#daggers">Daggers</a></li>
+                <li><a href="#bows">Bows</a></li>
+                <li><a href="#staffs">Staffs</a></li>
+                <li><a href="#wands">Wands</a></li>
+                <li><a href="#swords">Swords</a></li>
+                <li><a href="#katanas">Katanas</a></li>
+                <li><a href="#cloaks">Cloaks</a></li>
+                <li><a href="#poisons">Poisons</a></li>
+                <li><a href="#prisms">Prisms</a></li>
+                <li><a href="#quivers">Quivers</a></li>
+                <li><a href="#traps">Traps</a></li>
+                <li><a href="#lutes">Lutes</a></li>
+                <li><a href="#spells">Spells</a></li>
+                <li><a href="#skulls">Skulls</a></li>
+                <li><a href="#orbs">Orbs</a></li>
+                <li><a href="#tomes">Tomes</a></li>
+                <li><a href="#scepters">Scepters</a></li>
+                <li><a href="#maces">Maces</a></li>
+                <li><a href="#helmets">Helmets</a></li>
+                <li><a href="#shields">Shields</a></li>
+                <li><a href="#seals">Seals</a></li>
+                <li><a href="#shuriken">Shuriken</a></li>
+                <li><a href="#wakizashi">Wakizashi</a></li>
+                <li><a href="#sheaths">Sheaths</a></li>
+                <li><a href="#light-armor">Light Armor</a></li>
+                <li><a href="#robes">Robes</a></li>
+                <li><a href="#heavy-armor">Heavy Armor</a></li>
+                <li><a href="#rings">Rings</a></li>
+            </ul>
         </section>
     </main>
 
@@ -259,50 +115,16 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('wiki-search-input');
-            const wikiSections = document.querySelectorAll('#wiki-main > section'); // All top-level wiki sections
-
-            // Function to filter sections based on search input
-            function filterWikiContent() {
-                const query = searchInput.value.toLowerCase();
-
-                wikiSections.forEach(section => {
-                    const sectionTitle = section.querySelector('h2');
-                    const sectionText = section.textContent.toLowerCase();
-
-                    if (sectionTitle && sectionTitle.textContent.toLowerCase().includes(query) || sectionText.includes(query)) {
-                        section.style.display = 'block'; // Show section
-                    } else {
-                        section.style.display = 'none'; // Hide section
-                    }
-                });
-            }
-
-            // Listen for input on the search bar
-            if (searchInput) {
-                searchInput.addEventListener('keyup', filterWikiContent);
-            }
-
             // Set active button in nav
             const currentPage = window.location.pathname.split('/').pop();
             const navButtons = document.querySelectorAll('nav .button');
             navButtons.forEach(button => {
-                // Use .active-button for consistency with the updated style.css
                 if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
                     button.classList.add('active-button');
                 } else {
                     button.classList.remove('active-button');
                 }
             });
-
-            // Load wiki items using the script.js function
-            // Ensure this is called AFTER the main DOMContentLoaded setup
-            // to avoid conflicts if script.js itself handles DOMContentLoaded
-            if (typeof loadWikiItems === 'function') {
-                loadWikiItems();
-            } else {
-                console.warn("loadWikiItems function not found. Ensure script.js is loaded correctly.");
-            }
         });
     </script>
 </body>
