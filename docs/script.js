@@ -37,49 +37,51 @@ const products = [
         name: "Supporter++ Role",
         price: 20.00,
         image: "icons/supporter++package.png",
-        description: "The ultimate supporter package! All previous benefits plus custom sprite, and more server perks.",
+        description: "The ultimate supporter package, combining all previous benefits with even greater perks and recognition!",
         features: [
             "All Supporter and Supporter+ benefits",
-            "Custom Chat Color (Pink, Purple, Orange)",
-            "Personal Sprite (Add your own asset! [within reason])",
-            "Access to Pre-Release Content (7 Days before release)",
-            "Direct contact with Developers",
-            "Custom Vault Skin",
-            "Custom Character Skins (All Classes + future ones)",
-            "Personal 150% Loot Boost"
+            "Custom Chat Color (Pink, Purple, Gold)",
+            "Exclusive Legendary In-game Pet (Cosmetic)",
+            "Early Access to All New Content (7 Days before release)",
+            "Exclusive Monthly Legendary Items",
+            "Personal 150% Loot Boost",
+            "Priority Support in Discord"
         ]
     },
     {
         id: 'lootboost-20',
-        name: "Global Loot Boost +20% (1 Day)",
+        name: "Global Lootboost +20% (1 Day)",
         price: 5.00,
         image: "icons/globallootboost20.png",
-        description: "Activate a server-wide +20% increase in loot drop rates for 1 Day!",
+        description: "Activate a server-wide 20% loot boost for 24 hours, benefiting all players online!",
         features: [
-            "Global 20% Loot Boost (1 Day)",
-            "Stacks with other Loot Boost purchases"
+            "24-hour global loot boost",
+            "Affects all players on the server",
+            "Activates immediately upon purchase"
         ]
     },
     {
         id: 'lootboost-80',
-        name: "Global Loot Boost +80% (3 Days)",
+        name: "Global Lootboost +80% (3 Days)",
         price: 10.00,
         image: "icons/globallootboost80.png",
-        description: "Activate a significant server-wide +80% increase in loot drop rates for 3 Days!",
+        description: "A powerful 80% global loot boost for 3 full days, perfect for community events or grinding sessions!",
         features: [
-            "Global 80% Loot Boost (3 Days)",
-            "Stacks with other Loot Boost purchases"
+            "72-hour global loot boost",
+            "Significant increase in loot drops",
+            "Ideal for weekend events"
         ]
     },
     {
         id: 'lootboost-150',
-        name: "Global Loot Boost +150%",
+        name: "Global Lootboost +150% (5 Days)",
         price: 20.00,
         image: "icons/globallootboost150.png",
-        description: "Unleash the ultimate loot frenzy with a massive +150% Global Loot Boost for 5 Days!",
+        description: "The ultimate global loot boost, providing a massive 150% increase in drops for 5 days straight!",
         features: [
-            "Global 150% Loot Boost (5 Days)",
-            "Stacks with other Loot Boost purchases"
+            "120-hour global loot boost",
+            "Massive impact on farming efficiency",
+            "Best value for extended playtime"
         ]
     },
     {
@@ -87,11 +89,10 @@ const products = [
         name: "Small Currency Pack",
         price: 5.00,
         image: "icons/smallcurrencypack.png",
-        description: "A small boost to your in-game currency, perfect for minor purchases or getting started.",
+        description: "A small pack of in-game currency to help you get started or top up your balance.",
         features: [
-            "500 Gold",
-            "1,000 Fame",
-            "20 Shadow Shards"
+            "1000 Gold (in-game currency)",
+            "Instantly added to your account"
         ]
     },
     {
@@ -99,11 +100,10 @@ const products = [
         name: "Medium Currency Pack",
         price: 10.00,
         image: "icons/mediumcurrencypack.png",
-        description: "A medium currency pack for more substantial in-game needs. Get more for your money!",
+        description: "A medium pack of in-game currency for more significant purchases or trading.",
         features: [
-            "1,000 Gold + 250 Bonus",
-            "2,500 Fame + 500 Bonus",
-            "50 Shadow Shards + 20 Bonus"
+            "2500 Gold (in-game currency)",
+            "Better value than small pack"
         ]
     },
     {
@@ -111,11 +111,10 @@ const products = [
         name: "Large Currency Pack",
         price: 25.00,
         image: "icons/largecurrencypack.png",
-        description: "A generous currency pack for serious players, enabling significant upgrades and purchases.",
+        description: "A large pack of in-game currency for serious players looking to acquire high-value items.",
         features: [
-            "2,500 Gold + 1,000 Bonus",
-            "5,000 Fame + 1,000 Bonus",
-            "100 Shadow Shards + 50 Bonus"
+            "7000 Gold (in-game currency)",
+            "Great value for dedicated players"
         ]
     },
     {
@@ -123,20 +122,55 @@ const products = [
         name: "Massive Currency Pack",
         price: 40.00,
         image: "icons/massivecurrencypack.png",
-        description: "The ultimate currency pack! Maximize your in-game wealth with a huge injection of gold.",
+        description: "The biggest currency pack available, providing an enormous amount of gold for all your in-game needs!",
         features: [
-            "6,000 Gold + 1,500 Bonus",
-            "10,000 Fame + 2,500 Bonus",
-            "150 Shadow Shards + 50 Bonus"
+            "12000 Gold (in-game currency)",
+            "Best possible value",
+            "For ultimate in-game wealth"
         ]
     }
 ];
 
-// Global variables (load from localStorage or default)
+// --- Store Credit & Cart Logic ---
 let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
 let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
-// DOM Elements (get references once)
+// --- Wiki Item Data ---
+let wikiItemsData = []; // To store parsed data from items.txt
+
+// Mapping SlotType numbers to readable names for display
+const slotTypeMap = {
+    "1": "Sword",
+    "2": "Dagger",
+    "3": "Bow",
+    "8": "Staff",
+    "9": "Wand",
+    "17": "Heavy Armor", // Plate Armor
+    "18": "Light Armor", // Leather Armor
+    "19": "Robe",
+    "20": "Ring",
+    "23": "Katana",
+    "24": "Helmet", // Helm (Warrior)
+    "25": "Quiver",
+    "26": "Tome",
+    "27": "Shield",
+    "28": "Cloak",
+    "29": "Trap",
+    "30": "Orb",
+    "31": "Poison",
+    "32": "Scepter",
+    "34": "Skull",
+    "35": "Seal",
+    "36": "Spell",
+    "40": "Prism",
+    "41": "Shuriken",
+    "42": "Lute",
+    "43": "Wakizashi",
+    "44": "Sheath",
+    "45": "Mace"
+};
+
+// --- DOM Elements (get references once) ---
 const storeCreditDisplay = document.getElementById('store-credit-display');
 const storeCreditAmountSpan = document.getElementById('store-credit-amount');
 const addCreditButton = document.getElementById('add-credit-button');
@@ -156,6 +190,10 @@ const cartTotalSpan = document.getElementById('cart-total');
 const cartButton = document.getElementById('cart-button');
 const checkoutButton = document.getElementById('checkout-button');
 const cartItemCountSpan = document.getElementById('cart-item-count'); // For the count badge in header
+
+const wikiSearchInput = document.getElementById('wiki-search-input');
+const itemDisplayArea = document.getElementById('item-display-area');
+const itemTypeLinks = document.querySelectorAll('#item-type-list a');
 
 
 // --- FUNCTIONS ---
@@ -251,6 +289,13 @@ function handleAddToCartClick(event) {
 function openProductModal(productId) {
     const product = products.find(p => p.id === productId);
     if (product && productDetailsModal && modalProductImage && modalProductName && modalProductDescription && modalProductBenefits && modalProductPrice && modalAddToCartButton) {
+        // Update the "Add to Cart" button in the modal to add the current product
+        modalAddToCartButton.onclick = () => {
+            addToCart(product.id);
+            closeProductModal(); // Close modal after adding to cart
+            showCustomMessageBox(`${product.name} added to cart!`, "Item Added", "success");
+        };
+
         modalProductImage.src = product.image;
         modalProductImage.alt = product.name;
         modalProductName.textContent = product.name;
@@ -268,13 +313,6 @@ function openProductModal(productId) {
         } else {
             modalProductBenefits.style.display = 'none'; // Hide list if no features
         }
-
-        // Update the "Add to Cart" button in the modal to add the current product
-        modalAddToCartButton.onclick = () => {
-            addToCart(product.id);
-            closeProductModal(); // Close modal after adding to cart
-            showCustomMessageBox(`${product.name} added to cart!`, "Item Added", "success");
-        };
 
         productDetailsModal.style.display = 'flex'; // Show the modal
     } else {
@@ -461,20 +499,143 @@ function showCustomMessageBox(message, title, type = 'info') {
 }
 
 
-// --- DOM Content Loaded Event Listener ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Load cart and credit on page load
-    updateStoreCreditDisplay(); // This also loads from localStorage
-    updateCartCount(); // This also loads from localStorage
+// --- WIKI SPECIFIC FUNCTIONS ---
 
+// Function to fetch and parse items.txt
+async function fetchItemsData() {
+    try {
+        const response = await fetch('items.txt');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "application/xml");
+
+        const items = [];
+        const objectElements = xmlDoc.querySelectorAll('Object[Item="true"]');
+
+        objectElements.forEach(obj => {
+            const item = {};
+            item.type = obj.getAttribute('type');
+            item.id = obj.getAttribute('id');
+            item.DisplayId = obj.querySelector('DisplayId')?.textContent;
+            item.Class = obj.querySelector('Class')?.textContent;
+            item.SlotType = obj.querySelector('SlotType')?.textContent;
+            item.Description = obj.querySelector('Description')?.textContent;
+            
+            // Collect other properties
+            const damageMin = obj.querySelector('MinDamage')?.textContent;
+            const damageMax = obj.querySelector('MaxDamage')?.textContent;
+            if (damageMin && damageMax) {
+                item.Damage = `${damageMin}-${damageMax}`;
+            }
+
+            item.RateOfFire = obj.querySelector('RateOfFire')?.textContent;
+            item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
+            item.MPCost = obj.querySelector('MPCost')?.textContent;
+            item.Defense = obj.querySelector('Defense')?.textContent;
+
+            // Handle ActivateOnEquip for rings
+            const activateOnEquip = obj.querySelector('ActivateOnEquip');
+            if (activateOnEquip) {
+                const statId = activateOnEquip.getAttribute('stat');
+                const statValue = activateOnEquip.textContent;
+                // You might need a more comprehensive stat mapping
+                const statName = {
+                    "21": "Max HP",
+                    "22": "Max MP",
+                    "20": "Attack",
+                    "26": "Defense",
+                    "27": "Speed",
+                    "28": "Dexterity",
+                    "29": "Vitality",
+                    "30": "Wisdom"
+                }[statId] || `Stat ${statId}`;
+                item.StatBoost = `${statName}: +${statValue}`;
+            }
+
+            items.push(item);
+        });
+        wikiItemsData = items; // Store the parsed data globally
+        console.log("Parsed Wiki Items:", wikiItemsData);
+
+    } catch (error) {
+        console.error("Error fetching or parsing items.txt:", error);
+        if (itemDisplayArea) {
+            itemDisplayArea.innerHTML = '<p style="text-align: center; color: #DC3545;">Failed to load wiki items. Please ensure items.txt is correctly formatted.</p>';
+        }
+    }
+}
+
+// Function to display items in the wiki
+function displayItems(filterSlotType = null, searchQuery = '') {
+    if (!itemDisplayArea) return;
+
+    itemDisplayArea.innerHTML = ''; // Clear previous items
+
+    let filteredItems = wikiItemsData;
+
+    // Filter by SlotType if provided
+    if (filterSlotType) {
+        filteredItems = filteredItems.filter(item => item.SlotType === filterSlotType);
+    }
+
+    // Filter by search query
+    if (searchQuery) {
+        const lowerCaseQuery = searchQuery.toLowerCase();
+        filteredItems = filteredItems.filter(item =>
+            item.DisplayId?.toLowerCase().includes(lowerCaseQuery) ||
+            item.Description?.toLowerCase().includes(lowerCaseQuery) ||
+            item.id?.toLowerCase().includes(lowerCaseQuery) ||
+            (item.Class && item.Class.toLowerCase().includes(lowerCaseQuery)) ||
+            (slotTypeMap[item.SlotType] && slotTypeMap[item.SlotType].toLowerCase().includes(lowerCaseQuery))
+        );
+    }
+
+    if (filteredItems.length === 0) {
+        itemDisplayArea.innerHTML = '<p style="text-align: center; color: #bbb;">No items found matching your criteria.</p>';
+        return;
+    }
+
+    filteredItems.forEach(item => {
+        const itemCard = document.createElement('div');
+        itemCard.className = 'item-card';
+
+        // Basic image placeholder (you might want to map item.id to actual images)
+        const imageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
+
+        itemCard.innerHTML = `
+            <img src="${imageUrl}" alt="${item.DisplayId || item.id} Icon">
+            <h3>${item.DisplayId || item.id}</h3>
+            <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
+            <p><strong>Description:</strong> ${item.Description || 'No description provided.'}</p>
+            ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
+            ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
+            ${item.MPCost ? `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>` : ''}
+            ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
+            ${item.StatBoost ? `<p><strong>Stat Boost:</strong> <span>${item.StatBoost}</span></p>` : ''}
+            <!-- Add more item properties as needed based on your XML structure -->
+        `;
+        itemDisplayArea.appendChild(itemCard);
+    });
+}
+
+// --- DOM Content Loaded ---
+document.addEventListener('DOMContentLoaded', async () => {
+    // Determine if we are on the shop page or wiki page
     const isShopPage = document.body.id === 'shop-page';
+    const isWikiPage = document.body.id === 'wiki-page';
 
+    // Get common DOM elements for shop
+    const addCreditButton = document.getElementById('add-credit-button');
+    const cartButton = document.getElementById('cart-button');
+    const checkoutButton = document.getElementById('checkout-button');
+    const storeCreditDisplay = document.getElementById('store-credit-display');
+
+    // Handle shop page specific logic
     if (isShopPage) {
-        // Ensure store credit display is visible on shop page
-        if (storeCreditDisplay) storeCreditDisplay.style.display = 'inline-flex';
-        // Ensure cart button is visible on shop page
-        if (cartButton) cartButton.style.display = 'inline-flex';
-
+        if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
         renderProducts(); // Render products only on shop page
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
@@ -482,7 +643,31 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Hide shop-specific elements on other pages
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
-        if (cartButton) cartButton.style.display = 'none'; // Hide cart button if not on shop page
+        if (cartButton) cartButton.style.display = 'none';
+    }
+
+    // Handle wiki page specific logic
+    if (isWikiPage) {
+        await fetchItemsData(); // Fetch and parse items.txt
+        displayItems(); // Display all items initially
+
+        // Attach event listeners to item type links
+        itemTypeLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                const slotType = event.target.dataset.slottype;
+                wikiSearchInput.value = ''; // Clear search bar when category is clicked
+                displayItems(slotType); // Filter and display items by SlotType
+            });
+        });
+
+        // Attach event listener for the search bar
+        if (wikiSearchInput) {
+            wikiSearchInput.addEventListener('input', (event) => {
+                const query = event.target.value;
+                displayItems(null, query); // Display items filtered by search query
+            });
+        }
     }
 
     // Common modal close listeners for product details modal
@@ -491,7 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (productDetailsModal) {
         productDetailsModal.addEventListener('click', (event) => {
-            // Close if clicking on the overlay itself, not the modal content
             if (event.target === productDetailsModal) {
                 closeProductModal();
             }
@@ -499,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cart modal specific close listeners
-    const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button') : null; // Re-get for safety
+    const closeCartModalButton = document.getElementById('cart-modal') ? document.getElementById('cart-modal').querySelector('.close-button') : null;
     if (closeCartModalButton) {
         closeCartModalButton.addEventListener('click', closeCartModal);
     }
@@ -510,4 +694,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Load cart and credit on page load (common to all pages with header elements)
+    updateStoreCreditDisplay();
+    updateCartCount();
+
+    // Set active button in nav (common to all pages)
+    const currentPage = window.location.pathname.split('/').pop();
+    const navButtons = document.querySelectorAll('nav .button');
+    navButtons.forEach(button => {
+        if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
+            button.classList.add('active-button');
+        } else {
+            button.classList.remove('active-button');
+        }
+    });
 });
