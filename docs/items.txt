@@ -81,13 +81,13 @@
     </Object>
 
     <!-- SWORDS -->
-    <Object type="0x0001" id="Placeholder Sword T0" Item="true">
-        <DisplayId>Rusty Sword</DisplayId>
+    <Object type="0x0001" id="Short Sword" Item="true">
+        <DisplayId>Short Sword</DisplayId>
         <Class>Equipment</Class>
         <SlotType>1</SlotType> <!-- 1 = Sword -->
-        <Description>A weathered sword for basic combat.</Description>
-        <MinDamage>20</MinDamage>
-        <MaxDamage>30</MaxDamage>
+        <Description>A steel short sword.</Description>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>90</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
         <Tag>T0</Tag>
     </Object>
