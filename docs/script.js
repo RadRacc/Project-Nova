@@ -157,7 +157,7 @@ const cartButton = document.getElementById('cart-button');
 const checkoutButton = document.getElementById('checkout-button');
 const cartItemCountSpan = document.getElementById('cart-item-count'); // For the count badge in header
 
-// --- FUNCTIONS ---
+// --- FUNCTIONS (SHOP) ---
 
 // Updates the displayed store credit and saves to local storage
 function updateStoreCreditDisplay() {
@@ -409,6 +409,335 @@ function checkout() {
     }
 }
 
+// --- WIKI LOGIC ---
+let allWikiItems = []; // Store all parsed items
+let currentCategory = 'all';
+let currentSubcategory = null;
+let currentSearchTerm = '';
+
+const itemSearchBar = document.getElementById('item-search-bar');
+const categoryButtonsContainer = document.querySelector('#wiki-content .category-buttons');
+const subcategoryContainer = document.getElementById('subcategory-container');
+const subcategoryButtonsContainer = document.querySelector('#subcategory-container .subcategory-buttons');
+const itemDisplayArea = document.getElementById('item-display-area');
+
+// Mapping SlotType to display categories/subcategories
+// These correspond to the <SlotType> XML tag
+const slotTypeToCategory = {
+    // Weapons
+    '1': { main: 'equipment', sub: 'Swords' },
+    '2': { main: 'equipment', sub: 'Daggers' },
+    '3': { main: 'equipment', sub: 'Bows' },
+    '8': { main: 'equipment', sub: 'Staffs' },
+    '9': { main: 'equipment', sub: 'Wands' },
+    '33': { main: 'equipment', sub: 'Katanas' },
+    '44': { main: 'equipment', sub: 'Wands' }, // Crystal Wand
+    '45': { main: 'equipment', sub: 'Daggers' }, // Kunai (Dagger-like)
+    '46': { main: 'equipment', sub: 'Heavy Weapons' }, // Scythe (assuming it's a heavy weapon)
+
+    // Armors
+    '17': { main: 'equipment', sub: 'Heavy Armor' }, // Plate Armor
+    '18': { main: 'equipment', sub: 'Light Armor' }, // Leather Armor
+    '19': { main: 'equipment', sub: 'Robes' }, // Robe
+    '24': { main: 'equipment', sub: 'Heavy Armor' }, // Helm (Heavy)
+    '27': { main: 'equipment', sub: 'Heavy Armor' }, // Shield (Heavy)
+    '47': { main: 'equipment', sub: 'Heavy Armor' }, // Chainmail
+    '48': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Helm
+    '49': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Shield
+    '50': { main: 'equipment', sub: 'Heavy Armor' }, // Heavy Armor
+    '51': { main: 'equipment', sub: 'Light Armor' }, // Light Armor
+    '52': { main: 'equipment', sub: 'Light Armor' }, // Light Helm
+    '53': { main: 'equipment', sub: 'Light Armor' }, // Light Shield
+    '54': { main: 'equipment', sub: 'Light Armor' }, // Light Armor
+    '55': { main: 'equipment', sub: 'Robes' }, // Robe
+    '56': { main: 'equipment', sub: 'Robes' }, // Robe Helm
+    '57': 'equipment', // Robe Shield (No subcategory for this yet, keep as equipment)
+    '58': { main: 'equipment', sub: 'Robes' }, // Robe
+
+    // Abilities / Consumables / Rings (categorized as 'abilities' for simplicity, could be 'utility' or 'accessories')
+    '20': { main: 'accessories', sub: 'Rings' }, // Ring
+    '21': { main: 'consumables', sub: 'Potions' }, // Potion (Health, Mana, Stat Potions)
+    '25': { main: 'abilities', sub: 'Quivers' }, // Quiver (Ranger ability)
+    '26': { main: 'abilities', sub: 'Tomes' }, // Tome (Priest ability)
+    '28': { main: 'abilities', sub: 'Cloaks' }, // Cloak (Rogue ability)
+    '29': { main: 'abilities', sub: 'Sheaths' }, // Sheath (Samurai ability)
+    '30': { main: 'abilities', sub: 'Orbs' }, // Orb (Mystic ability)
+    '31': { main: 'abilities', sub: 'Poisons' }, // Poison (Assassin ability)
+    '32': { main: 'abilities', sub: 'Scepters' }, // Scepter (Sorcerer ability)
+    '34': { main: 'abilities', sub: 'Skulls' }, // Skull (Necromancer ability)
+    '35': { main: 'abilities', sub: 'Seals' }, // Seal (Paladin ability)
+    '36': { main: 'abilities', sub: 'Spells' }, // Spell (Wizard ability)
+    '37': { main: 'abilities', sub: 'Stars' }, // Star (Ninja ability)
+    '38': { main: 'abilities', sub: 'Lutes' }, // Lute (Bard ability)
+    '39': { main: 'abilities', sub: 'Traps' }, // Trap (Huntress ability)
+    '40': { main: 'abilities', sub: 'Prisms' }, // Prism (Trickster ability)
+    '41': { main: 'abilities', sub: 'Effusions' }, // Effusion
+    '42': { main: 'abilities', sub: 'Scabbards' }, // Scabbard
+    '43': { main: 'abilities', sub: 'Orbs' }, // Orb of Aether
+};
+
+
+// Function to fetch and parse items.txt
+async function loadWikiItems() {
+    try {
+        const response = await fetch('items.txt');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "text/xml");
+
+        const objectElements = xmlDoc.querySelectorAll('Object[Item]'); // Only get elements that are items
+        allWikiItems = Array.from(objectElements).map(objElement => {
+            const id = objElement.getAttribute('id');
+            const typeHex = objElement.getAttribute('type'); // Hex ID for texture lookup
+            const description = objElement.querySelector('Description')?.textContent || 'No description.';
+            const slotType = objElement.querySelector('SlotType')?.textContent; // Numeric SlotType
+
+            let category = 'misc';
+            let subcategoryName = 'Other';
+
+            if (slotType && slotTypeToCategory[slotType]) {
+                const mapping = slotTypeToCategory[slotType];
+                category = mapping.main || 'misc';
+                subcategoryName = mapping.sub || 'Other';
+            } else {
+                 // Fallback for items without a clear SlotType mapping or if SlotType is missing
+                 const itemClass = objElement.querySelector('Class')?.textContent;
+                 if (itemClass === 'Equipment') {
+                     category = 'equipment';
+                     subcategoryName = 'Miscellaneous Equipment';
+                 } else if (itemClass === 'Ability') { // Assuming abilities have <Class>Ability</Class>
+                     category = 'abilities';
+                     subcategoryName = 'Miscellaneous Abilities';
+                 } else if (objElement.querySelector('Usable')) { // Generic usable items
+                     category = 'consumables';
+                     subcategoryName = 'Consumables';
+                 }
+            }
+
+
+            // Extract Texture File and Index for image display
+            const textureFile = objElement.querySelector('Texture File')?.textContent || 'lofiObj5'; // Default to a common texture file
+            const textureIndex = objElement.querySelector('Texture Index')?.textContent || '0x00'; // Default to 0x00
+
+
+            // Calculate image position within a 16-column sheet to generate a placeholder sprite
+            // This is a conceptual placeholder as actual sprite sheet parsing and rendering is complex.
+            // For now, we'll use a dynamic placeholder image service.
+            const indexDecimal = parseInt(textureIndex, 16);
+            const spriteRow = Math.floor(indexDecimal / 16) + 1;
+            const spriteCol = (indexDecimal % 16) + 1;
+            const spriteSize = 16; // Standard RotMG sprite size
+
+            // Placeholder image URL
+            const itemImageSrc = `https://placehold.co/${spriteSize}x${spriteSize}/333333/FFFFFF?text=${id.substring(0, 3)}`; // Placeholder with first 3 chars of ID
+
+            // If you had actual individual item icons, you would use a path like:
+            // `icons/items/${id}.png` or `icons/item_type_${typeHex}.png`
+
+            // Projectile info (if exists)
+            const projectileElement = objElement.querySelector('Projectile');
+            let projectileInfo = null;
+            if (projectileElement) {
+                projectileInfo = {
+                    objectId: projectileElement.querySelector('ObjectId')?.textContent,
+                    speed: projectileElement.querySelector('Speed')?.textContent,
+                    minDamage: projectileElement.querySelector('MinDamage')?.textContent,
+                    maxDamage: projectileElement.querySelector('MaxDamage')?.textContent,
+                    lifetimeMS: projectileElement.querySelector('LifetimeMS')?.textContent,
+                    size: projectileElement.querySelector('Size')?.textContent,
+                    conditionEffect: projectileElement.querySelector('ConditionEffect')?.textContent,
+                };
+            }
+
+
+            return {
+                id: id,
+                typeHex: typeHex, // Original Hex ID
+                description: description.replace(/\\n/g, '<br>'), // Replace \n with <br> for HTML rendering
+                slotType: slotType, // Numeric SlotType
+                category: category, // 'equipment', 'abilities', 'consumables', 'misc'
+                subcategory: subcategoryName, // 'Swords', 'Robes', 'Spells', 'Potions' etc.
+                textureFile: textureFile,
+                textureIndex: textureIndex,
+                itemImageSrc: itemImageSrc, // The generated placeholder image
+                projectileInfo: projectileInfo, // Add projectile details
+            };
+        });
+
+        console.log("Loaded Items:", allWikiItems); // Debugging
+        // Initial render of all items
+        renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
+        if (itemDisplayArea) {
+            itemDisplayArea.innerHTML = ''; // Clear loading message if successful
+        }
+
+
+    } catch (e) {
+        console.error("Failed to load or parse items.txt:", e);
+        if (itemDisplayArea) {
+            itemDisplayArea.innerHTML = '<p>Error loading items. Please ensure "items.txt" is in the correct directory and valid XML format, then try again.</p>';
+        }
+    }
+}
+
+// Function to render items on the wiki page based on filters and search
+function renderWikiItems(filterCategory, filterSubcategory, searchTerm) {
+    if (!itemDisplayArea) return;
+
+    itemDisplayArea.innerHTML = ''; // Clear previous items
+
+    let itemsToRender = allWikiItems;
+
+    // Apply main category filter
+    if (filterCategory !== 'all') {
+        itemsToRender = itemsToRender.filter(item => item.category === filterCategory);
+    }
+
+    // Apply subcategory filter
+    if (filterSubcategory && filterSubcategory !== currentCategory) { // Only filter by subcategory if one is selected and not the main 'all'
+         itemsToRender = itemsToRender.filter(item => item.subcategory === filterSubcategory);
+    }
+
+    // Apply search term filter
+    if (searchTerm !== '') {
+        const lowerCaseSearchTerm = searchTerm.toLowerCase();
+        itemsToRender = itemsToRender.filter(item =>
+            item.id.toLowerCase().includes(lowerCaseSearchTerm) ||
+            item.description.toLowerCase().includes(lowerCaseSearchTerm)
+        );
+    }
+
+    // Sort items alphabetically by ID for consistent display
+    itemsToRender.sort((a, b) => a.id.localeCompare(b.id));
+
+
+    if (itemsToRender.length === 0) {
+        itemDisplayArea.innerHTML = '<p>No items found matching your criteria. Try adjusting your filters or search term.</p>';
+        return;
+    }
+
+    itemsToRender.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'wiki-item';
+
+        let projectileDetails = '';
+        if (item.projectileInfo) {
+            projectileDetails = `
+                <p><strong>Projectile:</strong> ${item.projectileInfo.objectId || 'N/A'}</p>
+                <ul>
+                    <li>Min Damage: ${item.projectileInfo.minDamage || 'N/A'}</li>
+                    <li>Max Damage: ${item.projectileInfo.maxDamage || 'N/A'}</li>
+                    <li>Speed: ${item.projectileInfo.speed || 'N/A'}</li>
+                    <li>Lifetime: ${item.projectileInfo.lifetimeMS || 'N/A'}ms</li>
+                    ${item.projectileInfo.conditionEffect ? `<li>Effect: ${item.projectileInfo.conditionEffect}</li>` : ''}
+                </ul>
+            `;
+        }
+
+        itemElement.innerHTML = `
+            <img src="${item.itemImageSrc}" alt="${item.id}" title="${item.id}">
+            <div class="item-details">
+                <h3>${item.id}</h3>
+                <p><strong>Category:</strong> ${item.category === 'equipment' ? 'Equipment' : (item.category === 'abilities' ? 'Abilities' : (item.category === 'consumables' ? 'Consumables' : 'Miscellaneous'))}</p>
+                <p><strong>Type:</strong> ${item.subcategory}</p>
+                <p>${item.description}</p>
+                ${projectileDetails}
+            </div>
+        `;
+        itemDisplayArea.appendChild(itemElement);
+    });
+}
+
+// Function to update subcategory buttons based on the main category selected
+function updateSubcategories(selectedCategory) {
+    subcategoryButtonsContainer.innerHTML = '';
+    let subcategoriesToShow = [];
+
+    // Define subcategories based on main categories
+    if (selectedCategory === 'equipment') {
+        subcategoriesToShow = [
+            { name: 'All Equipment', filter: 'equipment-all' }, // Special filter for "all equipment"
+            { name: 'Swords', filter: 'Swords' },
+            { name: 'Daggers', filter: 'Daggers' },
+            { name: 'Bows', filter: 'Bows' },
+            { name: 'Staffs', filter: 'Staffs' },
+            { name: 'Wands', filter: 'Wands' },
+            { name: 'Katanas', filter: 'Katanas' },
+            { name: 'Heavy Weapons', filter: 'Heavy Weapons' }, // For Scythes etc.
+            { name: 'Heavy Armor', filter: 'Heavy Armor' },
+            { name: 'Light Armor', filter: 'Light Armor' },
+            { name: 'Robes', filter: 'Robes' },
+            { name: 'Rings', filter: 'Rings' },
+        ];
+    } else if (selectedCategory === 'abilities') {
+        subcategoriesToShow = [
+            { name: 'All Abilities', filter: 'abilities-all' }, // Special filter for "all abilities"
+            { name: 'Spells', filter: 'Spells' },
+            { name: 'Tomes', filter: 'Tomes' },
+            { name: 'Seals', filter: 'Seals' },
+            { name: 'Shields', filter: 'Shields' }, // RotMG shields are abilities for Knight/Paladin
+            { name: 'Poisons', filter: 'Poisons' },
+            { name: 'Cloaks', filter: 'Cloaks' },
+            { name: 'Quivers', filter: 'Quivers' },
+            { name: 'Skulls', filter: 'Skulls' },
+            { name: 'Scepters', filter: 'Scepters' },
+            { name: 'Stars', filter: 'Stars' },
+            { name: 'Lutes', filter: 'Lutes' },
+            { name: 'Traps', filter: 'Traps' },
+            { name: 'Prisms', filter: 'Prisms' },
+            { name: 'Effusions', filter: 'Effusions'},
+            { name: 'Scabbards', filter: 'Scabbards'},
+            { name: 'Orbs', filter: 'Orbs'},
+        ];
+    } else if (selectedCategory === 'consumables') {
+        subcategoriesToShow = [
+            { name: 'All Consumables', filter: 'consumables-all' },
+            { name: 'Potions', filter: 'Potions' } // If there are other types of consumables besides Potions, add them
+        ];
+    }
+
+
+    if (subcategoriesToShow.length > 0) {
+        subcategoryContainer.style.display = 'block';
+        subcategoriesToShow.forEach(sub => {
+            const button = document.createElement('button');
+            button.className = 'subcategory-button';
+            button.textContent = sub.name;
+            button.dataset.subcategory = sub.filter;
+            // Set initial active state for subcategories (e.g., if 'All Equipment' is default)
+            if (currentSubcategory === null && sub.filter.includes('-all')) {
+                 button.classList.add('active'); // Activate 'All X' button by default for its category
+                 currentSubcategory = sub.filter; // Set currentSubcategory to 'all' for the specific category
+            } else if (currentSubcategory === sub.filter) {
+                button.classList.add('active');
+            }
+
+            button.addEventListener('click', () => {
+                currentSubcategory = sub.filter;
+                // Deactivate all subcategory buttons
+                document.querySelectorAll('.subcategory-button').forEach(btn => btn.classList.remove('active'));
+                // Activate clicked button
+                button.classList.add('active');
+                renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
+            });
+            subcategoryButtonsContainer.appendChild(button);
+        });
+    } else {
+        subcategoryContainer.style.display = 'none';
+        currentSubcategory = null; // Ensure subcategory is null if no subcategories exist
+    }
+    // Handle the case where a main category without subcategories is selected
+    // or if 'all' is selected, ensure subcategory filter is cleared/managed
+    if (selectedCategory === 'all') {
+        subcategoryContainer.style.display = 'none';
+        currentSubcategory = null;
+    }
+}
+
+
 // --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', () => {
     // Load cart and credit on page load
@@ -416,21 +745,53 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartCount(); // This also loads from localStorage
 
     const isShopPage = document.body.id === 'shop-page';
+    const isWikiPage = document.body.id === 'wiki-page';
+
 
     if (isShopPage) {
         // Ensure store credit display is visible on shop page
-        if (storeCreditDisplay) storeCreditDisplay.style.display = 'inline-flex'; // Use inline-flex as per original CSS
+        if (storeCreditDisplay) storeCreditDisplay.style.display = 'inline-flex';
         // Ensure cart button is visible on shop page
-        if (cartButton) cartButton.style.display = 'inline-flex'; // Use inline-flex as per original CSS
+        if (cartButton) cartButton.style.display = 'inline-flex';
 
         renderProducts(); // Render products only on shop page
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', checkout);
+    } else if (isWikiPage) {
+        loadWikiItems(); // Load and render wiki items on wiki page
+
+        if (itemSearchBar) {
+            itemSearchBar.addEventListener('input', (event) => {
+                currentSearchTerm = event.target.value;
+                renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
+            });
+        }
+
+        if (categoryButtonsContainer) {
+            categoryButtonsContainer.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.classList.contains('category-button')) {
+                    // Deactivate all category buttons
+                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    // Activate clicked button
+                    target.classList.add('active');
+
+                    currentCategory = target.dataset.category;
+                    currentSubcategory = null; // Reset subcategory when main category changes
+                    updateSubcategories(currentCategory); // Update subcategory buttons based on new main category
+                    renderWikiItems(currentCategory, currentSubcategory, currentSearchTerm);
+                }
+            });
+        }
+        // Initial setup for subcategories based on default 'all' or actual category
+        updateSubcategories(currentCategory);
+        // Ensure 'All Items' category button is active on load
+        document.querySelector('.category-button[data-category="all"]').classList.add('active');
     } else {
         // Hide shop-specific elements on other pages
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
-        if (cartButton) cartButton.style.display = 'none'; // Hide cart button if not on shop page
+        if (cartButton) cartButton.style.display = 'none';
     }
 
     // Common modal close listeners for product details modal
@@ -447,9 +808,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cart modal specific close listeners
-    const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button') : null; // Re-get for safety
-    if (closeCartModalButton) {
-        closeCartModalButton.addEventListener('click', closeCartModal);
+    // Close button for cart modal is inside its content, so target it specifically
+    const closeCartModalButtonElement = cartModal ? cartModal.querySelector('.close-button') : null;
+    if (closeCartModalButtonElement) {
+        closeCartModalButtonElement.addEventListener('click', closeCartModal);
     }
     if (cartModal) {
         cartModal.addEventListener('click', (event) => {
