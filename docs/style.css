@@ -9,11 +9,23 @@ body {
     scroll-behavior: smooth;
 }
 
+footer {
+    background-color: #282828; /* Slightly lighter dark gray for the footer */
+    color: #f0f0f0;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    border-top: 2px solid #333; /* Slightly darker top border */
+}
+
 header {
     background-color: #222;
     color: #fff;
     padding: 20px 0;
-    text-align: center; /* This centers the inline/inline-block content like h1, h6, p */
+    text-align: center;
     border-bottom: 3px solid #333;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     position: relative; /* Essential for absolute positioning of children */
@@ -38,11 +50,11 @@ header p {
     margin-bottom: 20px;
 }
 
-/* Discord Logo in Header - FIXED POSITIONING */
+/* Discord Logo in Header */
 .discord-logo-link {
     position: absolute;
     top: 20px;
-    left: 20px; /* CORRECTED: Should be left for top-left position */
+    left: 20px; /* Aligned to the left */
     transition: transform 0.2s ease;
     z-index: 10; /* Ensure it's above other elements if needed */
 }
@@ -58,14 +70,14 @@ header p {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Navigation Container (New Background Panel) */
+/* Navigation Container */
 .nav-container {
-    background-color: #282828; /* Darker gray for the panel behind buttons */
+    background-color: #282828;
     padding: 15px 20px;
     border-radius: 10px;
-    margin-top: 20px; /* Space from slogan */
-    display: inline-block; /* Makes it wrap content and center */
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+    margin-top: 20px;
+    display: inline-block;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Navigation Bar */
@@ -76,7 +88,7 @@ nav {
 }
 
 nav .button {
-    background-color: #444; /* Dark gray default button */
+    background-color: #444;
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
@@ -84,31 +96,61 @@ nav .button {
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    min-width: 80px; /* Ensure consistent button width */
+    min-width: 80px;
     text-align: center;
 }
 
 nav .button:hover {
     background-color: #1e90ff; /* Dodger blue on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    transform: translateY(-2px);
 }
 
 nav .button.active-button {
     background-color: #ff69b4; /* Pink when selected */
-    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.5); /* Stronger shadow for active */
-    transform: translateY(-1px); /* Slightly lifted */
+    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.5);
+    transform: translateY(-1px);
 }
 
 nav .button.active-button:hover {
     background-color: #1e90ff; /* Still blue on hover, even if active */
 }
 
+/* Server Status Indicator styles */
+.server-status {
+    text-align: center;
+    margin-top: 15px; /* Space below navigation */
+    font-size: 1.1em;
+    color: #f0f0f0;
+    display: flex; /* Use flexbox for centering content */
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between text and indicator */
+    padding-bottom: 10px; /* Space above content */
+}
+
+.status-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.status-circle.online {
+    background-color: #4CAF50; /* Green */
+}
+
+.status-circle.offline {
+    background-color: #f44336; /* Red */
+}
 
 /* Main Content Area */
 main {
     padding: 40px 20px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; /* Center the main content */
 }
 
 section {
@@ -125,12 +167,12 @@ section h2 {
     text-align: center;
     margin-bottom: 25px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-    padding-bottom: 15px; /* Space for the border */
-    border-bottom: 2px solid #555; /* Dark gray divider */
-    display: block; /* Ensure border spans full width */
-    width: 80%; /* Make the border shorter than full width */
-    margin-left: auto; /* Center the border */
-    margin-right: auto; /* Center the border */
+    padding-bottom: 15px;
+    border-bottom: 2px solid #555;
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 section p {
@@ -175,11 +217,11 @@ footer {
     align-items: center;
     gap: 20px;
     margin-top: 20px;
-    width: 100%; /* Take full width to help with positioning */
-    justify-content: flex-end; /* Push content to the right */
-    padding-right: 20px; /* Add some padding from the right edge */
-    box-sizing: border-box; /* Include padding in width */
-    position: absolute; /* Position relative to the header */
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 20px;
+    box-sizing: border-box;
+    position: absolute;
     top: 20px;
     right: 20px;
 }
@@ -202,7 +244,7 @@ footer {
 }
 
 #store-credit-display #add-credit-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -218,7 +260,7 @@ footer {
 }
 
 #cart-button {
-    background-color: #1e90ff; /* Dodger blue */
+    background-color: #1e90ff;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -234,27 +276,14 @@ footer {
 }
 
 #cart-button:hover {
-    background-color: #87ceeb; /* Lighter blue on hover */
+    background-color: #87ceeb;
     transform: translateY(-2px);
 }
 
 .cart-icon-header {
     width: 24px;
     height: 24px;
-    filter: invert(1); /* Make icon white */
-}
-
-
-/* Update for #store-credit-display to fit header context */
-#store-credit-display {
-    background-color: #3a3a3a;
-    padding: 10px 20px;
-    border-radius: 8px;
-    display: inline-flex; /* Use inline-flex to keep content together */
-    align-items: center; /* Vertically align items */
-    gap: 10px; /* Space between elements */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    margin-top: 0; /* Remove default margin-top from original rule */
+    filter: invert(1);
 }
 
 /* Product Grid */
@@ -274,7 +303,7 @@ footer {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes button group to bottom */
+    justify-content: space-between;
 }
 
 .product-tile:hover {
@@ -284,8 +313,8 @@ footer {
 
 .product-tile img {
     max-width: 100%;
-    height: 120px; /* Fixed height for image consistency */
-    object-fit: contain; /* Ensures image fits without distortion */
+    height: 120px;
+    object-fit: contain;
     margin-bottom: 15px;
     border-radius: 5px;
 }
@@ -294,7 +323,7 @@ footer {
     color: #ff69b4;
     font-size: 1.5em;
     margin-bottom: 10px;
-    flex-grow: 1; /* Allows title to take available space */
+    flex-grow: 1;
 }
 
 .product-tile .price-info {
@@ -304,18 +333,18 @@ footer {
 .product-tile .current-price {
     font-size: 1.4em;
     font-weight: bold;
-    color: #4CAF50; /* Green price */
+    color: #4CAF50;
 }
 
 .product-tile .button-group {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 15px; /* Space above buttons */
+    margin-top: 15px;
 }
 
 .product-tile .add-to-cart-button {
-    background-color: #ff69b4; /* Pink */
+    background-color: #ff69b4;
     color: white;
     border: none;
     border-radius: 8px;
@@ -326,22 +355,22 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px; /* Fixed width for cart button */
-    height: 40px; /* Fixed height */
+    width: 50px;
+    height: 40px;
 }
 
 .product-tile .add-to-cart-button:hover {
-    background-color: #1e90ff; /* Dodger blue */
+    background-color: #1e90ff;
 }
 
 .product-tile .cart-icon {
     width: 20px;
     height: 20px;
-    filter: invert(1); /* Make icon white */
+    filter: invert(1);
 }
 
 .product-tile .view-details-button {
-    background-color: #1e90ff; /* Dodger blue */
+    background-color: #1e90ff;
     color: white;
     border: none;
     border-radius: 8px;
@@ -350,41 +379,40 @@ footer {
     font-size: 1em;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    flex-grow: 1; /* Allow it to take remaining space */
+    flex-grow: 1;
 }
 
 .product-tile .view-details-button:hover {
-    background-color: #ff69b4; /* Pink on hover */
+    background-color: #ff69b4;
 }
 
-
-/* --- Modal Styles (Product Details & Cart) --- */
+/* Modals */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 100; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 100;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    backdrop-filter: blur(5px); /* Frosted glass effect */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
-    background-color: #282828; /* Dark background for modal */
+    background-color: #282828;
     margin: auto;
     padding: 30px;
     border: 1px solid #444;
     border-radius: 10px;
-    width: 90%; /* Responsive width */
-    max-width: 600px; /* Max width for larger screens */
+    width: 90%;
+    max-width: 600px;
     box-shadow: 0 5px 25px rgba(0,0,0,0.7);
     position: relative;
-    animation: fadeInScale 0.3s ease-out forwards; /* Entry animation */
+    animation: fadeInScale 0.3s ease-out forwards;
 }
 
 .close-button {
@@ -400,7 +428,7 @@ footer {
 
 .close-button:hover,
 .close-button:focus {
-    color: #ff69b4; /* Pink on hover */
+    color: #ff69b4;
     text-decoration: none;
 }
 
@@ -411,7 +439,7 @@ footer {
 }
 
 .modal-body img {
-    max-width: 150px; /* Larger image in modal */
+    max-width: 150px;
     height: auto;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -431,18 +459,18 @@ footer {
 }
 
 .modal-body ul {
-    list-style-type: none; /* Remove default bullets */
+    list-style-type: none;
     padding: 0;
     margin: 20px 0;
-    text-align: left; /* Align list items left */
-    color: #87ceeb; /* Sky blue for features */
+    text-align: left;
+    color: #87ceeb;
     font-size: 1em;
-    max-height: 150px; /* Limit height for long lists */
-    overflow-y: auto; /* Add scroll if list is too long */
+    max-height: 150px;
+    overflow-y: auto;
     border: 1px solid #444;
     border-radius: 5px;
     padding: 10px;
-    background-color: #3a3a3a; /* Slightly lighter background for list */
+    background-color: #3a3a3a;
 }
 
 .modal-body ul li {
@@ -457,13 +485,13 @@ footer {
 .modal-price {
     font-size: 1.8em;
     font-weight: bold;
-    color: #4CAF50; /* Green price */
+    color: #4CAF50;
     margin-top: 20px;
     margin-bottom: 25px;
 }
 
 #modal-add-to-cart-button {
-    background-color: #ff69b4; /* Pink */
+    background-color: #ff69b4;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -476,7 +504,7 @@ footer {
 }
 
 #modal-add-to-cart-button:hover {
-    background-color: #1e90ff; /* Dodger blue */
+    background-color: #1e90ff;
     transform: translateY(-2px);
 }
 
@@ -505,7 +533,7 @@ footer {
 #cart-items {
     list-style-type: none;
     padding: 0;
-    max-height: 300px; /* Scrollable cart list */
+    max-height: 300px;
     overflow-y: auto;
     margin-bottom: 20px;
     border-top: 1px solid #444;
@@ -548,7 +576,7 @@ footer {
 }
 
 .cart-item .remove-item-button {
-    background-color: #DC3545; /* Red */
+    background-color: #DC3545;
     color: white;
     border: none;
     border-radius: 50%;
@@ -557,7 +585,7 @@ footer {
     font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    flex-shrink: 0; /* Prevent button from shrinking */
+    flex-shrink: 0;
 }
 
 .cart-item .remove-item-button:hover {
@@ -574,11 +602,11 @@ footer {
 #cart-summary p {
     font-size: 1.3em;
     font-weight: bold;
-    color: #4CAF50; /* Green total */
+    color: #4CAF50;
 }
 
 #checkout-button {
-    background-color: #ff69b4; /* Pink */
+    background-color: #ff69b4;
     color: white;
     padding: 12px 25px;
     border: none;
@@ -586,15 +614,15 @@ footer {
     cursor: pointer;
     font-size: 1.2em;
     font-weight: bold;
-    display: block; /* Make it a block element */
-    width: 100%; /* Full width */
+    display: block;
+    width: 100%;
     margin-top: 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 #checkout-button:hover {
-    background-color: #1e90ff; /* Dodger blue */
+    background-color: #1e90ff;
     transform: translateY(-2px);
 }
 
@@ -605,7 +633,7 @@ footer {
     padding: 20px;
 }
 
-/* Custom Message Box Styles (from previous iteration) */
+/* Custom Message Box Styles */
 .message-box-overlay {
     position: fixed;
     top: 0;
@@ -675,7 +703,6 @@ footer {
         font-size: 2.5em;
     }
 
-    /* nav-container for smaller screens */
     .nav-container {
         padding: 10px 15px;
         margin-left: 10px;
@@ -697,21 +724,18 @@ footer {
     }
 
     .product-grid {
-        grid-template-columns: 1fr; /* Stack products on small screens */
+        grid-template-columns: 1fr;
     }
 
     #shop-page header .header-right-container {
-        position: static; /* Remove absolute positioning on small screens */
-        top: auto;
-        right: auto;
-        flex-direction: column; /* Stack credit and cart vertically */
+        flex-direction: column;
         gap: 10px;
         padding-right: 0;
         justify-content: center;
     }
 
     #cart-button, #store-credit-display {
-        width: calc(100% - 40px); /* Adjust width to fit padding */
+        width: calc(100% - 40px);
         margin: 0 20px;
         justify-content: center;
     }
@@ -757,7 +781,7 @@ footer {
 
     .discord-logo-link {
         top: 10px;
-        left: 10px; /* Adjust for very small screens if needed */
+        left: 10px;
     }
     .discord-logo {
         width: 30px;
@@ -824,22 +848,22 @@ footer {
     border-radius: 5px;
     font-size: 0.8em;
     font-weight: bold;
-    color: #1a1a1a; /* Dark text for tags */
-    background-color: #87ceeb; /* Default tag color (light blue) */
+    color: #1a1a1a;
+    background-color: #87ceeb;
     text-transform: uppercase;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Specific tag colors */
-.item-card .item-tag.t0 { background-color: #a9a9a9; } /* DarkGray */
-.item-card .item-tag.t1 { background-color: #c0c0c0; } /* Silver */
-.item-card .item-tag.t2 { background-color: #ffd700; } /* Gold */
-.item-card .item-tag.t3 { background-color: #00bfff; } /* DeepSkyBlue */
-.item-card .item-tag.t4 { background-color: #8a2be2; } /* BlueViolet */
-.item-card .item-tag.t5 { background-color: #ff4500; } /* OrangeRed */
-/* Add more tiers as needed */
+.item-card .item-tag.t0 { background-color: #a9a9a9; }
+.item-card .item-tag.t1 { background-color: #c0c0c0; }
+.item-card .item-tag.t2 { background-color: #ffd700; }
+.item-card .item-tag.t3 { background-color: #00bfff; }
+.item-card .item-tag.t4 { background-color: #8a2be2; }
+.item-card .item-tag.t5 { background-color: #ff4500; }
 
-.item-card .item-tag.ut { background-color: #ff69b4; } /* HotPink for UT */
-.item-card .item-tag.st { background-color: #32cd32; } /* LimeGreen for ST */
-.item-card .item-tag.lg { background-color: #ff0000; } /* Red for Legendary */
-.item-card .item-tag.event { background-color: #ffa500; } /* Orange for Event */
+.item-card .item-tag.ut { background-color: #ff69b4; }
+.item-card .item-tag.st { background-color: #32cd32; }
+.item-card .item-tag.lg { background-color: #ff0000; }
+.item-card .item-tag.event { background-color: #ffa500; }
+
