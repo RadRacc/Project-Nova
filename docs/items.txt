@@ -1,99 +1,162 @@
 <Objects>
-    <Object type="0x0001" id="Basic Sword" Item="true">
-        <DisplayId>Basic Sword</DisplayId>
+    <!-- DAGGERS -->
+    <Object type="0x0040" id="Placeholder Dagger T0" Item="true">
+        <DisplayId>Crude Dagger</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>1</SlotType> <Description>A very basic sword.</Description>
-        <RateOfFire>1</RateOfFire>
-        <Sound>weapon/blunt_sword</Sound>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A very basic dagger for quick strikes.</Description>
         <MinDamage>15</MinDamage>
-        <MaxDamage>20</MaxDamage>
-    </Object>
-    <Object type="0x0002" id="Steel Sword" Item="true">
-        <DisplayId>Steel Sword</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>1</SlotType>
-        <Description>A sturdy steel sword.</Description>
-        <RateOfFire>1</RateOfFire>
-        <Sound>weapon/blunt_sword</Sound>
-        <MinDamage>30</MinDamage>
-        <MaxDamage>40</MaxDamage>
-    </Object>
-    <Object type="0x0003" id="Sword of the Swiftblade" Item="true">
-        <DisplayId>Sword of the Swiftblade</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>1</SlotType>
-        <Description>A lightweight sword that allows for quick attacks.</Description>
-        <RateOfFire>1.2</RateOfFire>
-        <Sound>weapon/blunt_sword</Sound>
-        <MinDamage>60</MinDamage>
-        <MaxDamage>80</MaxDamage>
+        <MaxDamage>25</MaxDamage>
+        <RateOfFire>1.1</RateOfFire>
     </Object>
 
-    <Object type="0x0040" id="Copper Dagger" Item="true">
-        <DisplayId>Copper Dagger</DisplayId>
+    <!-- BOWS -->
+    <Object type="0x0050" id="Placeholder Bow T0" Item="true">
+        <DisplayId>Simple Bow</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>2</SlotType> <Description>A small, swift dagger.</Description>
-        <RateOfFire>1.1</RateOfFire>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A wooden bow for ranged attacks.</Description>
         <MinDamage>20</MinDamage>
         <MaxDamage>30</MaxDamage>
-    </Object>
-    <Object type="0x0041" id="Golden Dagger" Item="true">
-        <DisplayId>Golden Dagger</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>2</SlotType>
-        <Description>A shimmering dagger, surprisingly sharp.</Description>
-        <RateOfFire>1.2</RateOfFire>
-        <MinDamage>45</MinDamage>
-        <MaxDamage>60</MaxDamage>
-    </Object>
-
-    <Object type="0x0050" id="Short Bow" Item="true">
-        <DisplayId>Short Bow</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>3</SlotType> <Description>A standard wooden bow.</Description>
-        <RateOfFire>0.8</RateOfFire>
-        <MinDamage>25</MinDamage>
-        <MaxDamage>35</MaxDamage>
-        <NumProjectiles>2</NumProjectiles>
-    </Object>
-
-    <Object type="0x0060" id="Apprentice Staff" Item="true">
-        <DisplayId>Apprentice Staff</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>8</SlotType> <Description>A simple staff for beginner spellcasters.</Description>
         <RateOfFire>0.9</RateOfFire>
-        <MinDamage>30</MinDamage>
-        <MaxDamage>45</MaxDamage>
         <NumProjectiles>1</NumProjectiles>
     </Object>
 
-    <Object type="0x0070" id="Wooden Wand" Item="true">
-        <DisplayId>Wooden Wand</DisplayId>
+    <!-- STAFFS -->
+    <Object type="0x0060" id="Placeholder Staff T0" Item="true">
+        <DisplayId>Wooden Staff</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>9</SlotType> <Description>A crude but functional wand.</Description>
+        <SlotType>8</SlotType> <!-- 8 = Staff -->
+        <Description>A basic staff for channeling magic.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>35</MaxDamage>
+        <RateOfFire>0.9</RateOfFire>
+        <NumProjectiles>1</NumProjectiles>
+    </Object>
+
+    <!-- WANDS -->
+    <Object type="0x0070" id="Placeholder Wand T0" Item="true">
+        <DisplayId>Novice Wand</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>9</SlotType> <!-- 9 = Wand -->
+        <Description>A short wand, good for precision spells.</Description>
+        <MinDamage>18</MinDamage>
+        <MaxDamage>28</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
+    </Object>
+
+    <!-- SWORDS -->
+    <Object type="0x0001" id="Placeholder Sword T0" Item="true">
+        <DisplayId>Rusty Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <!-- 1 = Sword -->
+        <Description>A weathered sword for basic combat.</Description>
         <MinDamage>20</MinDamage>
-        <MaxDamage>25</MaxDamage>
+        <MaxDamage>30</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
     </Object>
 
-    <Object type="0x0010" id="Heavy Chainmail" Item="true">
-        <DisplayId>Heavy Chainmail</DisplayId>
+    <!-- KATANAS -->
+    <Object type="0x0230" id="Placeholder Katana T0" Item="true">
+        <DisplayId>Training Katana</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>17</SlotType> <Description>Standard heavy armor made of interwoven metal rings.</Description>
-        <Defense>10</Defense>
-    </Object>
-    <Object type="0x0011" id="Plated Armor" Item="true">
-        <DisplayId>Plated Armor</DisplayId>
-        <Class>Equipment</Class>
-        <SlotType>17</SlotType>
-        <Description>Thick plates of steel offer robust protection.</Description>
-        <Defense>15</Defense>
+        <SlotType>23</SlotType> <!-- 23 = Katana -->
+        <Description>A light blade for rapid slashes.</Description>
+        <MinDamage>22</MinDamage>
+        <MaxDamage>32</MaxDamage>
+        <RateOfFire>1.2</RateOfFire>
     </Object>
 
-    <Object type="0x0020" id="Basic Magic Spell" Item="true">
-        <DisplayId>Basic Magic Spell</DisplayId>
+    <!-- CLOAKS -->
+    <Object type="0x0280" id="Placeholder Cloak T0" Item="true">
+        <DisplayId>Faded Cloak</DisplayId>
         <Class>Ability</Class>
-        <SlotType>36</SlotType> <Description>A simple spell that shoots a magic bolt.</Description>
+        <SlotType>28</SlotType> <!-- 28 = Cloak (Rogue) -->
+        <Description>Grants temporary invisibility to the wearer.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Invisible" duration="3"/>
+        </Activate>
+    </Object>
+
+    <!-- POISONS -->
+    <Object type="0x0310" id="Placeholder Poison T0" Item="true">
+        <DisplayId>Basic Poison Vial</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>31</SlotType> <!-- 31 = Poison (Assassin) -->
+        <Description>A simple concoction that inflicts damage over time.</Description>
+        <MPCost>60</MPCost>
+        <Projectile>
+            <ObjectId>PoisonCloud</ObjectId>
+            <Speed>80</Speed>
+            <MinDamage>50</MinDamage>
+            <MaxDamage>50</MaxDamage>
+            <LifetimeMS>1000</LifetimeMS>
+            <ConditionEffect effect="Poisoned" duration="3"/>
+        </Projectile>
+    </Object>
+
+    <!-- PRISMS -->
+    <Object type="0x0400" id="Placeholder Prism T0" Item="true">
+        <DisplayId>Warped Prism</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>40</SlotType> <!-- 40 = Prism (Trickster) -->
+        <Description>Teleports the user a short distance and leaves a decoy.</Description>
+        <MPCost>80</MPCost>
+        <Activate>
+            <Teleport/>
+            <Decoy duration="4"/>
+        </Activate>
+    </Object>
+
+    <!-- QUIVERS -->
+    <Object type="0x0250" id="Placeholder Quiver T0" Item="true">
+        <DisplayId>Leather Quiver</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>25</SlotType> <!-- 25 = Quiver (Archer) -->
+        <Description>Launches a single arrow at range.</Description>
+        <MPCost>60</MPCost>
+        <Projectile>
+            <ObjectId>Arrow</ObjectId>
+            <Speed>120</Speed>
+            <MinDamage>80</MinDamage>
+            <MaxDamage>120</MaxDamage>
+            <LifetimeMS>800</LifetimeMS>
+        </Projectile>
+    </Object>
+
+    <!-- TRAPS -->
+    <Object type="0x0290" id="Placeholder Trap T0" Item="true">
+        <DisplayId>Simple Trap</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>29</SlotType> <!-- 29 = Trap (Huntress) -->
+        <Description>Lays a trap that damages and slows enemies.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Slowed" duration="3"/>
+            <Radius>2</Radius>
+        </Activate>
+    </Object>
+
+    <!-- LUTES -->
+    <Object type="0x0420" id="Placeholder Lute T0" Item="true">
+        <DisplayId>Traveler's Lute</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>42</SlotType> <!-- 42 = Lute (Bard) -->
+        <Description>Plays a melody that inspires allies.</Description>
+        <MPCost>75</MPCost>
+        <Activate>
+            <ConditionEffect effect="Inspired" duration="3"/>
+            <Radius>4</Radius>
+        </Activate>
+    </Object>
+
+    <!-- SPELLS -->
+    <Object type="0x0360" id="Placeholder Spell T0" Item="true">
+        <DisplayId>Basic Spell</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>36</SlotType> <!-- 36 = Spell (Wizard) -->
+        <Description>Casts a magical bolt at an enemy.</Description>
         <MPCost>50</MPCost>
         <Projectile>
             <ObjectId>MagicBolt</ObjectId>
@@ -103,110 +166,26 @@
             <LifetimeMS>1000</LifetimeMS>
         </Projectile>
     </Object>
-    <Object type="0x0021" id="Fire Nova Spell" Item="true">
-        <DisplayId>Fire Nova Spell</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>36</SlotType>
-        <Description>Unleashes a burst of flames around the caster.</Description>
-        <MPCost>80</MPCost>
-        <Projectile>
-            <ObjectId>FireBomb</ObjectId>
-            <Speed>80</Speed>
-            <MinDamage>120</MinDamage>
-            <MaxDamage>180</MaxDamage>
-            <LifetimeMS>800</LifetimeMS>
-            <Boomerang/>
-        </Projectile>
-    </Object>
 
-    <Object type="0x0080" id="Iron Helm" Item="true">
-        <DisplayId>Iron Helm</DisplayId>
+    <!-- SKULLS -->
+    <Object type="0x0340" id="Placeholder Skull T0" Item="true">
+        <DisplayId>Withered Skull</DisplayId>
         <Class>Ability</Class>
-        <SlotType>24</SlotType> <Description>A basic helm that temporarily boosts attack.</Description>
-        <MPCost>70</MPCost>
-        <Activate>
-            <ConditionEffect effect="Armored" duration="3"/>
-        </Activate>
-    </Object>
-
-    <Object type="0x0090" id="Leather Quiver" Item="true">
-        <DisplayId>Leather Quiver</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>25</SlotType> <Description>A standard quiver that fires an arrow.</Description>
+        <SlotType>34</SlotType> <!-- 34 = Skull (Necromancer) -->
+        <Description>Siphons life from nearby foes to heal the caster.</Description>
         <MPCost>60</MPCost>
-        <Projectile>
-            <ObjectId>Arrow</ObjectId>
-            <Speed>120</Speed>
-            <MinDamage>100</MinDamage>
-            <MaxDamage>150</MaxDamage>
-            <LifetimeMS>800</LifetimeMS>
-        </Projectile>
-    </Object>
-
-    <Object type="0x00A0" id="Holy Tome" Item="true">
-        <DisplayId>Holy Tome</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>26</SlotType> <Description>Heals nearby allies.</Description>
-        <MPCost>80</MPCost>
         <Activate>
-            <Heal>100</Heal>
+            <Heal>50</Heal>
             <Radius>3</Radius>
         </Activate>
     </Object>
 
-    <Object type="0x00B0" id="Wooden Shield" Item="true">
-        <DisplayId>Wooden Shield</DisplayId>
+    <!-- ORBS -->
+    <Object type="0x0300" id="Placeholder Orb T0" Item="true">
+        <DisplayId>Cracked Orb</DisplayId>
         <Class>Ability</Class>
-        <SlotType>27</SlotType> <Description>A sturdy wooden shield that can stun enemies.</Description>
-        <MPCost>75</MPCost>
-        <Activate>
-            <ConditionEffect effect="Stunned" duration="1.5"/>
-            <Radius>2</Radius>
-        </Activate>
-    </Object>
-
-    <Object type="0x00C0" id="Simple Cloak" Item="true">
-        <DisplayId>Simple Cloak</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>28</SlotType> <Description>Grants brief invisibility.</Description>
-        <MPCost>70</MPCost>
-        <Activate>
-            <ConditionEffect effect="Invisible" duration="3"/>
-        </Activate>
-    </Object>
-
-    <Object type="0x00D0" id="Weak Poison" Item="true">
-        <DisplayId>Weak Poison</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>31</SlotType> <Description>A small vial of poison that deals damage over time.</Description>
-        <MPCost>60</MPCost>
-        <ThrowTime>0.5</ThrowTime>
-        <Projectile>
-            <ObjectId>PoisonBlast</ObjectId>
-            <Speed>80</Speed>
-            <MinDamage>100</MinDamage>
-            <MaxDamage>100</MaxDamage>
-            <LifetimeMS>1000</LifetimeMS>
-            <ConditionEffect effect="Poisoned" duration="3"/>
-        </Projectile>
-    </Object>
-
-    <Object type="0x00E0" id="Basic Seal" Item="true">
-        <DisplayId>Basic Seal</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>35</SlotType> <Description>A holy seal that provides a temporary healing aura.</Description>
-        <MPCost>90</MPCost>
-        <Activate>
-            <Heal>80</Heal>
-            <Radius>4</Radius>
-            <ConditionEffect effect="Healing" duration="3"/>
-        </Activate>
-    </Object>
-
-    <Object type="0x00F0" id="Enchanted Orb" Item="true">
-        <DisplayId>Enchanted Orb</DisplayId>
-        <Class>Ability</Class>
-        <SlotType>30</SlotType> <Description>Hypnotizes enemies in a small area.</Description>
+        <SlotType>30</SlotType> <!-- 30 = Orb (Mystic) -->
+        <Description>Dazes enemies in an area.</Description>
         <MPCost>70</MPCost>
         <Activate>
             <ConditionEffect effect="Dazed" duration="2"/>
@@ -214,13 +193,28 @@
         </Activate>
     </Object>
 
-    <Object type="0x0100" id="Lightning Scepter" Item="true">
-        <DisplayId>Lightning Scepter</DisplayId>
+    <!-- TOMES -->
+    <Object type="0x0260" id="Placeholder Tome T0" Item="true">
+        <DisplayId>Old Tome</DisplayId>
         <Class>Ability</Class>
-        <SlotType>32</SlotType> <Description>Fires a chain of lightning that zaps multiple enemies.</Description>
+        <SlotType>26</SlotType> <!-- 26 = Tome (Priest) -->
+        <Description>Heals self and allies in a small radius.</Description>
+        <MPCost>80</MPCost>
+        <Activate>
+            <Heal>100</Heal>
+            <Radius>3</Radius>
+        </Activate>
+    </Object>
+
+    <!-- SCEPTERS -->
+    <Object type="0x0320" id="Placeholder Scepter T0" Item="true">
+        <DisplayId>Flickering Scepter</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>32</SlotType> <!-- 32 = Scepter (Sorcerer) -->
+        <Description>Channels a bolt of lightning that chains to enemies.</Description>
         <MPCost>85</MPCost>
         <Projectile>
-            <ObjectId>LightningBolt</ObjectId>
+            <ObjectId>Lightning</ObjectId>
             <Speed>100</Speed>
             <MinDamage>80</MinDamage>
             <MaxDamage>120</MaxDamage>
@@ -229,44 +223,132 @@
         </Projectile>
     </Object>
 
-    <Object type="0x0110" id="Bone Skull" Item="true">
-        <DisplayId>Bone Skull</DisplayId>
+    <!-- MACES -->
+    <Object type="0x0450" id="Placeholder Mace T0" Item="true">
+        <DisplayId>Crude Mace</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>45</SlotType> <!-- 45 = Mace (Kensei) -->
+        <Description>A heavy, blunt weapon.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>40</MaxDamage>
+        <RateOfFire>0.8</RateOfFire>
+    </Object>
+
+    <!-- HELMETS -->
+    <Object type="0x0240" id="Placeholder Helmet T0" Item="true">
+        <DisplayId>Rusty Helmet</DisplayId>
         <Class>Ability</Class>
-        <SlotType>34</SlotType> <Description>Consumes fallen enemies to heal and curse others.</Description>
+        <SlotType>24</SlotType> <!-- 24 = Helm (Warrior) -->
+        <Description>Temporarily boosts the wearer's attack power.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Damaging" duration="3"/>
+        </Activate>
+    </Object>
+
+    <!-- SHIELDS -->
+    <Object type="0x0270" id="Placeholder Shield T0" Item="true">
+        <DisplayId>Wooden Shield</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>27</SlotType> <!-- 27 = Shield (Knight) -->
+        <Description>Blocks incoming attacks and can stun enemies.</Description>
+        <MPCost>75</MPCost>
+        <Activate>
+            <ConditionEffect effect="Stunned" duration="1.5"/>
+            <Radius>2</Radius>
+        </Activate>
+    </Object>
+
+    <!-- SEALS -->
+    <Object type="0x0350" id="Placeholder Seal T0" Item="true">
+        <DisplayId>Cracked Seal</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>35</SlotType> <!-- 35 = Seal (Paladin) -->
+        <Description>A holy relic that grants a healing aura.</Description>
+        <MPCost>90</MPCost>
+        <Activate>
+            <Heal>80</Heal>
+            <Radius>4</Radius>
+            <ConditionEffect effect="Healing" duration="3"/>
+        </Activate>
+    </Object>
+
+    <!-- SHURIKEN -->
+    <Object type="0x0410" id="Placeholder Shuriken T0" Item="true">
+        <DisplayId>Basic Shuriken</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>41</SlotType> <!-- 41 = Shuriken (Ninja) -->
+        <Description>Throws a fast projectile that pierces enemies.</Description>
         <MPCost>60</MPCost>
-        <Activate>
-            <Heal>50</Heal>
-            <Radius>3</Radius>
-            <ConditionEffect effect="Cursed" duration="2"/>
-        </Activate>
+        <Projectile>
+            <ObjectId>NinjaStar</ObjectId>
+            <Speed>150</Speed>
+            <MinDamage>50</MinDamage>
+            <MaxDamage>70</MaxDamage>
+            <LifetimeMS>600</LifetimeMS>
+            <PassesCover/>
+        </Projectile>
     </Object>
 
-    <Object type="0x0120" id="Reflecting Prism" Item="true">
-        <DisplayId>Reflecting Prism</DisplayId>
+    <!-- WAKIZASHI -->
+    <Object type="0x0430" id="Placeholder Wakizashi T0" Item="true">
+        <DisplayId>Training Wakizashi</DisplayId>
         <Class>Ability</Class>
-        <SlotType>40</SlotType> <Description>Teleports the user and leaves behind a decoy.</Description>
-        <MPCost>80</MPCost>
+        <SlotType>43</SlotType> <!-- 43 = Wakizashi (Samurai) -->
+        <Description>A short blade for quick, close-range attacks.</Description>
+        <MPCost>65</MPCost>
         <Activate>
-            <Teleport/>
-            <Decoy duration="4"/>
+            <ConditionEffect effect="Exposed" duration="2"/>
+            <Radius>2</Radius>
         </Activate>
     </Object>
 
-    <Object type="0x0030" id="Ring of Health" Item="true">
-        <DisplayId>Ring of Health</DisplayId>
+    <!-- SHEATHS -->
+    <Object type="0x0440" id="Placeholder Sheath T0" Item="true">
+        <DisplayId>Simple Sheath</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>44</SlotType> <!-- 44 = Sheath (Summoner) -->
+        <Description>Summons a temporary minion to fight by your side.</Description>
+        <MPCost>100</MPCost>
+        <Activate>
+            <Summon type="0x0001" duration="5"/> <!-- Placeholder minion type -->
+        </Activate>
+    </Object>
+
+    <!-- LIGHT ARMOR (Leather Armor) -->
+    <Object type="0x0180" id="Placeholder Light Armor T0" Item="true">
+        <DisplayId>Tattered Leather Armor</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>20</SlotType> <Description>A simple ring that slightly increases your maximum health.</Description>
-        <ActivateOnEquip stat="21">50</ActivateOnEquip> </Object>
-    <Object type="0x0031" id="Ring of Mana" Item="true">
-        <DisplayId>Ring of Mana</DisplayId>
+        <SlotType>18</SlotType> <!-- 18 = Light Armor -->
+        <Description>Lightweight armor for quick movement.</Description>
+        <Defense>5</Defense>
+    </Object>
+
+    <!-- ROBES -->
+    <Object type="0x0190" id="Placeholder Robe T0" Item="true">
+        <DisplayId>Simple Robe</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>20</SlotType>
-        <Description>A simple ring that slightly increases your maximum mana.</Description>
-        <ActivateOnEquip stat="22">50</ActivateOnEquip> </Object>
-    <Object type="0x0032" id="Ring of Attack" Item="true">
-        <DisplayId>Ring of Attack</DisplayId>
+        <SlotType>19</SlotType> <!-- 19 = Robe -->
+        <Description>A basic robe for magical defense.</Description>
+        <Defense>3</Defense>
+    </Object>
+
+    <!-- HEAVY ARMOR (Plate Armor) -->
+    <Object type="0x0170" id="Placeholder Heavy Armor T0" Item="true">
+        <DisplayId>Iron Plate Armor</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>20</SlotType>
-        <Description>This ring provides a small boost to your attack power.</Description>
-        <ActivateOnEquip stat="20">3</ActivateOnEquip> </Object>
+        <SlotType>17</SlotType> <!-- 17 = Heavy Armor -->
+        <Description>Durable armor for maximum protection.</Description>
+        <Defense>10</Defense>
+    </Object>
+
+    <!-- RINGS -->
+    <Object type="0x0200" id="Placeholder Ring T0" Item="true">
+        <DisplayId>Simple Ring</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>20</SlotType> <!-- 20 = Ring -->
+        <Description>A basic ring with a minor stat boost.</Description>
+        <ActivateOnEquip stat="21">10</ActivateOnEquip> <!-- Example: +10 Max HP -->
+    </Object>
+
 </Objects>
