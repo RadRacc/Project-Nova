@@ -141,9 +141,12 @@
                 <a href="howtoplay.html" class="button active-button">How to Play</a>
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
+                <!-- Assuming you have these pages, if not, remove or adjust -->
                 <a href="wiki.html" class="button">Wiki</a>
+                <a href="links.html" class="button">Links</a>
             </nav>
         </div>
+        <!-- Server Status Indicator -->
         <div class="server-status">
             Server Status: <span id="server-status-text">Checking...</span> <span id="server-status-circle" class="status-circle"></span>
         </div>
@@ -157,15 +160,15 @@
             <div class="download-grid">
                 <section class="download-section" id="download-launcher">
                     <h2>Download Launcher</h2>
-                    <p>Get our official Project Nova Launcher to easily install, update, and manage your game client. The launcher ensures you always have the latest version of the game. Requires .NET 8.0.</p>
-                    <a href="https://github.com/RadRacc/Project-Nova/raw/refs/heads/main/ProjectNovaLauncher.zip" class="download-button">Download Launcher Now!</a>
+                    <p>Get our official Project Nova Launcher to easily install, update, and manage your game client. The launcher ensures you always have the latest version of the game.</p>
+                    <a href="#" class="download-button">Download Launcher Now!</a>
                     <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Current Version: 1.0.0)</p>
                 </section>
 
                 <section class="download-section" id="download-client">
                     <h2>Download Client</h2>
-                    <p>If you prefer a direct download or are having issues with the launcher, you can download the standalone game client here. Note that updates will need to be applied manually. Requires Flashplayer32.</p>
-                    <a href="https://github.com/RadRacc/Project-Nova/raw/refs/heads/main/WebMain.swf" class="download-button">Download Client Only</a>
+                    <p>If you prefer a direct download or are having issues with the launcher, you can download the standalone game client here. Note that updates will need to be applied manually.</p>
+                    <a href="#" class="download-button">Download Client Only</a>
                     <p style="font-size: 0.9em; margin-top: 15px; color: #bbb;">(Client Version: 1.0.0)</p>
                 </section>
             </div>
@@ -201,17 +204,19 @@
                 const isServerOnline = Math.random() < 0.8; // 80% chance of being online for demo
 
                 if (isServerOnline) {
-                    serverStatusText.textContent = 'Online';
-                    serverStatusCircle.classList.remove('offline');
-                    serverStatusCircle.classList.add('online');
+                    if (serverStatusText) serverStatusText.textContent = 'Online';
+                    if (serverStatusCircle) {
+                        serverStatusCircle.classList.remove('offline');
+                        serverStatusCircle.classList.add('online');
+                    }
                 } else {
-                    serverStatusText.textContent = 'Down';
-                    serverStatusCircle.classList.remove('online');
-                    serverStatusCircle.classList.add('offline');
+                    if (serverStatusText) serverStatusText.textContent = 'Down';
+                    if (serverStatusCircle) {
+                        serverStatusCircle.classList.remove('online');
+                        serverStatusCircle.classList.add('offline');
+                    }
                 }
             }
-
-            // Initial status update
             updateServerStatus();
             // Optional: Update status periodically (e.g., every minute)
             // setInterval(updateServerStatus, 60000); // Uncomment for real-time updates
