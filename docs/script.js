@@ -203,8 +203,6 @@ const itemTypeLinks = document.querySelectorAll('#item-type-list a');
 // How to Play specific elements (for server status)
 const serverStatusText = document.getElementById('server-status-text');
 const serverStatusCircle = document.getElementById('server-status-circle');
-const serverStatusDropdown = document.getElementById('server-status-select');
-const setServerStatusButton = document.getElementById('set-server-status-button');
 
 
 // --- FUNCTIONS ---
@@ -341,7 +339,7 @@ function closeProductModal() {
     }
 }
 
-// Updates the cart item count in the header and saves cart to local storage
+// Updates the cart item count in the header and saves to local storage
 function updateCartCount() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     if (cartItemCountSpan) {
@@ -629,34 +627,35 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         itemCard.innerHTML = `
             <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
             <h3>${item.DisplayId || item.id}</h3>
-            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <!-- Display the tag with dynamic class for styling -->
-            <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
+            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
             <p><strong>Description:</strong> ${item.Description || 'No description provided.'}</p>
             ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
             ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
             ${item.MPCost ? `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>` : ''}
             ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
             ${item.StatBoost ? `<p><strong>Stat Boost:</strong> <span>${item.StatBoost}</span></p>` : ''}
-            <!-- Add more item properties as needed based on your XML structure -->
-        `;
+            `;
         itemDisplayArea.appendChild(itemCard);
     });
 }
 
 
 // --- How to Play Page Specific Functions (Server Status) ---
-function updateServerStatus(status) {
+function updateServerStatus() {
     if (serverStatusText && serverStatusCircle) {
-        if (status === 'Online') {
+        // Read the status directly from a data attribute on the body or a specific container
+        const currentStatus = document.body.dataset.serverStatus || 'Checking...'; // Default to 'Checking...' if attribute not found
+
+        if (currentStatus === 'Online') {
             serverStatusText.textContent = 'Online';
             serverStatusCircle.classList.remove('offline');
             serverStatusCircle.classList.add('online');
-        } else if (status === 'Down') {
+        } else if (currentStatus === 'Down') {
             serverStatusText.textContent = 'Down';
             serverStatusCircle.classList.remove('online');
             serverStatusCircle.classList.add('offline');
         } else {
-            // Default or 'Checking...' state
+            // Handles 'Checking...' or any other unexpected value
             serverStatusText.textContent = 'Checking...';
             serverStatusCircle.classList.remove('online', 'offline');
         }
@@ -726,15 +725,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // How to Play page specific logic (for server status)
     if (isHowToPlayPage) {
-        // Initial status set to 'Checking...' or from a default
-        updateServerStatus('Checking...');
-
-        if (setServerStatusButton && serverStatusDropdown) {
-            setServerStatusButton.addEventListener('click', () => {
-                const selectedStatus = serverStatusDropdown.value;
-                updateServerStatus(selectedStatus);
-            });
-        }
+        // Call updateServerStatus once to read the hardcoded status
+        updateServerStatus();
     }
 
 
