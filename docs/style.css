@@ -9,18 +9,6 @@ body {
     scroll-behavior: smooth;
 }
 
-footer {
-    background-color: #282828; /* Slightly lighter dark gray for the footer */
-    color: #f0f0f0;
-    text-align: center;
-    padding: 20px 0;
-    position: relative; /* Changed from fixed to relative for standard flow */
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-    border-top: 2px solid #333; /* Slightly darker top border */
-}
-
 header {
     background-color: #222;
     color: #fff;
@@ -54,7 +42,7 @@ header p {
 .discord-logo-link {
     position: absolute;
     top: 20px;
-    left: 20px; /* Changed to left for consistent placement */
+    right: 20px;
     transition: transform 0.2s ease;
 }
 
@@ -84,10 +72,11 @@ nav {
     display: flex;
     justify-content: center;
     gap: 20px;
+    /* margin-top: 20px; REMOVED as it's now part of nav-container */
 }
 
 nav .button {
-    background-color: #444; /* Default button color */
+    background-color: #444; /* Dark gray default button */
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -98,7 +87,7 @@ nav .button {
 }
 
 /* Specific hover for non-active navigation buttons */
-nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
+nav .button:not(.active-button):hover { /* Use active-button for consistency */
     background-color: #007bff; /* Blue hover for non-active nav buttons */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
@@ -107,24 +96,24 @@ nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
 
 /* Active Navigation Button */
 /* Add news-page and wiki-page to the active selectors */
-#home-page nav a[href="index.html"],
-#about-page nav a[href="about.html"],
-#howtoplay-page nav a[href="howtoplay.html"],
-#shop-page nav a[href="shop.html"],
-#news-page nav a[href="newsWeb.html"],
-#wiki-page nav a[href="wiki.html"] { /* NEW: for newsWeb.html and wiki.html */
+#home-page nav a[href="index.html"].active-button,
+#about-page nav a[href="about.html"].active-button,
+#howtoplay-page nav a[href="howtoplay.html"].active-button,
+#shop-page nav a[href="shop.html"].active-button,
+#news-page nav a[href="newsWeb.html"].active-button, /* For newsWeb.html */
+#wiki-page nav a[href="wiki.html"].active-button { /* For wiki.html */
     background-color: #ff69b4; /* Active button color - Pink */
     color: white;
     box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
 }
 
 /* Specific hover for ACTIVE navigation buttons */
-#home-page nav a[href="index.html"].active:hover,
-#about-page nav a[href="about.html"].active:hover,
-#howtoplay-page nav a[href="howtoplay.html"].active:hover,
-#shop-page nav a[href="shop.html"].active:hover,
-#news-page nav a[href="newsWeb.html"].active:hover,
-#wiki-page nav a[href="wiki.html"].active:hover { /* NEW: for newsWeb.html and wiki.html */
+#home-page nav a[href="index.html"].active-button:hover,
+#about-page nav a[href="about.html"].active-button:hover,
+#howtoplay-page nav a[href="howtoplay.html"].active-button:hover,
+#shop-page nav a[href="shop.html"].active-button:hover,
+#news-page nav a[href="newsWeb.html"].active-button:hover,
+#wiki-page nav a[href="wiki.html"].active-button:hover {
     background-color: #007bff; /* Blue hover for active nav buttons */
 }
 
@@ -840,6 +829,14 @@ main a:visited {
     transition: transform 0.2s ease-in-out;
 }
 
+.discord-logo-link {
+    position: absolute; /* Position relative to the header */
+    top: 20px; /* Adjust as needed for vertical alignment */
+    left: 20px; /* Adjust as needed for horizontal alignment */
+    z-index: 1000; /* Ensure it's above other content */
+    display: block; /* Make sure the link behaves like a block */
+}
+
 /* --- News Page Specific Styles (NEW ADDITIONS) --- */
 /* These styles are extracted from your original news.html's inline <style> */
 
@@ -895,7 +892,7 @@ body#news-page {
 }
 .news-item p {
     margin-bottom: 15px;
-    word-wrap: break-word;
+    word-wrap: break-word; /* Ensure text wraps */
 }
 .news-item ul {
     list-style-type: disc;
