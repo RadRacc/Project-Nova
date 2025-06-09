@@ -87,7 +87,7 @@ nav {
 }
 
 nav .button {
-    background-color: #444; /* Dark gray default button */
+    background-color: #444; /* Default button color */
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -106,12 +106,13 @@ nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
 
 
 /* Active Navigation Button */
-/* Add news-page to the active selectors */
+/* Add news-page and wiki-page to the active selectors */
 #home-page nav a[href="index.html"],
 #about-page nav a[href="about.html"],
 #howtoplay-page nav a[href="howtoplay.html"],
 #shop-page nav a[href="shop.html"],
-#news-page nav a[href="newsWeb.html"] { /* NEW: for newsWeb.html */
+#news-page nav a[href="newsWeb.html"],
+#wiki-page nav a[href="wiki.html"] { /* NEW: for newsWeb.html and wiki.html */
     background-color: #ff69b4; /* Active button color - Pink */
     color: white;
     box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
@@ -122,7 +123,8 @@ nav .button:not(.active):hover { /* Add :not(.active) for higher specificity */
 #about-page nav a[href="about.html"].active:hover,
 #howtoplay-page nav a[href="howtoplay.html"].active:hover,
 #shop-page nav a[href="shop.html"].active:hover,
-#news-page nav a[href="newsWeb.html"].active:hover { /* NEW: for newsWeb.html */
+#news-page nav a[href="newsWeb.html"].active:hover,
+#wiki-page nav a[href="wiki.html"].active:hover { /* NEW: for newsWeb.html and wiki.html */
     background-color: #007bff; /* Blue hover for active nav buttons */
 }
 
