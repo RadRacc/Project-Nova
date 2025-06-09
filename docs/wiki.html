@@ -8,7 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Specific styles for the Wiki page */
-        #wiki-page header .nav-container nav a[href="wiki.html"] {
+        /*
+            The rule below ensures the 'Wiki' button in the navigation is active
+            when on the wiki page. Note the general nav button active styling is
+            in style.css now with the .active-button class.
+        */
+        #wiki-page nav a[href="wiki.html"] {
             background-color: #ff69b4; /* Active button color */
             box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
         }
@@ -62,7 +67,7 @@
         }
 
         .wiki-category-card h3 {
-            color: #87ceeb; /* Sky blue for category titles */
+            color: #87ceeb; /* Sky blue for category titles - intentionally different from main h2 */
             font-size: 1.8em;
             margin-top: 0;
             margin-bottom: 15px;
@@ -111,7 +116,7 @@
                 <a href="howtoplay.html" class="button">How to Play</a>
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
-                <a href="wiki.html" class="button active">Wiki</a> <!-- NEW WIKI BUTTON active -->
+                <a href="wiki.html" class="button active-button">Wiki</a> <!-- NEW WIKI BUTTON active -->
             </nav>
         </div>
     </header>
@@ -130,6 +135,7 @@
                         <li><a href="#armor-section">Armor</a></li>
                         <li><a href="#weapons-section">Weapons</a></li>
                         <li><a href="#abilities-section">Abilities</a></li>
+                        <li><a href="#rings-section">Rings</a></li>
                         <!-- Add more item categories here -->
                     </ul>
                 </div>
@@ -215,26 +221,13 @@
                     <div class="wiki-category-card">
                         <h3>Rings</h3>
                         <ul>
-                            <li><a href="#hp-rings">HP Rings</a></li>
-                            <li><a href="#mp-rings">MP Rings</a></li>
-                            <li><a href="#stat-rings">Stat Rings</a></li>
-                            <li><a href="#utility-rings">Utility Rings</a></li>
-                        </ul>
-                    </div>
-                    <div class="wiki-category-card">
-                        <h3>Pet Abilities</h3>
-                        <ul>
-                            <li><a href="#heal">Heal</a></li>
-                            <li><a href="#magic-heal">Magic Heal</a></li>
-                            <li><a href="#electric">Electric</a></li>
-                            <li><a href="#savage">Savage</a></li>
-                            <li><a href="#draining">Draining</a></li>
+                            <li><a href="#rings">All Rings</a></li>
                         </ul>
                     </div>
                 </div>
             </section>
 
-            <!-- Example section for a specific item page structure -->
+            <!-- Example section for a specific item page structure (hidden by default) -->
             <section id="short-sword-item" style="display:none;">
                 <h2>Short Sword</h2>
                 <div class="item-details-content">
@@ -294,12 +287,22 @@
             const currentPage = window.location.pathname.split('/').pop();
             const navButtons = document.querySelectorAll('nav .button');
             navButtons.forEach(button => {
-                if (button.getAttribute('href') === currentPage) {
-                    button.classList.add('active');
+                // Use .active-button for consistency with the updated style.css
+                if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
+                    button.classList.add('active-button');
                 } else {
-                    button.classList.remove('active');
+                    button.classList.remove('active-button');
                 }
             });
+
+            // Load wiki items using the script.js function
+            // Ensure this is called AFTER the main DOMContentLoaded setup
+            // to avoid conflicts if script.js itself handles DOMContentLoaded
+            if (typeof loadWikiItems === 'function') {
+                loadWikiItems();
+            } else {
+                console.warn("loadWikiItems function not found. Ensure script.js is loaded correctly.");
+            }
         });
     </script>
 </body>
