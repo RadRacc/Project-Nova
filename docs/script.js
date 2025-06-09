@@ -327,6 +327,7 @@ function openProductModal(productId) {
         }
 
         productDetailsModal.style.display = 'flex'; // Show the modal
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
     } else {
         console.error("Failed to open product modal or product not found:", productId);
     }
@@ -336,6 +337,7 @@ function openProductModal(productId) {
 function closeProductModal() {
     if (productDetailsModal) {
         productDetailsModal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore background scroll
     }
 }
 
@@ -397,7 +399,8 @@ function renderCartItems() {
 
     if (cart.length === 0) {
         cartItemsList.innerHTML = '<li class="empty-cart-message">Your cart is empty.</li>';
-    } else {
+    }
+    else {
         cart.forEach(item => {
             const listItem = document.createElement('li');
             listItem.className = 'cart-item';
@@ -429,6 +432,7 @@ function openCartModal() {
     if (cartModal) {
         renderCartItems(); // Render items before opening
         cartModal.style.display = 'flex'; // Use flex for centering
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
     }
 }
 
@@ -436,6 +440,7 @@ function openCartModal() {
 function closeCartModal() {
     if (cartModal) {
         cartModal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore background scroll
     }
 }
 
