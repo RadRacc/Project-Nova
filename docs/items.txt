@@ -1,0 +1,272 @@
+<Objects>
+    <Object type="0x0001" id="Basic Sword" Item="true">
+        <DisplayId>Basic Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <Description>A very basic sword.</Description>
+        <RateOfFire>1</RateOfFire>
+        <Sound>weapon/blunt_sword</Sound>
+        <MinDamage>15</MinDamage>
+        <MaxDamage>20</MaxDamage>
+    </Object>
+    <Object type="0x0002" id="Steel Sword" Item="true">
+        <DisplayId>Steel Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType>
+        <Description>A sturdy steel sword.</Description>
+        <RateOfFire>1</RateOfFire>
+        <Sound>weapon/blunt_sword</Sound>
+        <MinDamage>30</MinDamage>
+        <MaxDamage>40</MaxDamage>
+    </Object>
+    <Object type="0x0003" id="Sword of the Swiftblade" Item="true">
+        <DisplayId>Sword of the Swiftblade</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType>
+        <Description>A lightweight sword that allows for quick attacks.</Description>
+        <RateOfFire>1.2</RateOfFire>
+        <Sound>weapon/blunt_sword</Sound>
+        <MinDamage>60</MinDamage>
+        <MaxDamage>80</MaxDamage>
+    </Object>
+
+    <Object type="0x0040" id="Copper Dagger" Item="true">
+        <DisplayId>Copper Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <Description>A small, swift dagger.</Description>
+        <RateOfFire>1.1</RateOfFire>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>30</MaxDamage>
+    </Object>
+    <Object type="0x0041" id="Golden Dagger" Item="true">
+        <DisplayId>Golden Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType>
+        <Description>A shimmering dagger, surprisingly sharp.</Description>
+        <RateOfFire>1.2</RateOfFire>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>60</MaxDamage>
+    </Object>
+
+    <Object type="0x0050" id="Short Bow" Item="true">
+        <DisplayId>Short Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <Description>A standard wooden bow.</Description>
+        <RateOfFire>0.8</RateOfFire>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>35</MaxDamage>
+        <NumProjectiles>2</NumProjectiles>
+    </Object>
+
+    <Object type="0x0060" id="Apprentice Staff" Item="true">
+        <DisplayId>Apprentice Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>8</SlotType> <Description>A simple staff for beginner spellcasters.</Description>
+        <RateOfFire>0.9</RateOfFire>
+        <MinDamage>30</MinDamage>
+        <MaxDamage>45</MaxDamage>
+        <NumProjectiles>1</NumProjectiles>
+    </Object>
+
+    <Object type="0x0070" id="Wooden Wand" Item="true">
+        <DisplayId>Wooden Wand</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>9</SlotType> <Description>A crude but functional wand.</Description>
+        <RateOfFire>1.0</RateOfFire>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>25</MaxDamage>
+    </Object>
+
+    <Object type="0x0010" id="Heavy Chainmail" Item="true">
+        <DisplayId>Heavy Chainmail</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <Description>Standard heavy armor made of interwoven metal rings.</Description>
+        <Defense>10</Defense>
+    </Object>
+    <Object type="0x0011" id="Plated Armor" Item="true">
+        <DisplayId>Plated Armor</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType>
+        <Description>Thick plates of steel offer robust protection.</Description>
+        <Defense>15</Defense>
+    </Object>
+
+    <Object type="0x0020" id="Basic Magic Spell" Item="true">
+        <DisplayId>Basic Magic Spell</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>36</SlotType> <Description>A simple spell that shoots a magic bolt.</Description>
+        <MPCost>50</MPCost>
+        <Projectile>
+            <ObjectId>MagicBolt</ObjectId>
+            <Speed>100</Speed>
+            <MinDamage>70</MinDamage>
+            <MaxDamage>100</MaxDamage>
+            <LifetimeMS>1000</LifetimeMS>
+        </Projectile>
+    </Object>
+    <Object type="0x0021" id="Fire Nova Spell" Item="true">
+        <DisplayId>Fire Nova Spell</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>36</SlotType>
+        <Description>Unleashes a burst of flames around the caster.</Description>
+        <MPCost>80</MPCost>
+        <Projectile>
+            <ObjectId>FireBomb</ObjectId>
+            <Speed>80</Speed>
+            <MinDamage>120</MinDamage>
+            <MaxDamage>180</MaxDamage>
+            <LifetimeMS>800</LifetimeMS>
+            <Boomerang/>
+        </Projectile>
+    </Object>
+
+    <Object type="0x0080" id="Iron Helm" Item="true">
+        <DisplayId>Iron Helm</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>24</SlotType> <Description>A basic helm that temporarily boosts attack.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Armored" duration="3"/>
+        </Activate>
+    </Object>
+
+    <Object type="0x0090" id="Leather Quiver" Item="true">
+        <DisplayId>Leather Quiver</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>25</SlotType> <Description>A standard quiver that fires an arrow.</Description>
+        <MPCost>60</MPCost>
+        <Projectile>
+            <ObjectId>Arrow</ObjectId>
+            <Speed>120</Speed>
+            <MinDamage>100</MinDamage>
+            <MaxDamage>150</MaxDamage>
+            <LifetimeMS>800</LifetimeMS>
+        </Projectile>
+    </Object>
+
+    <Object type="0x00A0" id="Holy Tome" Item="true">
+        <DisplayId>Holy Tome</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>26</SlotType> <Description>Heals nearby allies.</Description>
+        <MPCost>80</MPCost>
+        <Activate>
+            <Heal>100</Heal>
+            <Radius>3</Radius>
+        </Activate>
+    </Object>
+
+    <Object type="0x00B0" id="Wooden Shield" Item="true">
+        <DisplayId>Wooden Shield</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>27</SlotType> <Description>A sturdy wooden shield that can stun enemies.</Description>
+        <MPCost>75</MPCost>
+        <Activate>
+            <ConditionEffect effect="Stunned" duration="1.5"/>
+            <Radius>2</Radius>
+        </Activate>
+    </Object>
+
+    <Object type="0x00C0" id="Simple Cloak" Item="true">
+        <DisplayId>Simple Cloak</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>28</SlotType> <Description>Grants brief invisibility.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Invisible" duration="3"/>
+        </Activate>
+    </Object>
+
+    <Object type="0x00D0" id="Weak Poison" Item="true">
+        <DisplayId>Weak Poison</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>31</SlotType> <Description>A small vial of poison that deals damage over time.</Description>
+        <MPCost>60</MPCost>
+        <ThrowTime>0.5</ThrowTime>
+        <Projectile>
+            <ObjectId>PoisonBlast</ObjectId>
+            <Speed>80</Speed>
+            <MinDamage>100</MinDamage>
+            <MaxDamage>100</MaxDamage>
+            <LifetimeMS>1000</LifetimeMS>
+            <ConditionEffect effect="Poisoned" duration="3"/>
+        </Projectile>
+    </Object>
+
+    <Object type="0x00E0" id="Basic Seal" Item="true">
+        <DisplayId>Basic Seal</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>35</SlotType> <Description>A holy seal that provides a temporary healing aura.</Description>
+        <MPCost>90</MPCost>
+        <Activate>
+            <Heal>80</Heal>
+            <Radius>4</Radius>
+            <ConditionEffect effect="Healing" duration="3"/>
+        </Activate>
+    </Object>
+
+    <Object type="0x00F0" id="Enchanted Orb" Item="true">
+        <DisplayId>Enchanted Orb</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>30</SlotType> <Description>Hypnotizes enemies in a small area.</Description>
+        <MPCost>70</MPCost>
+        <Activate>
+            <ConditionEffect effect="Dazed" duration="2"/>
+            <Radius>2.5</Radius>
+        </Activate>
+    </Object>
+
+    <Object type="0x0100" id="Lightning Scepter" Item="true">
+        <DisplayId>Lightning Scepter</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>32</SlotType> <Description>Fires a chain of lightning that zaps multiple enemies.</Description>
+        <MPCost>85</MPCost>
+        <Projectile>
+            <ObjectId>LightningBolt</ObjectId>
+            <Speed>100</Speed>
+            <MinDamage>80</MinDamage>
+            <MaxDamage>120</MaxDamage>
+            <LifetimeMS>700</LifetimeMS>
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0x0110" id="Bone Skull" Item="true">
+        <DisplayId>Bone Skull</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>34</SlotType> <Description>Consumes fallen enemies to heal and curse others.</Description>
+        <MPCost>60</MPCost>
+        <Activate>
+            <Heal>50</Heal>
+            <Radius>3</Radius>
+            <ConditionEffect effect="Cursed" duration="2"/>
+        </Activate>
+    </Object>
+
+    <Object type="0x0120" id="Reflecting Prism" Item="true">
+        <DisplayId>Reflecting Prism</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>40</SlotType> <Description>Teleports the user and leaves behind a decoy.</Description>
+        <MPCost>80</MPCost>
+        <Activate>
+            <Teleport/>
+            <Decoy duration="4"/>
+        </Activate>
+    </Object>
+
+    <Object type="0x0030" id="Ring of Health" Item="true">
+        <DisplayId>Ring of Health</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>20</SlotType> <Description>A simple ring that slightly increases your maximum health.</Description>
+        <ActivateOnEquip stat="21">50</ActivateOnEquip> </Object>
+    <Object type="0x0031" id="Ring of Mana" Item="true">
+        <DisplayId>Ring of Mana</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>20</SlotType>
+        <Description>A simple ring that slightly increases your maximum mana.</Description>
+        <ActivateOnEquip stat="22">50</ActivateOnEquip> </Object>
+    <Object type="0x0032" id="Ring of Attack" Item="true">
+        <DisplayId>Ring of Attack</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>20</SlotType>
+        <Description>This ring provides a small boost to your attack power.</Description>
+        <ActivateOnEquip stat="20">3</ActivateOnEquip> </Object>
+</Objects>
