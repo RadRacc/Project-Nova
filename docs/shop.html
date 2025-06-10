@@ -143,7 +143,7 @@
         </div>
         <div class="header-right-container">
             <div id="store-credit-display">
-                <img src="icons/coins.png" alt="Coins Icon">
+                <img src="icons/creditcard.png" alt="Credit Card Icon">
                 $<span id="store-credit-amount">0.00</span>
                 <button id="add-credit-button">Add $10</button>
             </div>
@@ -160,27 +160,32 @@
                 <a href="shop.html" class="button active-button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
                 <a href="wiki.html" class="button">Wiki</a>
+                <a href="links.html" class="button">Links</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <section id="shop-content">
+        <!-- Each section now has its ID for JavaScript to target -->
+        <section id="supporter-ranks">
             <h2>Supporter Ranks</h2>
-            <div class="product-grid" id="supporter-ranks">
-                </div>
+            <div class="product-grid">
+                <!-- Products will be dynamically loaded here by JavaScript -->
+            </div>
         </section>
 
-        <section>
+        <section id="global-boosts">
             <h2>Global Boosts</h2>
-            <div class="product-grid" id="global-boosts">
-                </div>
+            <div class="product-grid">
+                <!-- Products will be dynamically loaded here by JavaScript -->
+            </div>
         </section>
 
-        <section>
+        <section id="currency-packs">
             <h2>Currency Packs</h2>
-            <div class="product-grid" id="currency-packs">
-                </div>
+            <div class="product-grid">
+                <!-- Products will be dynamically loaded here by JavaScript -->
+            </div>
         </section>
     </main>
 
@@ -188,6 +193,7 @@
         <p>&copy; 2025 Project Nova. All rights reserved.</p>
     </footer>
 
+    <!-- Product Details Modal -->
     <div id="product-details-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -197,19 +203,22 @@
                 <p id="modal-product-description"></p>
                 <h4>Features:</h4>
                 <ul id="modal-product-benefits">
-                    </ul>
+                    <!-- Benefits will be dynamically loaded here -->
+                </ul>
                 <div class="modal-price">$<span id="modal-product-price">0.00</span></div>
                 <button id="modal-add-to-cart-button">Add to Cart</button>
             </div>
         </div>
     </div>
 
+    <!-- Shopping Cart Modal -->
     <div id="cart-modal" class="modal">
         <div class="modal-content cart-modal-content">
             <span class="close-button">&times;</span>
             <h2>Your Shopping Cart</h2>
             <ul id="cart-items">
-                </ul>
+                <!-- Cart items will be loaded here by JavaScript -->
+            </ul>
             <div id="cart-summary">
                 <p>Total: $<span id="cart-total">0.00</span></p>
             </div>
