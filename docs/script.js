@@ -227,9 +227,9 @@ function renderProducts() {
     const productGridSections = ['supporter-ranks', 'global-boosts', 'currency-packs'];
 
     productGridSections.forEach(sectionId => {
-        const sectionElement = document.getElementById(sectionId);
+        const sectionElement = document.getElementById(sectionId); // This gets the SECTION element by ID
         if (sectionElement) {
-            const productGrid = sectionElement.querySelector('.product-grid');
+            const productGrid = sectionElement.querySelector('.product-grid'); // This finds the .product-grid DIV inside the section
             if (productGrid) {
                 productGrid.innerHTML = ''; // Clear existing products
 
@@ -632,14 +632,16 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         itemCard.innerHTML = `
             <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
             <h3>${item.DisplayId || item.id}</h3>
-            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
+            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <!-- Display the tag with dynamic class for styling -->
+            <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
             <p><strong>Description:</strong> ${item.Description || 'No description provided.'}</p>
             ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
             ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
             ${item.MPCost ? `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>` : ''}
             ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
             ${item.StatBoost ? `<p><strong>Stat Boost:</strong> <span>${item.StatBoost}</span></p>` : ''}
-            `;
+            <!-- Add more item properties as needed based on your XML structure -->
+        `;
         itemDisplayArea.appendChild(itemCard);
     });
 }
