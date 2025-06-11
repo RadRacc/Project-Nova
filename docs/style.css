@@ -910,7 +910,7 @@ footer {
     flex-grow: 1;              /* Allow name to take available space */
     white-space: nowrap;       /* FORCE text onto a single line */
     text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
-    overflow: hidden;          /* Hide any overflowing content */
+    overflow: visible;          /* Hide any overflowing content */
 }
 
 .item-card.compact-view .item-tag {
