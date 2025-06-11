@@ -516,8 +516,9 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
 
     try {
         // NOTE: You'll need to run your app.py locally or deploy it.
-        // If your app.py is running on a specific port (e.g., 5000), you might need
-        // to specify the full URL: 'http://localhost:5000/purchase'
+        // For local testing, if app.py is running on port 5000, you might use:
+        // const response = await fetch('http://localhost:5000/purchase', {
+        // For Canvas environment, the relative path '/' usually works if the backend is configured.
         const response = await fetch('/purchase', { // Assumes /purchase endpoint on the same origin
             method: 'POST',
             headers: {
@@ -744,7 +745,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 } else {
                     expandedItemId = item.id;
                 }
-                displayItems(filterSlotType, searchQuery);
+                displayItems(filterSlotType, searchQuery); // Re-render to apply new expansion state
             }
         });
 
@@ -764,7 +765,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
                 ${soulboundIndicator}
             `;
-        } else {
+        } else { // Spacious View
             let itemPropertiesHtml = '';
 
             itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
@@ -774,7 +775,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.Damage) {
                 itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
             }
-            // Changed "Soulbound?" to "Soulbound"
+            // "Soulbound" text for spacious view
             itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>`;
 
             if (item.Description) {
@@ -843,7 +844,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 ${setBonusHtml}
             `;
 
-            // NEW: Add Soulbound tag to a separate footer div for centering
+            // Add Soulbound tag to a separate footer div for centering
             if (item.Soulbound) {
                 itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
             }
@@ -857,8 +858,10 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
 // --- How to Play Page Specific Functions (Server Status) ---
 function updateServerStatus() {
+    // This function is for the 'How to Play' page's server status,
+    // which might be hardcoded or derived from a different source than marketplace.
     if (serverStatusText && serverStatusCircle) {
-        const currentStatus = document.body.dataset.serverStatus || 'Checking...';
+        const currentStatus = document.body.dataset.serverStatus || 'Checking...'; // Assuming status is set on body for How to Play
 
         if (currentStatus === 'Online') {
             serverStatusText.textContent = 'Online';
@@ -891,11 +894,11 @@ function updateMarketplaceStatusDisplay() {
     }
 }
 
-// Checks the backend server status
+// Checks the backend server status for the marketplace
 async function checkMarketplaceStatus() {
     try {
-        // Attempt to fetch from the root of the server, or a specific status endpoint
-        // Using a HEAD request is lighter than GET if you just need status.
+        // Attempt to fetch from the root of the server using a HEAD request (lighter)
+        // If your app.py has a specific /status endpoint, you can change this URL.
         const response = await fetch('/', { method: 'HEAD' });
         if (response.ok) {
             marketplaceStatus = 'Online';
@@ -917,6 +920,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isWikiPage = document.body.id === 'wiki-page';
     const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
+    // Highlight active navigation button
     const navButtons = document.querySelectorAll('nav .button');
     navButtons.forEach(button => {
         if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
@@ -930,15 +934,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateCartCount();
 
     if (isShopPage) {
+        // Show shop-specific elements
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
         if (cartButton) cartButton.style.display = 'flex';
-        renderProducts(); // This will now render all products
+
+        // Render products for the shop page
+        renderProducts();
+
+        // Attach shop-specific event listeners
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', promptForUsernameAndCheckout);
 
-        await checkMarketplaceStatus(); // Check and update marketplace status on load
+        // Check and update marketplace status dynamically
+        await checkMarketplaceStatus();
     } else {
+        // Hide shop-specific elements on other pages
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
         if (cartButton) cartButton.style.display = 'none';
     }
@@ -946,43 +957,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isWikiPage) {
         await fetchItemsData();
 
+        // Initialize and set up wiki view toggle
         currentViewMode = localStorage.getItem('wikiViewMode') || 'spacious';
         if (wikiViewToggle) {
             wikiViewToggle.checked = (currentViewMode === 'compact');
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
                 localStorage.setItem('wikiViewMode', currentViewMode);
-                expandedItemId = null;
-                displayItems();
+                expandedItemId = null; // Reset expanded item when view mode changes
+                displayItems(); // Re-render items with new view mode
             });
         }
-        displayItems();
+        displayItems(); // Initial display of wiki items
 
+        // Attach event listeners for item type filters
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 const slotType = event.target.dataset.slottype;
-                if (wikiSearchInput) wikiSearchInput.value = '';
-                expandedItemId = null;
-                displayItems(slotType);
+                if (wikiSearchInput) wikiSearchInput.value = ''; // Clear search bar
+                expandedItemId = null; // Reset expanded item when filtering
+                displayItems(slotType); // Filter and display items
             });
         });
 
+        // Attach event listener for the search bar
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
-                expandedItemId = null;
-                displayItems(null, query);
+                expandedItemId = null; // Reset expanded item when searching
+                displayItems(null, query); // Display items filtered by search query
             });
         }
     }
 
     if (isHowToPlayPage) {
-        updateServerStatus();
+        updateServerStatus(); // Update server status on How to Play page
     }
 
 
-    // Common modal close listeners
+    // Common modal close listeners (for product details and cart modals)
     if (productDetailsModal) {
         if (closeProductModalButton) {
             closeProductModalButton.addEventListener('click', closeProductModal);
