@@ -470,8 +470,12 @@ async function handleConfirmPurchase() {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     if (storeCredit >= total) {
-        storeCredit -= total;
-        updateStoreCreditDisplay(); // Update credit display immediately
+        // --- IMPORTANT: Removed direct credit deduction here ---
+        // The credit deduction will now happen *after* successful backend confirmation
+        // to prevent credit loss if the backend call fails. For this demo,
+        // we'll keep it client-side as there's no persistent user credit storage.
+        // For a full system, you'd manage user credit on the backend database.
+        // For now, it remains client-side.
 
         closeUsernamePromptModal(); // Close the username prompt modal
         closeCartModal();           // Close the cart modal
@@ -479,76 +483,88 @@ async function handleConfirmPurchase() {
         // Generate a unique order ID
         const orderId = crypto.randomUUID(); // Uses Web Crypto API for unique ID
 
-        // Simulate sending order details to a webhook
-        await simulateWebhookCall(inGameUsername, cart, total, orderId);
+        // Send order details to the Flask backend
+        const backendResponse = await sendOrderToBackend(inGameUsername, cart, total, orderId);
 
-        cart = []; // Clear cart after successful processing attempt
-        updateCartCount(); // Update header count and save cart
+        if (backendResponse && backendResponse.status === 'success') {
+            // Only deduct credit and clear cart if backend confirms success
+            storeCredit -= total; // Deduct credit
+            updateStoreCreditDisplay(); // Update credit display immediately
 
-        showCustomMessageBox(
-            `Purchase successful! Your order #${orderId} has been placed for delivery to **${inGameUsername}**.` +
-            `<br>If Store Services are currently **Down**, please DM someone with a screenshot of this message for verification.`,
-            "Purchase Complete",
-            "success"
-        );
+            cart = []; // Clear cart after successful processing attempt
+            updateCartCount(); // Update header count and save cart
+
+            showCustomMessageBox(
+                `Purchase successful! Your order #${orderId} has been placed for delivery to **${inGameUsername}**.` +
+                `<br>Your credit has been updated.`,
+                "Purchase Complete",
+                "success"
+            );
+        } else {
+            // Handle backend failure
+            showCustomMessageBox(
+                `Purchase failed! Reason: ${backendResponse?.message || 'Unknown error contacting backend.'}` +
+                `<br>Your credit has NOT been deducted. Please try again or contact support.`,
+                "Purchase Failed",
+                "error"
+            );
+        }
     } else {
         closeUsernamePromptModal(); // Close the username prompt modal
         showCustomMessageBox("Insufficient store credit. Please add more credit to complete your purchase.", "Insufficient Funds", "error");
     }
 }
 
-// New: Simulates sending order data to a webhook (for demonstration only)
-async function simulateWebhookCall(username, cartItems, total, orderId) {
-    // <<< IMPORTANT: This is YOUR ACTUAL DISCORD WEBHOOK URL >>>
-    // For live/production, this must be handled securely on a backend server.
-    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc';
+// New: Sends order data to the Flask backend
+async function sendOrderToBackend(username, cartItems, total, orderId) {
+    // Backend URL configuration
+    // FOR LOCAL TESTING ON YOUR PC:
+    const backendHost = '127.0.0.1'; // Use '127.0.0.1' for local testing
+    const backendPort = '40071';     // Use the chosen port for your Flask app
+    // WHEN DEPLOYING TO YOUR FRIEND'S SERVER (uncomment and adjust as needed):
+    // const backendHost = '64.178.137.250'; // Use your friend's server's public IP
+    // const backendPort = '40071';       // Use the port you configured on their server
+    
+    const backendEndpoint = `http://${backendHost}:${backendPort}/purchase`;
 
-    // Format items for Discord message (simplified for test)
-    // The itemsList is being kept the same so we can revert easily if this test passes.
-    const itemsList = cartItems.map(item => `• ${item.name} (x${item.quantity}) - $${item.price.toFixed(2)}`).join('\n');
-
-    // Construct the payload for Discord webhook (basic message format)
-    const discordPayload = {
-        // TEMPORARY: Sending a very simple message to test webhook functionality.
-        // If this works, the issue is with the previous content formatting.
-        content: `Test purchase from ${username} for $${total.toFixed(2)}. Order ID: ${orderId}.`
-        // You can add more Discord-specific fields here if desired, e.g.:
-        // embeds: [
-        //     {
-        //         title: "Order Details",
-        //         description: `Order ID: ${orderId}\nTotal: $${total.toFixed(2)}`,
-        //         fields: cartItems.map(item => ({ name: item.name, value: `Quantity: ${item.quantity}, Price: $${item.price.toFixed(2)}`, inline: true })),
-        //         color: 65280 // Green color
-        //     }
-        // ],
-        // username: "Project Nova Store Bot",
-        // avatar_url: "https://your-domain.com/path/to/bot-avatar.png"
+    const purchasePayload = {
+        username: username,
+        items: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+        })),
+        total: total,
+        orderId: orderId,
+        timestamp: new Date().toISOString()
     };
 
-    console.log('--- Simulating Webhook Call ---');
-    console.log('Attempting to send data to:', WEBHOOK_URL);
-    console.log('Discord Webhook Payload:', discordPayload);
-    // Base64 encode the payload as a "hashed" representation (not secure encryption!)
-    // FIX: Use encodeURIComponent and unescape to handle non-Latin1 characters before btoa
-    const hashedPayload = btoa(unescape(encodeURIComponent(JSON.stringify(discordPayload))));
-    console.log('Simulated "Hashed" Payload (Base64 Encoded for debug):', hashedPayload);
-    console.log('--- End Simulation Init ---');
+    console.log('--- Sending Order to Backend ---');
+    console.log('Backend Endpoint:', backendEndpoint);
+    console.log('Payload to Backend:', purchasePayload);
 
     try {
-        const response = await fetch(WEBHOOK_URL, {
+        const response = await fetch(backendEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(discordPayload),
-            mode: 'no-cors'
+            body: JSON.stringify(purchasePayload),
         });
 
-        console.log('Simulated Webhook Call Status: Request sent (check network tab in browser dev tools for actual status).');
-        console.log('NOTE: In "no-cors" mode, JavaScript cannot directly inspect the response from the webhook for security reasons. Check your Discord channel to confirm delivery.');
-
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Backend Response:', result);
+            return result; // Should contain {status: "success", message: "..."}
+        } else {
+            const errorResult = await response.json();
+            console.error('Backend Error Response (Status:', response.status, '):', errorResult);
+            return { status: "error", message: errorResult.message || `Backend returned status ${response.status}` };
+        }
     } catch (error) {
-        console.error('Simulated Webhook Call Error: Could not dispatch webhook request.', error);
+        console.error('Error contacting backend server:', error);
+        return { status: "error", message: `Could not connect to backend server: ${error.message}` };
     }
 }
 
@@ -802,8 +818,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.NumProjectiles) {
                 itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
                 itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
-                itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
                 itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
+                itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
             }
             if (item.ArcGap) {
                 itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
