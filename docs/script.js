@@ -869,7 +869,14 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
             <h3>${item.DisplayId || item.id}</h3>
             <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
-            <div class="item-details-content"> <!-- Container for collapsible content -->
+        `;
+        
+        // Add SB tag for compact view if soulbound
+        if (currentViewMode === 'compact' && item.Soulbound) {
+            itemContentHtml += `<span class="item-soulbound-indicator compact-tag">SB</span>`;
+        }
+
+        itemContentHtml += `<div class="item-details-content"> <!-- Container for collapsible content -->
                 <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
                 ${item.UsableBy ? `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>` : ''}
                 ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
@@ -919,7 +926,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         itemContentHtml += setBonusHtml;
         itemContentHtml += `</div>`; // Close item-details-content
 
-        if (item.Soulbound) {
+        if (item.Soulbound && currentViewMode === 'spacious') { // Only show in footer for spacious view
             itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
         }
 
@@ -942,7 +949,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 displayItems(filterSlotType, searchQuery);
             } else {
                 // In spacious mode, do nothing on click, as items are already "expanded"
-                // If you wanted to open the modal for spacious items, you'd put openProductModal(item); here
                 console.log(`Clicked item ${item.id} in spacious view. No action taken.`);
             }
         });
