@@ -910,7 +910,7 @@ footer {
     flex-grow: 1;              /* Allow name to take available space */
     white-space: nowrap;       /* FORCE text onto a single line */
     text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
-    overflow: visible;          /* Hide any overflowing content */
+    overflow: visible;          /* Corrected to hidden for ellipsis to work */
 }
 
 .item-card.compact-view .item-tag {
@@ -971,7 +971,7 @@ footer {
     margin-bottom: 5px;
     word-wrap: break-word; /* Allow long words to break */
     white-space: normal; /* Allow text to wrap naturally */
-    overflow: visible; /* Ensure text is not hidden OverflowSearchCode*/
+    overflow: visible; /* Ensure text is not hidden */
     text-overflow: clip; /* Prevent ellipsis */
 }
 
@@ -1195,6 +1195,52 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+/* NEW Filter Dropdowns Styling */
+.wiki-filters-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
+    justify-content: center;
+    gap: 20px; /* Space between filter groups */
+    margin: 20px 0 30px 0; /* Space above and below filters */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column; /* Stack label and select vertically */
+    align-items: center;
+    gap: 8px; /* Space between label and select */
+    color: #f0f0f0;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.filter-group select {
+    padding: 10px 15px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    background-color: #333;
+    color: #f0f0f0;
+    font-size: 1em;
+    outline: none;
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
+    -moz-appearance: none;    /* Remove default arrow on Firefox */
+    appearance: none;         /* Remove default arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23f0f0f0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    min-width: 150px; /* Ensure a decent width */
+}
+
+.filter-group select:focus {
+    border-color: #ff69b4;
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.6);
+}
+
+
 /* Media Queries for Responsiveness */
 @media (max-width: 900px) { /* Adjusted breakpoint for shop header */
     #shop-page header {
@@ -1288,6 +1334,16 @@ input:checked + .slider:before {
     }
     .modal-buttons button {
         width: 90%;
+    }
+
+    /* New: Filters responsiveness */
+    .wiki-filters-container {
+        flex-direction: column; /* Stack filters vertically */
+        gap: 15px;
+    }
+    .filter-group select {
+        width: 80%; /* Make dropdowns wider on smaller screens */
+        max-width: 300px;
     }
 }
 
