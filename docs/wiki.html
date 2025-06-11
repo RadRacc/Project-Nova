@@ -6,6 +6,8 @@
     <title>Project Nova - Wiki</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Favicon updated to projectnova.jpg -->
+    <link rel="icon" href="projectnova.jpg" type="image/jpeg">
     <style>
         /* Specific styles for the Wiki page */
         #wiki-page nav a[href="wiki.html"].active-button {
@@ -94,6 +96,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            cursor: pointer; /* Indicate clickable */
         }
 
         .item-card:hover {
@@ -105,6 +108,7 @@
             font-size: 1.5em;
             margin-top: 0;
             margin-bottom: 10px;
+            text-align: center;
         }
 
         .item-card p {
@@ -172,7 +176,8 @@
         /* Hide detailed properties in compact view */
         .item-card.compact-view p,
         .item-card.compact-view .item-properties-separator,
-        .item-card.compact-view .item-set-bonus {
+        .item-card.compact-view .item-set-bonus,
+        .item-card.compact-view .item-footer-tags { /* Also hide footer tags */
             display: none;
         }
 
@@ -199,21 +204,28 @@
         .item-card .item-tag.t3 { background-color: #838383; }
         .item-card .item-tag.t4 { background-color: #656565; }
         .item-card .item-tag.t5 { background-color: #ff4500; }
-        .item-card .item-tag.t6 { background-color: #123133; }
-        .item-card .item-tag.t7 { background-color: #123133; }
-        .item-card .item-tag.t8 { background-color: #123133; }
-        .item-card .item-tag.t9 { background-color: #123133; }
-        .item-card .item-tag.t10 { background-color: #123133; }
-        .item-card .item-tag.t11 { background-color: #123133; }
-        .item-card .item-tag.t12 { background-color: #123133; }
-        .item-card .item-tag.t13 { background-color: #123133; }
-        .item-card .item-tag.t14 { background-color: #123133; }
+        .item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
+        .item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
+        .item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
+        .item-card .item-tag.t9 { background-color: #0000FF; color: white; } /* Blue */
+        .item-card .item-tag.t10 { background-color: #FF00FF; color: white; } /* Magenta */
+        .item-card .item-tag.t11 { background-color: #00FFFF; } /* Cyan */
+        .item-card .item-tag.t12 { background-color: #FFD700; } /* Gold (another shade) */
+        .item-card .item-tag.t13 { background-color: #A020F0; color: white; } /* Purple */
+        .item-card .item-tag.t14 { background-color: #8B0000; color: white; } /* Dark Red */
+        /* Adding more tiers as they might exist in items.txt or be needed for future expansion */
+        .item-card .item-tag.t15 { background-color: #E6B0AA; } /* Pale Red */
+        .item-card .item-tag.t16 { background-color: #FADBD8; } /* Lighter Pale Red */
+        .item-card .item-tag.t17 { background-color: #D6EAF8; } /* Pale Blue */
+        .item-card .item-tag.t18 { background-color: #A9CCE3; } /* Lighter Pale Blue */
+        .item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
+        .item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
 
-        .item-card .item-tag.ut { background-color: #5F1DAF; }
-        .item-card .item-tag.st { background-color: #B78207; } /* Corrected ST color */
-        .item-card .item-tag.lg { background-color: #F0D085; }
-        .item-card .item-tag.event { background-color: #85B6F0; }
-        .item-card .item-tag.soulbound { background-color: #DC3545; color: white; } /* New Soulbound tag style */
+        .item-card .item-tag.ut { background-color: #5F1DAF; color: white; }
+        .item-card .item-tag.st { background-color: #B78207; color: white; }
+        .item-card .item-tag.lg { background-color: #F0D085; color: white; }
+        .item-card .item-tag.event { background-color: #85B6F0; color: white; }
+        .item-card .item-tag.soulbound { background-color: #DC3545; color: white; }
 
         /* Set Bonus Styles */
         .item-card .item-set-bonus {
@@ -222,17 +234,17 @@
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
-            width: calc(100% - 20px); /* Adjust to fit within card padding */
+            width: calc(100% - 20px);
             box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
-            text-align: left; /* Align text within set bonus section */
+            text-align: left;
         }
 
         .item-card .item-set-bonus h4 {
-            color: #ff69b4; /* Pink for set name */
+            color: #ff69b4;
             font-size: 1.1em;
             margin-top: 0;
             margin-bottom: 10px;
-            text-align: center; /* Center the set name */
+            text-align: center;
             border-bottom: 1px dashed #555;
             padding-bottom: 8px;
         }
@@ -250,10 +262,10 @@
         }
 
         .item-card .item-set-bonus li strong {
-            color: #87ceeb; /* Blue for piece count */
+            color: #87ceeb;
         }
         .item-card .item-set-bonus li span {
-            color: #90ee90; /* Green for bonus value */
+            color: #90ee90;
         }
 
         /* Horizontal rule for item properties separation */
@@ -261,7 +273,7 @@
             border: none;
             border-top: 1px dashed #555;
             margin: 15px 0;
-            width: 80%; /* Shorter than full width for visual appeal */
+            width: 80%;
         }
 
         /* View Toggle Switch Styles */
@@ -269,7 +281,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px; /* Space above search bar */
+            margin-bottom: 20px;
             gap: 10px;
             font-size: 1.1em;
             color: #f0f0f0;
@@ -318,7 +330,7 @@
         }
 
         input:checked + .slider {
-            background-color: #ff69b4; /* Pink when checked */
+            background-color: #ff69b4;
         }
 
         input:focus + .slider {
@@ -420,6 +432,51 @@
     <footer>
         <p>&copy; 2025 Project Nova. All rights reserved.</p>
     </footer>
+
+    <!-- Product Details Modal (for both shop products and wiki items) -->
+    <div id="product-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-body">
+                <img id="modal-product-image" src="" alt="Product Image">
+                <h3 id="modal-product-name"></h3>
+                <p id="modal-product-description"></p>
+                <h4>Features:</h4>
+                <ul id="modal-product-benefits"></ul>
+                <div class="modal-price">$<span id="modal-product-price">0.00</span></div>
+                <button id="modal-add-to-cart-button">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal (if used on Wiki for consistent modal styling, though shop handles cart logic) -->
+    <div id="cart-modal" class="modal">
+        <div class="cart-modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Your Cart</h2>
+            <ul id="cart-items">
+                <!-- Cart items will be loaded here by JavaScript -->
+            </ul>
+            <div id="cart-summary">
+                <p>Total: $<span id="cart-total">0.00</span></p>
+                <button id="checkout-button">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Username Prompt Modal (if used on Wiki for consistent modal styling, though shop handles cart logic) -->
+    <div id="username-prompt-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter In-Game Username</h2>
+            <p>Please enter your exact in-game username for delivery:</p>
+            <input type="text" id="ingame-username-input" placeholder="Your In-Game Username" required>
+            <div class="modal-buttons">
+                <button id="confirm-purchase-button">Confirm Purchase</button>
+                <button id="cancel-purchase-button" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
 
     <script src="script.js"></script>
     <script>
