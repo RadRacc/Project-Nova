@@ -909,8 +909,8 @@ footer {
     text-align: left;
     flex-grow: 1;              /* Allow name to take available space */
     white-space: nowrap;       /* FORCE text onto a single line */
-    overflow: hidden;          /* Hide any overflowing content */
     text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
+    overflow: hidden;          /* Hide any overflowing content */
 }
 
 .item-card.compact-view .item-tag {
@@ -1022,7 +1022,7 @@ footer {
 .item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
 .item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
 
-/* NEW: Soulbound tag style for both spacious and compact */
+/* NEW: Soulbound tag style for both spacious and expanded compact view */
 .item-card .item-tag.soulbound {
     background-color: #DC3545; /* Red background */
     color: white; /* White text */
@@ -1033,27 +1033,21 @@ footer {
     text-transform: uppercase;
 }
 
-/* NEW: Compact view specific for Soulbound indicator */
-.item-soulbound-indicator.compact-tag {
-    background-color: #DC3545; /* Red background */
-    color: white; /* White text, as requested */
-    padding: 3px 6px; /* Smaller padding for compact */
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 0.7em; /* Smaller font size for compact */
-    white-space: normal; /* Allow it to wrap if necessary - for small "SB" it's fine */
-    flex-shrink: 0;
-    margin-left: 5px;
-}
-
-/* NEW: Container for soulbound tag to center it in spacious view */
+/* NEW: Container for soulbound tag to center it at the bottom.
+   Hidden by default, shown for spacious view and expanded compact view. */
 .item-footer-tags {
-    display: flex;
+    display: none; /* Hidden by default */
     justify-content: center; /* Center horizontally */
     align-items: center;
     width: 100%;
     margin-top: 10px; /* Space from description/stats */
     flex-wrap: wrap; /* Allow tags to wrap */
+}
+
+/* Show .item-footer-tags when in spacious view or expanded compact view */
+.item-card.spacious-view .item-footer-tags,
+.item-card.expanded .item-footer-tags {
+    display: flex; /* Show as flex for centering */
 }
 
 
