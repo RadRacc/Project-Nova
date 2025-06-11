@@ -43,7 +43,6 @@ const products = [
             "Custom Chat Color (Pink, Purple, Gold)",
             "Exclusive Legendary In-game Pet (Cosmetic)",
             "Early Access to All New Content (7 Days before release)",
-            "Exclusive Monthly Legendary Items",
             "Personal 150% Loot Boost",
             "Priority Support in Discord"
         ]
@@ -871,11 +870,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
         `;
         
-        // Add SB tag for compact view if soulbound
-        if (currentViewMode === 'compact' && item.Soulbound) {
-            itemContentHtml += `<span class="item-soulbound-indicator compact-tag">SB</span>`;
-        }
-
         itemContentHtml += `<div class="item-details-content"> <!-- Container for collapsible content -->
                 <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
                 ${item.UsableBy ? `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>` : ''}
@@ -926,7 +920,9 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         itemContentHtml += setBonusHtml;
         itemContentHtml += `</div>`; // Close item-details-content
 
-        if (item.Soulbound && currentViewMode === 'spacious') { // Only show in footer for spacious view
+        // Always add the soulbound footer tag HTML if the item is soulbound.
+        // CSS will control its display based on view mode (compact vs expanded/spacious).
+        if (item.Soulbound) {
             itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
         }
 
