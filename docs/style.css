@@ -1032,10 +1032,11 @@ footer {
 .item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
 
 
+/* Updated to white text */
 .item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
-.item-card .item-tag.st { background-color: #B78207; color: black; } /* ST - Set Tier, now black text */
-.item-card .item-tag.lg { background-color: #F0D085; } /* LG - Legendary */
-.item-card .item-tag.event { background-color: #85B6F0; } /* Event */
+.item-card .item-tag.st { background-color: #B78207; color: white; } /* ST - Set Tier, now white text */
+.item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
+.item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
 
 /* NEW: Soulbound tag style for both spacious and compact */
 .item-card .item-tag.soulbound {
