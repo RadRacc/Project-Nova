@@ -491,33 +491,36 @@ footer {
     background-color: #ff69b4;
 }
 
-/* Modals (Generic styles applied to all modals) */
+/* Modals (Generic styles applied to all modal overlays) */
 .modal {
-    display: flex; /* Changed from none to flex so transition works */
-    justify-content: center;
-    align-items: center;
+    /* Changed from display: none to opacity/visibility for transitions */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8);
-    z-index: 1000;
+    background-color: rgba(0,0,0,0.8); /* Semi-transparent black background */
+    display: flex; /* Always flex to center content */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+    backdrop-filter: blur(5px); /* Optional blur effect */
 
-    /* Transition properties for smooth fade-in */
+    /* Transition for fade-in/fade-out */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+/* State when modal is open */
 .modal.open {
     opacity: 1;
     visibility: visible;
 }
 
+/* Modal Content Box (for the actual modal dialog) */
 .modal-content {
     background-color: #282828;
-    margin: auto;
     padding: 30px;
     border: 1px solid #444;
     border-radius: 10px;
@@ -528,14 +531,16 @@ footer {
     max-height: 90vh; /* Max height to prevent overflow on small screens */
     overflow-y: auto; /* Enable scrolling for long content */
 
-    /* Transition properties for smooth slide-up */
-    transform: translateY(20px);
+    /* Transition for slide-up effect */
+    transform: translateY(20px); /* Start slightly below center */
     transition: transform 0.3s ease;
 }
 
+/* State when modal content is active/open */
 .modal.open .modal-content {
-    transform: translateY(0);
+    transform: translateY(0); /* Slide up to center */
 }
+
 
 .close-button {
     color: #aaa;
@@ -832,7 +837,7 @@ footer {
 }
 
 
-/* Animations for custom message box */
+/* Animations (for custom message box, but modals use class-based transitions) */
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -908,378 +913,7 @@ footer {
     .product-grid {
         grid-template-columns: 1fr;
     }
-    /* Adjusted for modal now using common .modal/.modal-content classes */
-    .modal-content {
-        width: 95%;
-        padding: 20px;
-    }
-    .modal-body img {
-        max-width: 100px;
-    }
-    .modal-body h3 {
-        font-size: 1.6em;
-    }
-    .modal-body p {
-        font-size: 0.95em;
-    }
-    #modal-add-to-cart-button, #checkout-button {
-        padding: 10px 20px;
-        font-size: 1.1em;
-    }
-    #username-prompt-modal .modal-content {
-        padding: 20px;
-    }
-    #ingame-username-input {
-        width: calc(100% - 30px);
-    }
-    .modal-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .modal-buttons button {
-        width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 2em;
-    }
-    header h6 {
-        font-size: 1em;
-    }
-    header p {
-        font-size: 0.9em;
-    }
-
-    nav .button {
-        padding: 8px 15px;
-        font-size: 0.9em;
-    }
-
-    .discord-logo-link {
-        top: 10px;
-        left: 10px;
-    }
-    .discord-logo {
-        width: 30px;
-        height: 30px;
-    }
-
-    section h2 {
-        font-size: 1.8em;
-    }
-
-    .product-tile {
-        padding: 15px;
-    }
-
-    .product-tile h3 {
-        font-size: 1.3em;
-    }
-
-    .product-tile .current-price {
-        font-size: 1.2em;
-    }
-
-    .product-tile .add-to-cart-button,
-    .product-tile .view-details-button {
-        padding: 8px 10px;
-        font-size: 0.9em;
-    }
-
-    .cart-item img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .cart-item-details h4 {
-        font-size: 1em;
-    }
-
-    .cart-item-details p {
-        font-size: 0.8em;
-    }
-
-    .cart-item .remove-item-button {
-        width: 25px;
-        height: 25px;
-        font-size: 1em;
-    }
-
-    #cart-summary p {
-        font-size: 1.1em;
-    }
-
-    #checkout-button {
-        padding: 10px 20px;
-        font-size: 1.1em;
-    }
-}
-
-/* Wiki Item Tag Styles */
-.item-card .item-tag {
-    display: inline-block;
-    padding: 4px 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    font-size: 0.8em;
-    font-weight: bold;
-    color: #1a1a1a; /* Default dark text for tags */
-    background-color: #87ceeb;
-    text-transform: uppercase;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Specific tag colors */
-.item-card .item-tag.t0 { background-color: #FFFFFF; }
-.item-card .item-tag.t1 { background-color: #DBDBDB; }
-.item-card .item-tag.t2 { background-color: #B8B7B7; }
-.item-card .item-tag.t3 { background-color: #838383; }
-.item-card .item-tag.t4 { background-color: #656565; }
-.item-card .item-tag.t5 { background-color: #ff4500; color: #ffffff; } /* SB Tag: Orange-Red background, now with white text */
-.item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
-.item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
-.item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
-.item-card .item-tag.t9 { background-color: #0000FF; color: white; } /* Blue */
-.item-card .item-tag.t10 { background-color: #FF00FF; color: white; } /* Magenta */
-.item-card .item-tag.t11 { background-color: #00FFFF; } /* Cyan */
-.item-card .item-tag.t12 { background-color: #FFD700; } /* Gold (another shade) */
-.item-card .item-tag.t13 { background-color: #A020F0; color: white; } /* Purple */
-.item-card .item-tag.t14 { background-color: #8B0000; color: white; } /* Dark Red */
-/* Adding more tiers as they might exist in items.txt or be needed for future expansion */
-.item-card .item-tag.t15 { background-color: #E6B0AA; } /* Pale Red */
-.item-card .item-tag.t16 { background-color: #FADBD8; } /* Lighter Pale Red */
-.item-card .item-tag.t17 { background-color: #D6EAF8; } /* Pale Blue */
-.item-card .item-tag.t18 { background-color: #A9CCE3; } /* Lighter Pale Blue */
-.item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
-.item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
-
-
-/* Updated to white text */
-.item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
-.item-card .item-tag.st { background-color: #B78207; color: white; } /* ST - Set Tier, now white text */
-.item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
-.item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
-
-/* NEW: Soulbound tag style for both spacious and compact */
-.item-card .item-tag.soulbound {
-    background-color: #DC3545; /* Red background */
-    color: white; /* White text */
-    padding: 4px 8px; /* Consistent padding */
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 0.8em;
-    text-transform: uppercase;
-}
-
-/* NEW: Compact view specific for Soulbound indicator */
-.item-soulbound-indicator.compact-tag {
-    background-color: #DC3545; /* Red background */
-    color: white; /* White text, as requested */
-    padding: 3px 6px; /* Smaller padding for compact */
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 0.7em; /* Smaller font size for compact */
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin-left: 5px;
-}
-
-/* NEW: Container for soulbound tag to center it in spacious view */
-.item-footer-tags {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center;
-    width: 100%;
-    margin-top: 10px; /* Space from description/stats */
-    flex-wrap: wrap; /* Allow tags to wrap */
-}
-
-
-/* Set Bonus Styles */
-.item-card .item-set-bonus {
-    background-color: #3a3a3a;
-    border: 1px solid #555;
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 15px;
-    width: calc(100% - 20px);
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
-    text-align: left;
-}
-
-.item-card .item-set-bonus h4 {
-    color: #ff69b4;
-    font-size: 1.1em;
-    margin-top: 0;
-    margin-bottom: 10px;
-    text-align: center;
-    border-bottom: 1px dashed #555;
-    padding-bottom: 8px;
-}
-
-.item-card .item-set-bonus ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.item-card .item-set-bonus li {
-    font-size: 0.9em;
-    color: #e0e0e0;
-    margin-bottom: 5px;
-}
-
-.item-card .item-set-bonus li strong {
-    color: #87ceeb;
-}
-.item-card .item-set-bonus li span {
-    color: #90ee90;
-}
-
-/* Horizontal rule for item properties separation */
-.item-properties-separator {
-    border: none;
-    border-top: 1px dashed #555;
-    margin: 15px 0;
-    width: 80%;
-}
-
-/* View Toggle Switch Styles (already in wiki.html's style block, but for completeness) */
-/* The switch - the box around the slider */
-.view-toggle-container .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.view-toggle-container .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-/* The slider */
-.view-toggle-container .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.view-toggle-container .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-.view-toggle-container input:checked + .slider {
-    background-color: #ff69b4;
-}
-
-.view-toggle-container input:focus + .slider {
-    box-shadow: 0 0 1px #ff69b4;
-}
-
-.view-toggle-container input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.view-toggle-container .slider.round {
-    border-radius: 34px;
-}
-
-.view-toggle-container .slider.round:before {
-    border-radius: 50%;
-}
-
-
-/* Media Queries for Responsiveness */
-@media (max-width: 900px) { /* Adjusted breakpoint for shop header */
-    #shop-page header {
-        flex-direction: column; /* Stack elements vertically */
-        align-items: center; /* Center items */
-        padding: 15px 10px;
-        justify-content: flex-start; /* Align from top */
-    }
-    #shop-page header .discord-logo-link {
-        position: static; /* Make it flow normally */
-        margin-bottom: 10px;
-        align-self: center; /* Center horizontally */
-    }
-    #shop-page header .header-main-content {
-        margin-bottom: 15px;
-        align-self: center;
-    }
-    #shop-page header .header-right-container {
-        flex-direction: column; /* Stack store credit and cart vertically */
-        width: 100%; /* Take full width */
-        margin-left: 0;
-        align-items: center; /* Center items in column */
-        gap: 10px;
-    }
-    #store-credit-display, #cart-button {
-        width: 90%; /* Make them fill container, but with internal padding */
-        justify-content: center; /* Center content within buttons */
-    }
-    #shop-page header .nav-container {
-        margin-top: 15px;
-    }
-    .marketplace-status-container {
-        flex-direction: column;
-        gap: 5px;
-        margin-top: 15px;
-    }
-    .info-tooltip .tooltip-text {
-        width: 90%;
-        margin-left: -45%;
-    }
-
-    /* General responsive adjustments */
-    header h1 {
-        font-size: 2.5em;
-    }
-    .nav-container {
-        padding: 10px 15px;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-    nav {
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-    main {
-        padding: 20px 10px;
-    }
-    section {
-        padding: 20px;
-    }
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-    /* Adjusted for modal now using common .modal/.modal-content classes */
-    .modal-content {
+    .modal-content { /* Common modal content style */
         width: 95%;
         padding: 20px;
     }
