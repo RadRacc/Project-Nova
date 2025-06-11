@@ -417,6 +417,7 @@ footer {
 
 .product-tile img {
     max-width: 150%;
+    height: 120px;
     object-fit: contain;
     border-radius: 5px;
 }
@@ -491,7 +492,6 @@ footer {
 
 /* Modals (Generic styles applied to all modal overlays) */
 .modal {
-    /* Changed from display: none to opacity/visibility for transitions */
     position: fixed;
     top: 0;
     left: 0;
@@ -835,7 +835,7 @@ footer {
 }
 
 
-/* Animations (for custom message box, but modals use class-based transitions) */
+/* Animations for custom message box (used by showCustomMessageBox) */
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -845,6 +845,330 @@ footer {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+/* Wiki Item Display Area & Card Styles */
+#item-display-area {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+    /* Ensures rows take only the height of their content for expansion */
+    grid-auto-rows: min-content;
+    align-items: start; /* Align items to the start of their grid cell */
+}
+
+.item-card {
+    background-color: #3a3a3a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    /* Transition for transform (hover) and max-height (expansion) */
+    transition: transform 0.2s ease, max-height 0.5s ease-in-out, padding 0.5s ease, background-color 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden; /* Important for max-height transition */
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Compact View specific styles with fixed height */
+.item-card.compact-view {
+    max-height: 70px; /* Fixed height for compact mode */
+    padding: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.item-card.compact-view:hover {
+    transform: translateY(-2px) scale(1.01);
+}
+
+.item-card.compact-view img {
+    max-width: 50px;
+    height: 50px;
+    margin-bottom: 0;
+}
+
+.item-card.compact-view h3 {
+    font-size: 1.1em;
+    margin: 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.item-card.compact-view .item-tag {
+    font-size: 0.7em;
+    padding: 3px 6px;
+    margin-top: 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Detailed content elements that should hide/show */
+.item-card p,
+.item-card .item-properties-separator,
+.item-card .item-set-bonus,
+.item-card .item-footer-tags {
+    max-height: 0; /* Hidden by default */
+    opacity: 0; /* Fade out */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease, margin 0.3s ease;
+    margin: 0; /* Collapse margins when hidden */
+    padding: 0; /* Collapse padding when hidden */
+}
+
+/* Spacious View styles (natural size) */
+.item-card.spacious-view {
+    max-height: 1000px; /* Large enough to show all content naturally */
+    padding: 20px;
+    flex-direction: column;
+}
+
+/* When an item is expanded in compact mode */
+.item-card.expanded {
+    max-height: 1000px; /* Large enough to show all content, allowing transition */
+    padding: 20px;
+    flex-direction: column; /* Stack vertically when expanded */
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4); /* Highlight on expansion */
+    background-color: #4a4a4a; /* Slightly lighter background when expanded */
+}
+
+.item-card.expanded img {
+    max-width: 100px; /* Larger image when expanded */
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.item-card.expanded h3 {
+    font-size: 1.5em;
+}
+
+/* Show detailed content when expanded */
+.item-card.expanded p,
+.item-card.expanded .item-properties-separator,
+.item-card.expanded .item-set-bonus,
+.item-card.expanded .item-footer-tags {
+    max-height: 200px; /* Allow content to be visible */
+    opacity: 1; /* Fade in */
+    margin-top: 5px; /* Restore desired margins */
+    margin-bottom: 5px; /* Restore desired margins */
+}
+
+/* Wiki Item Tag Styles */
+.item-card .item-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #1a1a1a; /* Default dark text for tags */
+    background-color: #87ceeb;
+    text-transform: uppercase;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific tag colors */
+.item-card .item-tag.t0 { background-color: #FFFFFF; }
+.item-card .item-tag.t1 { background-color: #DBDBDB; }
+.item-card .item-tag.t2 { background-color: #B8B7B7; }
+.item-card .item-tag.t3 { background-color: #838383; }
+.item-card .item-tag.t4 { background-color: #656565; }
+.item-card .item-tag.t5 { background-color: #ff4500; color: #ffffff; } /* SB Tag: Orange-Red background, now with white text */
+.item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
+.item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
+.item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
+.item-card .item-tag.t9 { background-color: #0000FF; color: white; } /* Blue */
+.item-card .item-tag.t10 { background-color: #FF00FF; color: white; } /* Magenta */
+.item-card .item-tag.t11 { background-color: #00FFFF; } /* Cyan */
+.item-card .item-tag.t12 { background-color: #FFD700; } /* Gold (another shade) */
+.item-card .item-tag.t13 { background-color: #A020F0; color: white; } /* Purple */
+.item-card .item-tag.t14 { background-color: #8B0000; color: white; } /* Dark Red */
+/* Adding more tiers as they might exist in items.txt or be needed for future expansion */
+.item-card .item-tag.t15 { background-color: #E6B0AA; } /* Pale Red */
+.item-card .item-tag.t16 { background-color: #FADBD8; } /* Lighter Pale Red */
+.item-card .item-tag.t17 { background-color: #D6EAF8; } /* Pale Blue */
+.item-card .item-tag.t18 { background-color: #A9CCE3; } /* Lighter Pale Blue */
+.item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
+.item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
+
+
+/* Updated to white text */
+.item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
+.item-card .item-tag.st { background-color: #B78207; color: white; } /* ST - Set Tier, now white text */
+.item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
+.item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
+
+/* NEW: Soulbound tag style for both spacious and compact */
+.item-card .item-tag.soulbound {
+    background-color: #DC3545; /* Red background */
+    color: white; /* White text */
+    padding: 4px 8px; /* Consistent padding */
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-transform: uppercase;
+}
+
+/* NEW: Compact view specific for Soulbound indicator */
+.item-soulbound-indicator.compact-tag {
+    background-color: #DC3545; /* Red background */
+    color: white; /* White text, as requested */
+    padding: 3px 6px; /* Smaller padding for compact */
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.7em; /* Smaller font size for compact */
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 5px;
+}
+
+/* NEW: Container for soulbound tag to center it in spacious view */
+.item-footer-tags {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;
+    width: 100%;
+    margin-top: 10px; /* Space from description/stats */
+    flex-wrap: wrap; /* Allow tags to wrap */
+}
+
+
+/* Set Bonus Styles */
+.item-card .item-set-bonus {
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    width: calc(100% - 20px);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.item-card .item-set-bonus h4 {
+    color: #ff69b4;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px dashed #555;
+    padding-bottom: 8px;
+}
+
+.item-card .item-set-bonus ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-card .item-set-bonus li {
+    font-size: 0.9em;
+    color: #e0e0e0;
+    margin-bottom: 5px;
+}
+
+.item-card .item-set-bonus li strong {
+    color: #87ceeb;
+}
+.item-card .item-set-bonus li span {
+    color: #90ee90;
+}
+
+/* Horizontal rule for item properties separation */
+.item-properties-separator {
+    border: none;
+    border-top: 1px dashed #555;
+    margin: 15px 0;
+    width: 80%;
+}
+
+/* View Toggle Switch Styles */
+.view-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    font-size: 1.1em;
+    color: #f0f0f0;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #ff69b4;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #ff69b4;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
 
 /* Media Queries for Responsiveness */
