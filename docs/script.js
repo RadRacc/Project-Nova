@@ -138,10 +138,13 @@ let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 // --- Wiki Item Data (keep this part as it is used by wiki.html) ---
 let wikiItemsData = []; // To store parsed data from items.txt
 let currentViewMode = 'spacious'; // Default view mode for wiki items
-let expandedItemId = null; // New: Stores the ID of the currently expanded item in compact view
+let expandedItemId = null; // Stores the ID of the currently expanded item in compact view
+
+// Marketplace Server Status (Hardcoded for now, can be dynamic with a backend)
+let marketplaceStatus = 'Online'; // 'Online' or 'Down'
 
 
-// Mapping SlotType numbers to readable names for display
+// Mapping SlotType numbers to readable names for display (for Wiki)
 const slotTypeMap = {
     "1": "Sword",
     "2": "Dagger",
@@ -173,7 +176,7 @@ const slotTypeMap = {
     "45": "Mace"
 };
 
-// Mapping Stat IDs to readable names for ActivateOnEquip
+// Mapping Stat IDs to readable names for ActivateOnEquip (for Wiki)
 const statIdMap = {
     "21": "Max HP",
     "22": "Max MP",
@@ -214,12 +217,20 @@ const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button'
 const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
-const wikiViewToggle = document.getElementById('wiki-view-toggle'); // New: Wiki view toggle
-
+const wikiViewToggle = document.getElementById('wiki-view-toggle'); // Wiki view toggle
 
 // How to Play specific elements (for server status)
 const serverStatusText = document.getElementById('server-status-text');
 const serverStatusCircle = document.getElementById('server-status-circle');
+
+// Shop specific new elements
+const usernamePromptModal = document.getElementById('username-prompt-modal');
+const ingameUsernameInput = document.getElementById('ingame-username-input');
+const confirmPurchaseButton = document.getElementById('confirm-purchase-button');
+const cancelPurchaseButton = document.getElementById('cancel-purchase-button');
+
+const marketplaceStatusText = document.getElementById('marketplace-status-text');
+const marketplaceStatusCircle = document.getElementById('marketplace-status-circle');
 
 
 // --- FUNCTIONS ---
@@ -252,7 +263,6 @@ function renderProducts() {
 
                 const sectionProducts = products.filter(p => {
                     if (sectionId === 'supporter-ranks') {
-                        // FIX: Use startsWith to correctly filter all supporter roles
                         return p.id.startsWith('supporter-');
                     }
                     if (sectionId === 'global-boosts') return p.id.includes('lootboost');
@@ -289,13 +299,11 @@ function renderProducts() {
 // Attaches event listeners to "View Details" and "Add to Cart" buttons
 function attachProductButtonListeners() {
     document.querySelectorAll('.view-details-button').forEach(button => {
-        // Remove existing listener to prevent duplicates on re-render
         button.removeEventListener('click', handleViewDetailsClick);
         button.addEventListener('click', handleViewDetailsClick);
     });
 
     document.querySelectorAll('.add-to-cart-button').forEach(button => {
-        // Remove existing listener to prevent duplicates
         button.removeEventListener('click', handleAddToCartClick);
         button.addEventListener('click', handleAddToCartClick);
     });
@@ -318,10 +326,9 @@ function handleAddToCartClick(event) {
 function openProductModal(productId) {
     const product = products.find(p => p.id === productId);
     if (product && productDetailsModal && modalProductImage && modalProductName && modalProductDescription && modalProductBenefits && modalProductPrice && modalAddToCartButton) {
-        // Update the "Add to Cart" button in the modal to add the current product
         modalAddToCartButton.onclick = () => {
             addToCart(product.id);
-            closeProductModal(); // Close modal after adding to cart
+            closeProductModal();
             showCustomMessageBox(`${product.name} added to cart!`, "Item Added", "success");
         };
 
@@ -331,20 +338,20 @@ function openProductModal(productId) {
         modalProductDescription.textContent = product.description;
         modalProductPrice.textContent = product.price.toFixed(2);
 
-        modalProductBenefits.innerHTML = ''; // Clear previous benefits
+        modalProductBenefits.innerHTML = '';
         if (product.features && product.features.length > 0) {
             product.features.forEach(feature => {
                 const li = document.createElement('li');
                 li.textContent = feature;
                 modalProductBenefits.appendChild(li);
             });
-            modalProductBenefits.style.display = 'block'; // Show list if features exist
+            modalProductBenefits.style.display = 'block';
         } else {
-            modalProductBenefits.style.display = 'none'; // Hide list if no features
+            modalProductBenefits.style.display = 'none';
         }
 
-        productDetailsModal.style.display = 'flex'; // Show the modal
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
+        productDetailsModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     } else {
         console.error("Failed to open product modal or product not found:", productId);
     }
@@ -354,7 +361,7 @@ function openProductModal(productId) {
 function closeProductModal() {
     if (productDetailsModal) {
         productDetailsModal.style.display = 'none';
-        document.body.style.overflow = ''; // Restore background scroll
+        document.body.style.overflow = '';
     }
 }
 
@@ -375,7 +382,6 @@ function addToCart(productId) {
         if (existingItem) {
             existingItem.quantity++;
         } else {
-            // Add new item with necessary properties for cart display
             cart.push({
                 id: product.id,
                 name: product.name,
@@ -399,10 +405,10 @@ function removeFromCart(productId) {
         if (item.quantity > 1) {
             item.quantity--;
         } else {
-            cart.splice(itemIndex, 1); // Remove completely if quantity is 1
+            cart.splice(itemIndex, 1);
         }
         updateCartCount();
-        renderCartItems(); // Re-render cart modal content
+        renderCartItems();
         console.log(`Removed/decremented ${item.name}. Current cart:`, cart);
     }
 }
@@ -411,7 +417,7 @@ function removeFromCart(productId) {
 function renderCartItems() {
     if (!cartItemsList || !cartTotalSpan) return;
 
-    cartItemsList.innerHTML = ''; // Clear existing items
+    cartItemsList.innerHTML = '';
     let total = 0;
 
     if (cart.length === 0) {
@@ -435,7 +441,6 @@ function renderCartItems() {
     }
     cartTotalSpan.textContent = total.toFixed(2);
 
-    // Attach remove button listeners
     document.querySelectorAll('.remove-item-button').forEach(button => {
         button.addEventListener('click', (event) => {
             const productId = event.currentTarget.dataset.productId;
@@ -447,9 +452,9 @@ function renderCartItems() {
 // Opens the shopping cart modal
 function openCartModal() {
     if (cartModal) {
-        renderCartItems(); // Render items before opening
-        cartModal.style.display = 'flex'; // Use flex for centering
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
+        renderCartItems();
+        cartModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
 }
 
@@ -457,14 +462,38 @@ function openCartModal() {
 function closeCartModal() {
     if (cartModal) {
         cartModal.style.display = 'none';
-        document.body.style.overflow = ''; // Restore background scroll
+        document.body.style.overflow = '';
     }
 }
 
-// Handles the checkout process
-function checkout() {
+// New: Prompts for in-game username before checkout
+function promptForUsernameAndCheckout() {
     if (cart.length === 0) {
         showCustomMessageBox("Your cart is empty. Please add items before checking out.", "Empty Cart", "warning");
+        return;
+    }
+
+    if (usernamePromptModal && ingameUsernameInput) {
+        ingameUsernameInput.value = ''; // Clear previous input
+        usernamePromptModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        // Event listener for confirm button (remove old one first to prevent duplicates)
+        confirmPurchaseButton.removeEventListener('click', handleConfirmPurchase);
+        confirmPurchaseButton.addEventListener('click', handleConfirmPurchase);
+
+        // Event listener for cancel button (remove old one first to prevent duplicates)
+        cancelPurchaseButton.removeEventListener('click', closeUsernamePromptModal);
+        cancelPurchaseButton.addEventListener('click', closeUsernamePromptModal);
+    }
+}
+
+// New: Handles the confirmation of purchase after username input
+async function handleConfirmPurchase() {
+    const inGameUsername = ingameUsernameInput.value.trim();
+
+    if (!inGameUsername) {
+        showCustomMessageBox("Please enter your in-game username to proceed with the purchase.", "Username Required", "warning");
         return;
     }
 
@@ -472,13 +501,85 @@ function checkout() {
 
     if (storeCredit >= total) {
         storeCredit -= total;
-        cart = []; // Clear cart
-        updateStoreCreditDisplay(); // Save updated credit
+        updateStoreCreditDisplay(); // Update credit display immediately
+
+        closeUsernamePromptModal(); // Close the username prompt modal
+        closeCartModal();           // Close the cart modal
+
+        // Generate a unique order ID
+        const orderId = crypto.randomUUID(); // Uses Web Crypto API for unique ID
+
+        // Send order details to the backend
+        await sendOrderToBackend(inGameUsername, cart, total, orderId);
+
+        cart = []; // Clear cart after successful processing attempt
         updateCartCount(); // Update header count and save cart
-        closeCartModal();
-        showCustomMessageBox("Checkout successful! Your items have been processed.", "Purchase Complete", "success");
+
+        showCustomMessageBox(
+            `Purchase successful! Your order #${orderId} has been placed for delivery to ${inGameUsername}.` +
+            `<br>If Store Services are currently Down, please DM someone with a screenshot of this message for verification.`,
+            "Purchase Complete",
+            "success"
+        );
     } else {
+        closeUsernamePromptModal(); // Close the username prompt modal
         showCustomMessageBox("Insufficient store credit. Please add more credit to complete your purchase.", "Insufficient Funds", "error");
+    }
+}
+
+// New: Sends order data to the backend (your app.py)
+async function sendOrderToBackend(username, cartItems, total, orderId) {
+    const payload = {
+        username: username,
+        items: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+        })),
+        total: total,
+        orderId: orderId,
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        // NOTE: You'll need to run your app.py locally or deploy it.
+        // If running locally, it might be http://127.0.0.1:5000/purchase or similar.
+        // Replace with your actual backend URL.
+        const response = await fetch('/purchase', { // Assuming /purchase endpoint on the same origin
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server responded with status ${response.status}: ${errorText}`);
+        }
+
+        const result = await response.json();
+        console.log('Order sent to backend successfully:', result);
+
+    } catch (error) {
+        console.error('Error sending order to backend:', error);
+        // Inform user that there was an issue with backend communication
+        showCustomMessageBox(
+            `There was an issue processing your order on the server side.` +
+            `<br>Your credit has been deducted. Please use order #${orderId} and screenshot this for manual verification if needed.`,
+            "Server Error",
+            "error"
+        );
+    }
+}
+
+
+// New: Closes the username prompt modal
+function closeUsernamePromptModal() {
+    if (usernamePromptModal) {
+        usernamePromptModal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore background scroll
     }
 }
 
@@ -509,7 +610,7 @@ function showCustomMessageBox(message, title, type = 'info') {
     `;
 
     const messageElement = document.createElement('p');
-    messageElement.textContent = message;
+    messageElement.innerHTML = message; // Use innerHTML to allow <br> tags
     messageElement.style.cssText = `
         margin-bottom: 20px; font-size: 1em;
     `;
@@ -533,7 +634,7 @@ function showCustomMessageBox(message, title, type = 'info') {
 }
 
 
-// --- WIKI SPECIFIC FUNCTIONS ---
+// --- WIKI SPECIFIC FUNCTIONS --- (Keeping these for completeness, relevant to wiki.html)
 
 // Function to fetch and parse items.txt
 async function fetchItemsData() {
@@ -596,8 +697,6 @@ async function fetchItemsData() {
                 item.ShotsPassesCover = projectileElement.querySelector('PassesCover') ? true : false;
                 item.IgnoresDefense = projectileElement.querySelector('PierceDefense') ? true : false;
             } else {
-                // If no <Projectile> tag, but NumProjectiles exists directly on Object (for old formats)
-                // This handles cases where NumProjectiles might be directly on the <Object> for simpler items
                 item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
             }
 
@@ -620,7 +719,7 @@ async function fetchItemsData() {
 
             items.push(item);
         });
-        wikiItemsData = items; // Store the parsed data globally
+        wikiItemsData = items;
         console.log("Parsed Wiki Items:", wikiItemsData);
 
     } catch (error) {
@@ -635,11 +734,10 @@ async function fetchItemsData() {
 function displayItems(filterSlotType = null, searchQuery = '') {
     if (!itemDisplayArea) return;
 
-    itemDisplayArea.innerHTML = ''; // Clear previous items
+    itemDisplayArea.innerHTML = '';
 
     let filteredItems = wikiItemsData;
 
-    // Apply filters (type and search query)
     if (filterSlotType) {
         filteredItems = filteredItems.filter(item => item.SlotType === filterSlotType);
     }
@@ -665,26 +763,21 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
-        // Determine the actual view mode for THIS specific card
-        // If currentViewMode is 'compact' AND this item is NOT the expanded one, then it's compact.
-        // Otherwise (currentViewMode is 'spacious' OR this item IS the expanded one), it's spacious.
         const cardDisplayMode = (currentViewMode === 'compact' && item.id !== expandedItemId) ? 'compact' : 'spacious';
         itemCard.className = `item-card ${cardDisplayMode}-view`;
 
-        // Add a click listener to the item card for expand/collapse
         itemCard.addEventListener('click', () => {
-            if (currentViewMode === 'compact') { // Only allow expand/collapse in compact mode
+            if (currentViewMode === 'compact') {
                 if (expandedItemId === item.id) {
-                    expandedItemId = null; // Collapse this item
+                    expandedItemId = null;
                 } else {
-                    expandedItemId = item.id; // Expand this item
+                    expandedItemId = item.id;
                 }
-                displayItems(filterSlotType, searchQuery); // Re-render to reflect changes
+                displayItems(filterSlotType, searchQuery);
             }
         });
 
 
-        // Construct image URL from the new icons/items folder
         const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, '');
         const imagePath = `icons/items/${itemImageName}.png`;
         const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
@@ -692,7 +785,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         let itemContentHtml = '';
 
         if (cardDisplayMode === 'compact') {
-            // Compact view: Name, Icon, Tag, Soulbound indicator (SB)
             let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator">SB</span>' : '';
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
@@ -701,7 +793,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 ${soulboundIndicator}
             `;
         } else {
-            // Spacious view: All detailed properties
             let itemPropertiesHtml = '';
 
             itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
@@ -720,7 +811,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
             }
 
-            // Separator before projectile properties
             const hasProjectileProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense;
             if (hasProjectileProperties || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus) {
                  itemPropertiesHtml += `<hr class="item-properties-separator">`;
@@ -732,14 +822,13 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.Range) {
                 itemPropertiesHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
             }
-            // Display boolean projectile properties clearly
-            if (item.NumProjectiles) { // Only show these if the item has projectiles
+            if (item.NumProjectiles) {
                 itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
                 itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
                 itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
                 itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
             }
-            if (item.ArcGap) { // Arc Gap is only relevant for multi-projectile weapons
+            if (item.ArcGap) {
                 itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
             }
             if (item.RateOfFire) {
@@ -749,20 +838,17 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 itemPropertiesHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
             }
 
-            // Stat Boosts (always shown if present, potentially with another separator)
             if (item.StatBoosts && item.StatBoosts.length > 0) {
                  if (itemPropertiesHtml.includes('<hr class="item-properties-separator">') && hasProjectileProperties) {
-                     // No need for another separator if one was just added for projectile properties
                  } else if (itemPropertiesHtml.trim() !== '') {
                       itemPropertiesHtml += `<hr class="item-properties-separator">`;
                  }
                 itemPropertiesHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
             }
 
-            // Set Bonuses (always shown if present, with its own separator)
             let setBonusHtml = '';
             if (item.Set) {
-                itemPropertiesHtml += `<hr class="item-properties-separator">`; // Always add separator before set bonuses
+                itemPropertiesHtml += `<hr class="item-properties-separator">`;
                 setBonusHtml += `
                     <div class="item-set-bonus">
                         <h4>Set: ${item.Set.Name}</h4>
@@ -796,8 +882,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 // --- How to Play Page Specific Functions (Server Status) ---
 function updateServerStatus() {
     if (serverStatusText && serverStatusCircle) {
-        // Read the status directly from a data attribute on the body or a specific container
-        const currentStatus = document.body.dataset.serverStatus || 'Checking...'; // Default to 'Checking...' if attribute not found
+        const currentStatus = document.body.dataset.serverStatus || 'Checking...';
 
         if (currentStatus === 'Online') {
             serverStatusText.textContent = 'Online';
@@ -808,9 +893,26 @@ function updateServerStatus() {
             serverStatusCircle.classList.remove('online');
             serverStatusCircle.classList.add('offline');
         } else {
-            // Handles 'Checking...' or any other unexpected value
             serverStatusText.textContent = 'Checking...';
             serverStatusCircle.classList.remove('online', 'offline');
+        }
+    }
+}
+
+// New: Updates the marketplace status display
+function updateMarketplaceStatusDisplay() {
+    if (marketplaceStatusText && marketplaceStatusCircle) {
+        if (marketplaceStatus === 'Online') {
+            marketplaceStatusText.textContent = 'Online';
+            marketplaceStatusCircle.classList.remove('offline');
+            marketplaceStatusCircle.classList.add('online');
+        } else if (marketplaceStatus === 'Down') {
+            marketplaceStatusText.textContent = 'Down';
+            marketplaceStatusCircle.classList.remove('online');
+            marketplaceStatusCircle.classList.add('offline');
+        } else {
+            marketplaceStatusText.textContent = 'Checking...';
+            marketplaceStatusCircle.classList.remove('online', 'offline');
         }
     }
 }
@@ -818,13 +920,11 @@ function updateServerStatus() {
 
 // --- DOM Content Loaded Event Listener ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Determine the current page
     const currentPage = window.location.pathname.split('/').pop();
     const isShopPage = document.body.id === 'shop-page';
     const isWikiPage = document.body.id === 'wiki-page';
     const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
-    // Set active button in nav for all pages
     const navButtons = document.querySelectorAll('nav .button');
     navButtons.forEach(button => {
         if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
@@ -834,70 +934,64 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Load cart and credit on page load (common to all pages with header elements)
     updateStoreCreditDisplay();
     updateCartCount();
 
-    // Shop page specific logic
     if (isShopPage) {
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
-        if (cartButton) cartButton.style.display = 'flex'; // Ensure cart button is visible
-        renderProducts(); // Renders products for all sections on shop page
+        if (cartButton) cartButton.style.display = 'flex';
+        renderProducts();
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
-        if (checkoutButton) checkoutButton.addEventListener('click', checkout);
+        // Changed checkout button to trigger username prompt
+        if (checkoutButton) checkoutButton.addEventListener('click', promptForUsernameAndCheckout);
+
+        updateMarketplaceStatusDisplay(); // Initialize marketplace status
     } else {
-        // Hide shop-specific elements on other pages if they exist
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
         if (cartButton) cartButton.style.display = 'none';
     }
 
-    // Wiki page specific logic
     if (isWikiPage) {
-        await fetchItemsData(); // Fetch and parse items.txt
+        await fetchItemsData();
 
-        // Initialize view mode based on local storage or default to spacious
         currentViewMode = localStorage.getItem('wikiViewMode') || 'spacious';
         if (wikiViewToggle) {
             wikiViewToggle.checked = (currentViewMode === 'compact');
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
-                localStorage.setItem('wikiViewMode', currentViewMode); // Save user preference
-                expandedItemId = null; // Collapse any expanded item when view mode changes
-                displayItems(); // Re-render items with new view mode
+                localStorage.setItem('wikiViewMode', currentViewMode);
+                expandedItemId = null;
+                displayItems();
             });
         }
-        displayItems(); // Display all items initially in the determined mode
+        displayItems();
 
-        // Attach event listeners to item type links
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
-                event.preventDefault(); // Prevent default link behavior
+                event.preventDefault();
                 const slotType = event.target.dataset.slottype;
-                if (wikiSearchInput) wikiSearchInput.value = ''; // Clear search bar when category is clicked
-                expandedItemId = null; // Collapse any expanded item when category changes
-                displayItems(slotType); // Filter and display items by SlotType
+                if (wikiSearchInput) wikiSearchInput.value = '';
+                expandedItemId = null;
+                displayItems(slotType);
             });
         });
 
-        // Attach event listener for the search bar
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
-                expandedItemId = null; // Collapse any expanded item when search query changes
-                displayItems(null, query); // Display items filtered by search query
+                expandedItemId = null;
+                displayItems(null, query);
             });
         }
     }
 
-    // How to Play page specific logic (for server status)
     if (isHowToPlayPage) {
-        // Call updateServerStatus once to read the hardcoded status
         updateServerStatus();
     }
 
 
-    // Common modal close listeners (for shop modals, if they exist on the page)
+    // Common modal close listeners
     if (productDetailsModal) {
         if (closeProductModalButton) {
             closeProductModalButton.addEventListener('click', closeProductModal);
@@ -916,6 +1010,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         cartModal.addEventListener('click', (event) => {
             if (event.target === cartModal) {
                 closeCartModal();
+            }
+        });
+    }
+
+    // Username prompt modal close listeners
+    if (usernamePromptModal) {
+        usernamePromptModal.addEventListener('click', (event) => {
+            if (event.target === usernamePromptModal) {
+                closeUsernamePromptModal();
             }
         });
     }
