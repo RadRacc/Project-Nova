@@ -467,8 +467,8 @@ footer {
 }
 
 .product-tile .cart-icon {
-    width: 20px;
-    height: 20px;
+    width: 150px;
+    height: 150px;
     filter: invert(1);
 }
 
