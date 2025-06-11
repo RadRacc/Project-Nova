@@ -172,7 +172,7 @@
             flex-shrink: 0; /* Prevent shrinking */
         }
 
-        .item-card.compact-view .item-soulbound-indicator {
+        .item-card.compact-view .item-compact-soulbound-indicator {
             font-size: 0.7em;
             font-weight: bold;
             color: #FFFFFF; /* Red for Soulbound */
@@ -240,7 +240,7 @@
         .item-card .item-tag.t2 { background-color: #B8B7B7; }
         .item-card .item-tag.t3 { background-color: #838383; }
         .item-card .item-tag.t4 { background-color: #656565; }
-        .item-card .item-tag.t5 { background-color: #ff4500; }
+        .item-card .item-tag.t5 { background-color: #ff4500; color: white; }
         .item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
         .item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
         .item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
@@ -432,14 +432,14 @@
                 <div class="filter-group">
                     <label for="tier-filter">Filter by Tier:</label>
                     <select id="tier-filter">
-                        <option value="all">No Filter</option> <!-- Changed text here -->
+                        <option value="all">No Filter</option>
                         <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="usable-by-filter">Filter by Usable By:</label>
+                    <label for="usable-by-filter">Filter Usable By:</label> <!-- Changed text here -->
                     <select id="usable-by-filter">
-                        <option value="all">No Filter</option> <!-- Changed text here -->
+                        <option value="all">No Filter</option>
                         <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
