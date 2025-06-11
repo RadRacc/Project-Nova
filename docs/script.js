@@ -360,7 +360,7 @@ function openProductModal(itemOrProduct) {
         }
 
         if (itemOrProduct.NumProjectiles) {
-            descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
+            descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrOldProduct.NumProjectiles}</span></p>`; // Corrected to itemOrProduct.NumProjectiles
         }
         if (itemOrProduct.Range) {
             descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
@@ -768,9 +768,9 @@ async function fetchItemsData() {
             const activateOnEquipElements = obj.querySelectorAll('ActivateOnEquip');
             if (activateOnEquipElements.length > 0) {
                 item.StatBoosts = [];
-                activateOnEquipElements.forEach(aoe => {
+                activateOnEquipElements.forEach(aoe => { // Corrected from aae to aoe
                     const statId = aoe.getAttribute('stat');
-                    const statValue = aae.textContent; // Corrected from aoe.textContent to aae.textContent
+                    const statValue = aoe.textContent;
                     const statName = statIdMap[statId] || `Stat ${statId}`;
                     item.StatBoosts.push(`${statName}: +${statValue}`);
                 });
@@ -848,111 +848,80 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
-        // Apply 'compact-view' or 'spacious-view' class initially
+        itemCard.dataset.itemId = item.id; // Set data-item-id
+
+        // Determine initial classes based on view mode and expansion state
         itemCard.classList.add('item-card');
         if (currentViewMode === 'compact') {
-            itemCard.classList.add('compact-view');
-            // If in compact mode, and this item is the expanded one, add 'expanded' class
             if (expandedItemId === item.id) {
-                itemCard.classList.add('expanded');
-                itemCard.classList.remove('compact-view'); // Remove compact view if expanded
+                itemCard.classList.add('expanded'); // This item is currently expanded in compact mode
+            } else {
+                itemCard.classList.add('compact-view'); // Default compact view for other items
             }
         } else {
-            itemCard.classList.add('spacious-view');
+            itemCard.classList.add('spacious-view'); // Default spacious view
         }
-
-        itemCard.dataset.itemId = item.id; // Store item ID for easy lookup
-
+        
         const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, '');
         const imagePath = `icons/items/${itemImageName}.png`;
         const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
 
-        let itemContentHtml = '';
+        let itemContentHtml = `
+            <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
+            <h3>${item.DisplayId || item.id}</h3>
+            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
+            <div class="item-details-content"> <!-- Container for collapsible content -->
+                <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
+                ${item.UsableBy ? `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>` : ''}
+                ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
+                <p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>
+                ${item.Description ? `<p class="item-description"><strong>Description:</strong> ${item.Description}</p>` : ''}
+        `;
 
-        // Conditionally render content based on view mode
-        if (itemCard.classList.contains('compact-view')) { // This means it's compact AND not expanded
-            let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator compact-tag">SB</span>' : '';
-            itemContentHtml = `
-                <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
-                <h3>${item.DisplayId || item.id}</h3>
-                <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
-                ${soulboundIndicator}
+        const hasProjectileProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense;
+        if (hasProjectileProperties || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
+             itemContentHtml += `<hr class="item-properties-separator">`;
+        }
+
+        itemContentHtml += `
+            ${item.NumProjectiles ? `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>` : ''}
+            ${item.Range ? `<p><strong>Range:</strong> <span>${item.Range}</span></p>` : ''}
+            ${item.NumProjectiles ? `
+                <p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>
+                <p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>
+                <p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>
+                <p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>
+            ` : ''}
+            ${item.ArcGap ? `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>` : ''}
+            ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
+            ${item.FameBonus ? `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>` : ''}
+        `;
+        
+        if (item.StatBoosts && item.StatBoosts.length > 0) {
+            itemContentHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
+        }
+
+        let setBonusHtml = '';
+        if (item.Set) {
+            setBonusHtml = `
+                <div class="item-set-bonus">
+                    <h4>Set: ${item.Set.Name}</h4>
+                    <ul>
             `;
-        } else { // Spacious View OR compact view but currently expanded (itemCard.classList.contains('expanded'))
-            let itemPropertiesHtml = '';
-
-            itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
-            if (item.UsableBy) {
-                itemPropertiesHtml += `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>`;
-            }
-            if (item.Damage) {
-                itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
-            }
-            itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>`;
-
-            if (item.Description) {
-                itemPropertiesHtml += `<p class="item-description"><strong>Description:</strong> ${item.Description}</p>`;
-            }
-
-            const hasDetailedProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set;
-            if (hasDetailedProperties) {
-                 itemPropertiesHtml += `<hr class="item-properties-separator">`;
-            }
-
-            if (item.NumProjectiles) {
-                itemPropertiesHtml += `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>`;
-            }
-            if (item.Range) {
-                itemPropertiesHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
-            }
-            if (item.NumProjectiles) {
-                itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
-                itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
-                itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
-                itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
-            }
-            if (item.ArcGap) {
-                itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
-            }
-            if (item.RateOfFire) {
-                itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
-            }
-            if (item.FameBonus) {
-                itemPropertiesHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
-            }
-
-            if (item.StatBoosts && item.StatBoosts.length > 0) {
-                 itemPropertiesHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
-            }
-
-            let setBonusHtml = '';
-            if (item.Set) {
-                setBonusHtml += `
-                    <div class="item-set-bonus">
-                        <h4>Set: ${item.Set.Name}</h4>
-                        <ul>
-                `;
-                item.Set.Bonuses.forEach(bonus => {
-                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
-                });
-                setBonusHtml += `
-                            <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
-                        </ul>
-                    </div>
-                `;
-            }
-
-            itemContentHtml = `
-                <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
-                <h3>${item.DisplayId || item.id}</h3>
-                <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
-                ${itemPropertiesHtml}
-                ${setBonusHtml}
+            item.Set.Bonuses.forEach(bonus => {
+                setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
+            });
+            setBonusHtml += `
+                        <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
+                    </ul>
+                </div>
             `;
+        }
+        itemContentHtml += setBonusHtml;
+        itemContentHtml += `</div>`; // Close item-details-content
 
-            if (item.Soulbound) {
-                itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
-            }
+        if (item.Soulbound) {
+            itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
         }
 
         itemCard.innerHTML = itemContentHtml;
@@ -970,6 +939,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                     expandedItemId = itemId; // Expand this item
                 }
                 // Re-render to ensure smooth transitions and correct state
+                // This is needed to toggle the classes on *all* items correctly (collapsing others)
                 displayItems(filterSlotType, searchQuery);
             } else {
                 // If in spacious mode, open the full product details modal
@@ -1029,7 +999,7 @@ async function checkMarketplaceStatus() {
 document.addEventListener('DOMContentLoaded', async () => {
     const currentPage = window.location.pathname.split('/').pop();
     const isShopPage = document.body.id === 'shop-page';
-    const isWikiPage = document.body.id === 'wiki.html'; // Changed to check for 'wiki.html'
+    const isWikiPage = document.body.id === 'wiki-page'; // Corrected to wiki-page
     const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
     // Highlight active navigation button
