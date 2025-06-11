@@ -142,8 +142,8 @@ let expandedItemId = null; // Stores the ID of the currently expanded item in co
 // New global variables for filters
 let currentSlotTypeFilter = null;
 let currentSearchQuery = '';
-let currentTierFilter = 'all'; // Default to 'all'
-let currentUsableByFilter = 'all'; // Default to 'all'
+let currentTierFilter = 'all'; // Default to 'all' (No Filter)
+let currentUsableByFilter = 'all'; // Default to 'all' (No Filter)
 
 
 // Marketplace Server Status (dynamic)
@@ -829,55 +829,63 @@ async function fetchItemsData() {
 function populateTierFilter() {
     if (!tierFilterDropdown) return;
 
-    // Clear existing options, but keep "All Tiers"
-    tierFilterDropdown.innerHTML = '<option value="all">All Tiers</option>';
+    // Clear existing options, but keep "No Filter"
+    tierFilterDropdown.innerHTML = '<option value="all">No Filter</option>';
 
-    const uniqueTags = new Set();
-    wikiItemsData.forEach(item => {
-        if (item.Tag && item.Tag !== 'N/A') {
-            uniqueTags.add(item.Tag);
-        }
-    });
-
-    // Define the desired order for tiers
+    // Define the desired order for tiers, including T0-T14, LG, ST, UT, EV, Event
     const customTierOrder = [
         'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10',
         'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'EV', 'Event'
     ];
 
-    const tiersToAdd = [];
-    customTierOrder.forEach(tier => {
-        if (uniqueTags.has(tier)) {
-            tiersToAdd.push(tier);
+    // Get unique tags actually present in the data, to ensure no duplicates if manually added
+    const uniqueTagsFromData = new Set();
+    wikiItemsData.forEach(item => {
+        if (item.Tag && item.Tag !== 'N/A') {
+            uniqueTagsFromData.add(item.Tag);
         }
     });
 
-    // Add any tags from items.txt that are not in customTierOrder
-    uniqueTags.forEach(tag => {
+    const tiersToAdd = [];
+    customTierOrder.forEach(tier => {
+        // Add predefined tiers if they are actually present in the data, or if we want them always
+        // For this request, we want them always. So no check for uniqueTagsFromData.has(tier)
+        tiersToAdd.push(tier);
+    });
+
+    // Add any *other* tags from items.txt that are not in our custom predefined list
+    uniqueTagsFromData.forEach(tag => {
         if (!customTierOrder.includes(tag)) {
             tiersToAdd.push(tag);
         }
     });
 
-    // Sort any remaining tags (not in customTierOrder) alphabetically
+    // Sort any remaining tags (not in customTierOrder) alphabetically if necessary
     tiersToAdd.sort((a, b) => {
         const indexA = customTierOrder.indexOf(a);
         const indexB = customTierOrder.indexOf(b);
 
         if (indexA === -1 && indexB === -1) {
-            return a.localeCompare(b); // Both not in custom order, sort alphabetically
+            // Both are not in custom order, sort alphabetically
+            return a.localeCompare(b);
         }
         if (indexA === -1) {
-            return 1; // A comes after B (B is in custom order)
+            // A is not in custom order, so B (which is in custom order) comes first
+            return 1;
         }
         if (indexB === -1) {
-            return -1; // A comes before B (A is in custom order)
+            // B is not in custom order, so A (which is in custom order) comes first
+            return -1;
         }
-        return indexA - indexB; // Sort by custom order index
+        // Both are in custom order, sort by their index
+        return indexA - indexB;
     });
 
+    // Remove duplicates from tiersToAdd while maintaining order (using Set again)
+    const finalSortedTiers = Array.from(new Set(tiersToAdd));
 
-    tiersToAdd.forEach(tag => {
+
+    finalSortedTiers.forEach(tag => {
         const option = document.createElement('option');
         option.value = tag.toLowerCase();
         option.textContent = tag;
@@ -889,8 +897,8 @@ function populateTierFilter() {
 function populateUsableByFilter() {
     if (!usableByFilterDropdown) return;
 
-    // Clear existing options, but keep "All Usable By Types"
-    usableByFilterDropdown.innerHTML = '<option value="all">All Usable By Types</option>';
+    // Clear existing options, but keep "No Filter"
+    usableByFilterDropdown.innerHTML = '<option value="all">No Filter</option>';
 
     const uniqueClasses = new Set();
     wikiItemsData.forEach(item => {
@@ -898,6 +906,7 @@ function populateUsableByFilter() {
             item.UsableBy.split(', ').forEach(cls => {
                 const trimmedCls = cls.trim();
                 // Exclude "All" if it appears as a class name itself (though it's usually a filter option)
+                // Also ensure "All" or "all" is not added as a selectable class from items.txt
                 if (trimmedCls && trimmedCls.toLowerCase() !== 'all') {
                     uniqueClasses.add(trimmedCls);
                 }
