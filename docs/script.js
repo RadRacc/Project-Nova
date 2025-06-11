@@ -135,7 +135,7 @@ const products = [
 let storeCredit = parseFloat(localStorage.getItem('storeCredit')) || 0;
 let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
-// --- Wiki Item Data (keep this part as it is used by wiki.html) ---
+// --- Wiki Item Data ---
 let wikiItemsData = []; // To store parsed data from items.txt
 let currentViewMode = 'spacious'; // Default view mode for wiki items
 let expandedItemId = null; // Stores the ID of the currently expanded item in compact view
@@ -143,49 +143,21 @@ let expandedItemId = null; // Stores the ID of the currently expanded item in co
 // Marketplace Server Status (dynamic)
 let marketplaceStatus = 'Checking...'; // Initial status
 
-
 // Mapping SlotType numbers to readable names for display (for Wiki)
 const slotTypeMap = {
-    "1": "Sword",
-    "2": "Dagger",
-    "3": "Bow",
-    "8": "Staff",
-    "9": "Wand",
-    "17": "Heavy Armor", // Plate Armor
-    "18": "Light Armor", // Leather Armor
-    "19": "Robe",
-    "20": "Ring",
-    "23": "Katana",
-    "24": "Helmet", // Helm (Warrior)
-    "25": "Quiver",
-    "26": "Tome",
-    "27": "Shield",
-    "28": "Cloak",
-    "29": "Trap",
-    "30": "Orb",
-    "31": "Poison",
-    "32": "Scepter",
-    "34": "Skull",
-    "35": "Seal",
-    "36": "Spell",
-    "40": "Prism",
-    "41": "Shuriken",
-    "42": "Lute",
-    "43": "Wakizashi",
-    "44": "Sheath",
-    "45": "Mace"
+    "1": "Sword", "2": "Dagger", "3": "Bow", "8": "Staff", "9": "Wand",
+    "17": "Heavy Armor", "18": "Light Armor", "19": "Robe", "20": "Ring",
+    "23": "Katana", "24": "Helmet", "25": "Quiver", "26": "Tome",
+    "27": "Shield", "28": "Cloak", "29": "Trap", "30": "Orb",
+    "31": "Poison", "32": "Scepter", "34": "Skull", "35": "Seal",
+    "36": "Spell", "40": "Prism", "41": "Shuriken", "42": "Lute",
+    "43": "Wakizashi", "44": "Sheath", "45": "Mace"
 };
 
 // Mapping Stat IDs to readable names for ActivateOnEquip (for Wiki)
 const statIdMap = {
-    "21": "Max HP",
-    "22": "Max MP",
-    "20": "Attack",
-    "26": "Defense",
-    "27": "Speed",
-    "28": "Dexterity",
-    "29": "Vitality",
-    "30": "Wisdom"
+    "21": "Max HP", "22": "Max MP", "20": "Attack", "26": "Defense",
+    "27": "Speed", "28": "Dexterity", "29": "Vitality", "30": "Wisdom"
 };
 
 
@@ -255,9 +227,9 @@ function renderProducts() {
     const productGridSections = ['supporter-ranks', 'global-boosts', 'currency-packs'];
 
     productGridSections.forEach(sectionId => {
-        const sectionElement = document.getElementById(sectionId); // This gets the SECTION element by ID
+        const sectionElement = document.getElementById(sectionId);
         if (sectionElement) {
-            const productGrid = sectionElement.querySelector('.product-grid'); // This finds the .product-grid DIV inside the section
+            const productGrid = sectionElement.querySelector('.product-grid');
             if (productGrid) {
                 productGrid.innerHTML = ''; // Clear existing products
 
@@ -543,7 +515,10 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
     };
 
     try {
-        const response = await fetch('/purchase', { // Assuming /purchase endpoint on the same origin
+        // NOTE: You'll need to run your app.py locally or deploy it.
+        // If your app.py is running on a specific port (e.g., 5000), you might need
+        // to specify the full URL: 'http://localhost:5000/purchase'
+        const response = await fetch('/purchase', { // Assumes /purchase endpoint on the same origin
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -561,8 +536,6 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
 
     } catch (error) {
         console.error('Error sending order to backend:', error);
-        // Inform user that there was an issue with backend communication
-        // But the credit has already been deducted and the order ID is shown in messagebox
         showCustomMessageBox(
             `There was an issue contacting the delivery server.` +
             `<br>Your credit has been deducted. Please use order #${orderId} and screenshot this for manual verification if needed.`,
@@ -852,7 +825,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                         <ul>
                 `;
                 item.Set.Bonuses.forEach(bonus => {
-                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
+                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</b> <span>${bonus.description}</span></li>`;
                 });
                 setBonusHtml += `
                             <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
@@ -902,7 +875,7 @@ function updateServerStatus() {
     }
 }
 
-// New: Updates the marketplace status display based on `marketplaceStatus` variable
+// Updates the marketplace status display based on `marketplaceStatus` variable
 function updateMarketplaceStatusDisplay() {
     if (marketplaceStatusText && marketplaceStatusCircle) {
         marketplaceStatusText.textContent = marketplaceStatus;
@@ -918,10 +891,12 @@ function updateMarketplaceStatusDisplay() {
     }
 }
 
-// New: Checks the backend server status
+// Checks the backend server status
 async function checkMarketplaceStatus() {
     try {
-        const response = await fetch('/', { method: 'HEAD' }); // Use HEAD request as it's lighter
+        // Attempt to fetch from the root of the server, or a specific status endpoint
+        // Using a HEAD request is lighter than GET if you just need status.
+        const response = await fetch('/', { method: 'HEAD' });
         if (response.ok) {
             marketplaceStatus = 'Online';
         } else {
@@ -931,7 +906,7 @@ async function checkMarketplaceStatus() {
         console.error("Could not reach backend for status check:", error);
         marketplaceStatus = 'Down';
     }
-    updateMarketplaceStatusDisplay();
+    updateMarketplaceStatusDisplay(); // Always update display after check
 }
 
 
@@ -957,7 +932,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isShopPage) {
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
         if (cartButton) cartButton.style.display = 'flex';
-        renderProducts();
+        renderProducts(); // This will now render all products
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', promptForUsernameAndCheckout);
