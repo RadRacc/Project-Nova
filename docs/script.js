@@ -170,6 +170,18 @@ const slotTypeMap = {
     "45": "Mace"
 };
 
+// Mapping Stat IDs to readable names for ActivateOnEquip
+const statIdMap = {
+    "21": "Max HP",
+    "22": "Max MP",
+    "20": "Attack",
+    "26": "Defense",
+    "27": "Speed",
+    "28": "Dexterity",
+    "29": "Vitality",
+    "30": "Wisdom"
+};
+
 
 // --- DOM Elements (get references once) ---
 // Global elements (used across multiple pages)
@@ -542,7 +554,7 @@ async function fetchItemsData() {
             item.Description = obj.querySelector('Description')?.textContent;
             item.Tag = obj.querySelector('Tag')?.textContent || 'N/A'; // Parse the new Tag
 
-            // Collect other properties
+            // Collect common equipment/ability properties
             const damageMin = obj.querySelector('MinDamage')?.textContent;
             const damageMax = obj.querySelector('MaxDamage')?.textContent;
             if (damageMin && damageMax) {
@@ -550,27 +562,54 @@ async function fetchItemsData() {
             }
 
             item.RateOfFire = obj.querySelector('RateOfFire')?.textContent;
-            item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
             item.MPCost = obj.querySelector('MPCost')?.textContent;
             item.Defense = obj.querySelector('Defense')?.textContent;
+            item.Range = obj.querySelector('Range')?.textContent; // Range for weapons
+            item.ArcGap = obj.querySelector('ArcGap')?.textContent; // Arc Gap for projectiles
+            item.FameBonus = obj.querySelector('FameBonus')?.textContent; // Fame Bonus
+            item.Soulbound = obj.querySelector('Soulbound')?.textContent === 'true'; // Soulbound (boolean)
+            item.UsableBy = obj.querySelector('UsableBy')?.textContent; // UsableBy Classes
 
-            // Handle ActivateOnEquip for rings
-            const activateOnEquip = obj.querySelector('ActivateOnEquip');
-            if (activateOnEquip) {
-                const statId = activateOnEquip.getAttribute('stat');
-                const statValue = activateOnEquip.textContent;
-                // You might need a more comprehensive stat mapping
-                const statName = {
-                    "21": "Max HP",
-                    "22": "Max MP",
-                    "20": "Attack",
-                    "26": "Defense",
-                    "27": "Speed",
-                    "28": "Dexterity",
-                    "29": "Vitality",
-                    "30": "Wisdom"
-                }[statId] || `Stat ${statId}`;
-                item.StatBoost = `${statName}: +${statValue}`;
+            // Handle ActivateOnEquip for stat boosts (modified to handle multiple)
+            const activateOnEquipElements = obj.querySelectorAll('ActivateOnEquip');
+            if (activateOnEquipElements.length > 0) {
+                item.StatBoosts = []; // Initialize as an array to hold multiple boosts
+                activateOnEquipElements.forEach(aoe => {
+                    const statId = aoe.getAttribute('stat');
+                    const statValue = aoe.textContent;
+                    const statName = statIdMap[statId] || `Stat ${statId}`; // Use the mapping
+                    item.StatBoosts.push(`${statName}: +${statValue}`);
+                });
+            }
+
+            // Handle Projectile Specific Properties (nesting within <Projectile> tag)
+            const projectileElement = obj.querySelector('Projectile');
+            if (projectileElement) {
+                item.NumProjectiles = projectileElement.querySelector('NumProjectiles')?.textContent || '1'; // Default to 1 if not specified
+                item.ShotsBoomerang = projectileElement.querySelector('Boomerang') ? true : false;
+                item.ShotsMultiHit = projectileElement.querySelector('MultiHit') ? true : false;
+                item.ShotsPassesCover = projectileElement.querySelector('PassesCover') ? true : false;
+                item.IgnoresDefense = projectileElement.querySelector('PierceDefense') ? true : false;
+            } else {
+                // If no <Projectile> tag, but NumProjectiles exists directly on Object (for old formats)
+                item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
+            }
+
+
+            // Handle Set Bonuses
+            const setElement = obj.querySelector('Set');
+            if (setElement) {
+                item.Set = {
+                    Name: setElement.getAttribute('name'),
+                    Bonuses: [],
+                    FullBonus: setElement.querySelector('FullSetBonus')?.textContent
+                };
+                setElement.querySelectorAll('SetBonus').forEach(bonusElem => {
+                    item.Set.Bonuses.push({
+                        pieces: bonusElem.getAttribute('pieces'),
+                        description: bonusElem.textContent
+                    });
+                });
             }
 
             items.push(item);
@@ -608,7 +647,9 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             item.id?.toLowerCase().includes(lowerCaseQuery) ||
             (item.Class && item.Class.toLowerCase().includes(lowerCaseQuery)) ||
             (slotTypeMap[item.SlotType] && slotTypeMap[item.SlotType].toLowerCase().includes(lowerCaseQuery)) ||
-            (item.Tag && item.Tag.toLowerCase().includes(lowerCaseQuery)) // Search by tag
+            (item.Tag && item.Tag.toLowerCase().includes(lowerCaseQuery)) || // Search by tag
+            (item.Set && item.Set.Name && item.Set.Name.toLowerCase().includes(lowerCaseQuery)) || // Search by set name
+            (item.UsableBy && item.UsableBy.toLowerCase().includes(lowerCaseQuery)) // Search by usable classes
         );
     }
 
@@ -629,19 +670,105 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         // Fallback image using placehold.co in case the specific image is not found
         const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
 
+        let itemPropertiesHtml = '';
+
+        // Top section of properties
+        itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
+        if (item.UsableBy) {
+            itemPropertiesHtml += `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>`;
+        }
+        if (item.Damage) {
+            itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
+        }
+        if (item.Soulbound) { // Display "Soulbound?" based on boolean
+            itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>Yes</span></p>`;
+        } else {
+            itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>No</span></p>`;
+        }
+        if (item.Description) {
+            itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
+        }
+
+        // Horizontal Rule for separation
+        itemPropertiesHtml += `<hr class="item-properties-separator">`;
+
+        // Projectile specific properties
+        if (item.NumProjectiles) {
+            itemPropertiesHtml += `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>`;
+        }
+        if (item.Range) {
+            itemPropertiesHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
+        }
+        if (item.ShotsBoomerang) {
+            itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>Yes</span></p>`;
+        } else if (item.NumProjectiles) { // Only show 'No' if it's a projectile item
+            itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>No</span></p>`;
+        }
+        if (item.ShotsMultiHit) {
+            itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>Yes</span></p>`;
+        } else if (item.NumProjectiles) {
+             itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>No</span></p>`;
+        }
+        if (item.ShotsPassesCover) {
+            itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>Yes</span></p>`;
+        } else if (item.NumProjectiles) {
+            itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>No</span></p>`;
+        }
+        if (item.IgnoresDefense) {
+            itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>Yes</span></p>`;
+        } else if (item.NumProjectiles) {
+            itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>No</span></p>`;
+        }
+        if (item.RateOfFire) {
+            itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
+        }
+        if (item.FameBonus) {
+            itemPropertiesHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
+        }
+
+        // Add Stat Boosts if applicable (this was already there)
+        if (item.StatBoosts && item.StatBoosts.length > 0) {
+            // Add a separator before stat boosts if there were projectile properties
+            if (item.NumProjectiles || item.Range || item.ArcGap || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.RateOfFire || item.FameBonus) {
+                 itemPropertiesHtml += `<hr class="item-properties-separator">`;
+            }
+            itemPropertiesHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
+        }
+
+        // Add Soulbound tag below Fame Bonus (if applicable and if not already displayed as Soulbound?)
+        let soulboundTagAfterFame = '';
+        if (item.Soulbound) { // Only show this tag if the property is true
+            soulboundTagAfterFame = `<div class="item-tag soulbound">Soulbound</div>`;
+        }
+
+
+        // Add Set Bonuses if applicable
+        let setBonusHtml = '';
+        if (item.Set) {
+            // Add a separator before set bonuses
+            itemPropertiesHtml += `<hr class="item-properties-separator">`;
+            setBonusHtml += `
+                <div class="item-set-bonus">
+                    <h4>Set: ${item.Set.Name}</h4>
+                    <ul>
+            `;
+            item.Set.Bonuses.forEach(bonus => {
+                setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
+            });
+            setBonusHtml += `
+                        <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
+                    </ul>
+                </div>
+            `;
+        }
+
         itemCard.innerHTML = `
             <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
             <h3>${item.DisplayId || item.id}</h3>
-            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div> <!-- Display the tag with dynamic class for styling -->
-            <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
-            <p><strong>Description:</strong> ${item.Description || 'No description provided.'}</p>
-            ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
-            ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
-            ${item.MPCost ? `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>` : ''}
-            ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
-            ${item.StatBoost ? `<p><strong>Stat Boost:</strong> <span>${item.StatBoost}</span></p>` : ''}
-            ${item.Range ? `<p><strong>Range:</strong> <span>${item.Range}</span></p>` : ''}
-            <!-- Add more item properties as needed based on your XML structure -->
+            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
+            ${itemPropertiesHtml}
+            ${soulboundTagAfterFame}
+            ${setBonusHtml}
         `;
         itemDisplayArea.appendChild(itemCard);
     });
