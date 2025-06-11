@@ -7,6 +7,7 @@
         <Description>A sharp dagger made of steel.</Description>
         <MinDamage>25</MinDamage>
         <MaxDamage>70</MaxDamage>
+        <Range>5.6</Range>
         <RateOfFire>1.0</RateOfFire>
         <Tag>T0</Tag> <!-- Added Tag -->
     </Object>
