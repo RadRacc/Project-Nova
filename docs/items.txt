@@ -1,192 +1,192 @@
-<!--
-    ITEM OBJECT ATTRIBUTES AND PROPERTIES REFERENCE
-
-    This document defines the structure for in-game items.
-    Each <Object> element with Item="true" represents a distinct item.
-
-    --- <Object> ATTRIBUTES ---
-    - type: (string, required) A hexadecimal identifier for the item (e.g., "0x0040").
-    - id: (string, required) A unique string identifier for the item (e.g., "Steel Dagger"). Used internally.
-    - Item: (string, required) Must be "true" to identify this object as an item.
-
-    --- <Object> CHILD PROPERTIES ---
-
-    <DisplayId> (string, optional)
-        The display name of the item shown in-game. If not present, 'id' is used.
-        Example: <DisplayId>Shadowfang Blade</DisplayId>
-
-    <Class> (string, required)
-        The category of the item. Common values:
-        - "Equipment": For weapons, armor, rings.
-        - "Ability": For usable abilities (cloaks, spells, etc.).
-        Example: <Class>Equipment</Class>
-
-    <SlotType> (integer, required)
-        A numeric identifier indicating which equipment slot the item belongs to.
-        Common values and their corresponding item types:
-        - 1: Sword
-        - 2: Dagger
-        - 3: Bow
-        - 8: Staff
-        - 9: Wand
-        - 17: Heavy Armor (Plate Armor)
-        - 18: Light Armor (Leather Armor)
-        - 19: Robe
-        - 20: Ring
-        - 23: Katana
-        - 24: Helmet (Warrior Ability)
-        - 25: Quiver (Archer Ability)
-        - 26: Tome (Priest Ability)
-        - 27: Shield (Knight Ability)
-        - 28: Cloak (Rogue Ability)
-        - 29: Trap (Huntress Ability)
-        - 30: Orb (Mystic Ability)
-        - 31: Poison (Assassin Ability)
-        - 32: Scepter (Sorcerer Ability)
-        - 34: Skull (Necromancer Ability)
-        - 35: Seal (Paladin Ability)
-        - 36: Spell (Wizard Ability)
-        - 40: Prism (Trickster Ability)
-        - 41: Shuriken (Ninja Ability)
-        - 42: Lute (Bard Ability)
-        - 43: Wakizashi (Samurai Ability)
-        - 44: Sheath (Summoner Ability)
-        - 45: Mace (Kensei Ability)
-        Example: <SlotType>2</SlotType> <!-- Dagger -->
-
-    <Description> (string, optional)
-        A brief text description of the item.
-        Example: <Description>A sharp dagger made of steel.</Description>
-
-    <MinDamage> (integer, optional)
-        Minimum damage value for weapons.
-        Example: <MinDamage>25</MinDamage>
-
-    <MaxDamage> (integer, optional)
-        Maximum damage value for weapons.
-        Example: <MaxDamage>70</MaxDamage>
-
-    <RateOfFire> (float, optional)
-        Attack speed multiplier. Higher values mean faster attacks.
-        Example: <RateOfFire>1.0</RateOfFire>
-
-    <MPCost> (integer, optional)
-        Mana cost for ability items.
-        Example: <MPCost>70</MPCost>
-
-    <Defense> (integer, optional)
-        Defense bonus provided by armor or ability.
-        Example: <Defense>10</Defense>
-
-    <Range> (float, optional)
-        Attack range for weapons.
-        Example: <Range>5.6</Range>
-
-    <ArcGap> (float, optional)
-        Angle between projectiles for multi-shot weapons (in degrees).
-        Example: <ArcGap>12.0</ArcGap>
-
-    <FameBonus> (integer, optional)
-        Percentage bonus to fame gained while equipped.
-        Example: <FameBonus>1</FameBonus>
-
-    <Soulbound> (boolean, optional)
-        If "true", the item cannot be traded. Defaults to false if not present.
-        Example: <Soulbound>true</Soulbound>
-
-    <UsableBy> (string, optional)
-        Comma-separated list of classes that can use this item.
-        "All" can be used for items usable by any class (e.g., rings).
-        Example: <UsableBy>Rogue, Assassin, Trickster, Ninja</UsableBy>
-
-    <ActivateOnEquip stat="{statId}"> (integer, optional, can be multiple)
-        Grants a stat bonus when equipped.
-        Attributes:
-        - stat: Numeric ID of the stat to boost.
-            - 20: Attack (ATT)
-            - 21: Max HP
-            - 22: Max MP
-            - 26: Defense (DEF)
-            - 27: Speed (SPD)
-            - 28: Dexterity (DEX)
-            - 29: Vitality (VIT)
-            - 30: Wisdom (WIS)
-        Content: The integer value of the stat boost.
-        Example: <ActivateOnEquip stat="21">50</ActivateOnEquip> <!-- +50 Max HP -->
-
-    <Activate> (container, optional)
-        Defines an ability's effect. Can contain multiple effects.
-        Common child elements:
-        - <ConditionEffect effect="{effectName}" duration="{seconds}"/>
-            Applies a status effect.
-            - effect: Name of the condition effect (e.g., "Invisible", "Damaging", "Stunned", "Healing", "Poisoned", "Slowed", "Dazed", "Exposed", "Inspired").
-            - duration: Duration of the effect in seconds.
-        - <Teleport/>: Teleports the user.
-        - <Decoy duration="{seconds}"/>: Creates a decoy.
-        - <Heal>{amount}</Heal>: Heals for a specified amount.
-        - <Radius>{value}</Radius>: Radius of effect for abilities.
-        - <Summon type="{objectType}" duration="{seconds}"/>: Summons a minion.
-            - type: Hex ID of the minion to summon.
-            - duration: Duration of the minion in seconds.
-        Example:
-        <Activate>
-            <ConditionEffect effect="Invisible" duration="3"/>
-        </Activate>
-
-    <Projectile> (container, optional)
-        Defines properties of a weapon's projectile.
-        Common child elements:
-        - <ObjectId>{objectName}</ObjectId>: The internal ID of the projectile sprite.
-        - <Speed>{value}</Speed>: Speed of the projectile.
-        - <MinDamage>{value}</MinDamage>: Minimum damage for the projectile.
-        - <MaxDamage>{value}</MaxDamage>: Maximum damage for the projectile.
-        - <LifetimeMS>{milliseconds}</LifetimeMS>: How long the projectile exists in milliseconds.
-        - <NumProjectiles> (integer, optional)
-            Number of projectiles fired. If not explicitly set in Projectile, defaults to 1.
-            If defined directly under <Object>, applies to the main attack if no <Projectile> exists.
-        - <Boomerang/> (empty tag, optional): Projectile returns to the player.
-        - <MultiHit/> (empty tag, optional): Projectile can hit multiple targets.
-        - <PassesCover/> (empty tag, optional): Projectile passes through obstacles.
-        - <PierceDefense/> (empty tag, optional): Projectile ignores enemy defense.
-        Example:
-        <Projectile>
-            <ObjectId>Arrow</ObjectId>
-            <Speed>120</Speed>
-            <MinDamage>80</MinDamage>
-            <MaxDamage>120</MaxDamage>
-            <LifetimeMS>800</LifetimeMS>
-            <PassesCover/>
-        </Projectile>
-
-    <Tag> (string, optional)
-        A classification tag for the item, used for filtering (e.g., in wiki).
-        Common values:
-        - T0, T1, ..., T14: Tiered items.
-        - UT: Untiered items.
-        - ST: Set-piece items.
-        - LG: Legendary items.
-        - Event: Items related to special events.
-        Example: <Tag>ST</Tag>
-
-    <Set name="{setName}"> (container, optional)
-        Defines properties for an item that is part of an equipment set.
-        Attributes:
-        - name: The name of the set this item belongs to.
-        Common child elements:
-        - <SetBonus pieces="{count}">{description}</SetBonus> (can be multiple)
-            Describes the bonus gained for equipping a certain number of set pieces.
-            - pieces: Number of set pieces required for this bonus.
-            - Content: Description of the bonus.
-        - <FullSetBonus>{description}</FullSetBonus>
-            Describes the bonus gained for equipping all pieces of the set.
-        Example:
-        <Set name="Lost Golem Set">
-            <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
-            <FullSetBonus>+40 HP, +10 ATT</FullSetBonus>
-        </Set>
-
--->
 <Objects>
+    <!--
+        ITEM OBJECT ATTRIBUTES AND PROPERTIES REFERENCE
+
+        This document defines the structure for in-game items.
+        Each <Object> element with Item="true" represents a distinct item.
+
+        --- <Object> ATTRIBUTES ---
+        - type: (string, required) A hexadecimal identifier for the item (e.g., "0x0040").
+        - id: (string, required) A unique string identifier for the item (e.g., "Steel Dagger"). Used internally.
+        - Item: (string, required) Must be "true" to identify this object as an item.
+
+        --- <Object> CHILD PROPERTIES ---
+
+        <DisplayId> (string, optional)
+            The display name of the item shown in-game. If not present, 'id' is used.
+            Example: <DisplayId>Shadowfang Blade</DisplayId>
+
+        <Class> (string, required)
+            The category of the item. Common values:
+            - "Equipment": For weapons, armor, rings.
+            - "Ability": For usable abilities (cloaks, spells, etc.).
+            Example: <Class>Equipment</Class>
+
+        <SlotType> (integer, required)
+            A numeric identifier indicating which equipment slot the item belongs to.
+            Common values and their corresponding item types:
+            - 1: Sword
+            - 2: Dagger
+            - 3: Bow
+            - 8: Staff
+            - 9: Wand
+            - 17: Heavy Armor (Plate Armor)
+            - 18: Light Armor (Leather Armor)
+            - 19: Robe
+            - 20: Ring
+            - 23: Katana
+            - 24: Helmet (Warrior Ability)
+            - 25: Quiver (Archer Ability)
+            - 26: Tome (Priest Ability)
+            - 27: Shield (Knight Ability)
+            - 28: Cloak (Rogue Ability)
+            - 29: Trap (Huntress Ability)
+            - 30: Orb (Mystic Ability)
+            - 31: Poison (Assassin Ability)
+            - 32: Scepter (Sorcerer Ability)
+            - 34: Skull (Necromancer Ability)
+            - 35: Seal (Paladin Ability)
+            - 36: Spell (Wizard Ability)
+            - 40: Prism (Trickster Ability)
+            - 41: Shuriken (Ninja Ability)
+            - 42: Lute (Bard Ability)
+            - 43: Wakizashi (Samurai Ability)
+            - 44: Sheath (Summoner Ability)
+            - 45: Mace (Kensei Ability)
+            Example: <SlotType>2</SlotType> <!-- Dagger -->
+
+        <Description> (string, optional)
+            A brief text description of the item.
+            Example: <Description>A sharp dagger made of steel.</Description>
+
+        <MinDamage> (integer, optional)
+            Minimum damage value for weapons.
+            Example: <MinDamage>25</MinDamage>
+
+        <MaxDamage> (integer, optional)
+            Maximum damage value for weapons.
+            Example: <MaxDamage>70</MaxDamage>
+
+        <RateOfFire> (float, optional)
+            Attack speed multiplier. Higher values mean faster attacks.
+            Example: <RateOfFire>1.0</RateOfFire>
+
+        <MPCost> (integer, optional)
+            Mana cost for ability items.
+            Example: <MPCost>70</MPCost>
+
+        <Defense> (integer, optional)
+            Defense bonus provided by armor or ability.
+            Example: <Defense>10</Defense>
+
+        <Range> (float, optional)
+            Attack range for weapons.
+            Example: <Range>5.6</Range>
+
+        <ArcGap> (float, optional)
+            Angle between projectiles for multi-shot weapons (in degrees).
+            Example: <ArcGap>12.0</ArcGap>
+
+        <FameBonus> (integer, optional)
+            Percentage bonus to fame gained while equipped.
+            Example: <FameBonus>1</FameBonus>
+
+        <Soulbound> (boolean, optional)
+            If "true", the item cannot be traded. Defaults to false if not present.
+            Example: <Soulbound>true</Soulbound>
+
+        <UsableBy> (string, optional)
+            Comma-separated list of classes that can use this item.
+            "All" can be used for items usable by any class (e.g., rings).
+            Example: <UsableBy>Rogue, Assassin, Trickster, Ninja</UsableBy>
+
+        <ActivateOnEquip stat="{statId}"> (integer, optional, can be multiple)
+            Grants a stat bonus when equipped.
+            Attributes:
+            - stat: Numeric ID of the stat to boost.
+                - 20: Attack (ATT)
+                - 21: Max HP
+                - 22: Max MP
+                - 26: Defense (DEF)
+                - 27: Speed (SPD)
+                - 28: Dexterity (DEX)
+                - 29: Vitality (VIT)
+                - 30: Wisdom (WIS)
+            Content: The integer value of the stat boost.
+            Example: <ActivateOnEquip stat="21">50</ActivateOnEquip> <!-- +50 Max HP -->
+
+        <Activate> (container, optional)
+            Defines an ability's effect. Can contain multiple effects.
+            Common child elements:
+            - <ConditionEffect effect="{effectName}" duration="{seconds}"/>
+                Applies a status effect.
+                - effect: Name of the condition effect (e.g., "Invisible", "Damaging", "Stunned", "Healing", "Poisoned", "Slowed", "Dazed", "Exposed", "Inspired").
+                - duration: Duration of the effect in seconds.
+            - <Teleport/>: Teleports the user.
+            - <Decoy duration="{seconds}"/>: Creates a decoy.
+            - <Heal>{amount}</Heal>: Heals for a specified amount.
+            - <Radius>{value}</Radius>: Radius of effect for abilities.
+            - <Summon type="{objectType}" duration="{seconds}"/>: Summons a minion.
+                - type: Hex ID of the minion to summon.
+                - duration: Duration of the minion in seconds.
+            Example:
+            <Activate>
+                <ConditionEffect effect="Invisible" duration="3"/>
+            </Activate>
+
+        <Projectile> (container, optional)
+            Defines properties of a weapon's projectile.
+            Common child elements:
+            - <ObjectId>{objectName}</ObjectId>: The internal ID of the projectile sprite.
+            - <Speed>{value}</Speed>: Speed of the projectile.
+            - <MinDamage>{value}</MinDamage>: Minimum damage for the projectile.
+            - <MaxDamage>{value}</MaxDamage>: Maximum damage for the projectile.
+            - <LifetimeMS>{milliseconds}</LifetimeMS>: How long the projectile exists in milliseconds.
+            - <NumProjectiles> (integer, optional)
+                Number of projectiles fired. If not explicitly set in Projectile, defaults to 1.
+                If defined directly under <Object>, applies to the main attack if no <Projectile> exists.
+            - <Boomerang/> (empty tag, optional): Projectile returns to the player.
+            - <MultiHit/> (empty tag, optional): Projectile can hit multiple targets.
+            - <PassesCover/> (empty tag, optional): Projectile passes through obstacles.
+            - <PierceDefense/> (empty tag, optional): Projectile ignores enemy defense.
+            Example:
+            <Projectile>
+                <ObjectId>Arrow</ObjectId>
+                <Speed>120</Speed>
+                <MinDamage>80</MinDamage>
+                <MaxDamage>120</MaxDamage>
+                <LifetimeMS>800</LifetimeMS>
+                <PassesCover/>
+            </Projectile>
+
+        <Tag> (string, optional)
+            A classification tag for the item, used for filtering (e.g., in wiki).
+            Common values:
+            - T0, T1, ..., T14: Tiered items.
+            - UT: Untiered items.
+            - ST: Set-piece items.
+            - LG: Legendary items.
+            - Event: Items related to special events.
+            Example: <Tag>ST</Tag>
+
+        <Set name="{setName}"> (container, optional)
+            Defines properties for an item that is part of an equipment set.
+            Attributes:
+            - name: The name of the set this item belongs to.
+            Common child elements:
+            - <SetBonus pieces="{count}">{description}</SetBonus> (can be multiple)
+                Describes the bonus gained for equipping a certain number of set pieces.
+                - pieces: Number of set pieces required for this bonus.
+                - Content: Description of the bonus.
+            - <FullSetBonus>{description}</FullSetBonus>
+                Describes the bonus gained for equipping all pieces of the set.
+            Example:
+            <Set name="Lost Golem Set">
+                <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
+                <FullSetBonus>+40 HP, +10 ATT</FullSetBonus>
+            </Set>
+
+    -->
     <!-- DAGGERS -->
     <Object type="0x0040" id="Steel Dagger" Item="true">
         <DisplayId>Steel Dagger</DisplayId>
