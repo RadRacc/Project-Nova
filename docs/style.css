@@ -224,7 +224,7 @@ footer {
 }
 
 #shop-page header .header-main-content {
-    /* flex: 1; Uncomment if this needs to grow, but for fixed content, not always needed */
+    /* No flex: 1 here, let it take natural width and center */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -233,23 +233,23 @@ footer {
     display: flex;
     align-items: center;
     gap: 20px;
-    width: 100%; /* Take full width to allow margin-left: auto to push right */
-    justify-content: flex-end; /* Pushes content to the right */
-    margin-top: 20px; /* Space from main content */
+    /* PUSH TO RIGHT */
+    width: 100%; /* Important for margin-left: auto to work */
+    justify-content: flex-end; /* Align contents to the end (right) */
+    margin-top: 20px;
     padding-right: 20px; /* Add some padding from the right edge */
-    box-sizing: border-box; /* Include padding in width */
+    box-sizing: border-box;
 }
 
-/* Navigation Bar */
+/* Navigation Bar - Centered */
 #shop-page header .nav-container {
     background-color: #282828;
     padding: 15px 20px;
     border-radius: 10px;
     margin: 20px auto 0 auto; /* Centered horizontally, space from above */
-    display: inline-block; /* Allows width to shrink to content, good for margin auto */
+    /* Removed display: inline-block; to let margin: auto handle full width centering */
+    max-width: fit-content; /* Shrink to content width */
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 100%; /* Ensure it doesn't overflow */
-    box-sizing: border-box;
 }
 
 #shop-page header .nav-container nav {
@@ -258,6 +258,7 @@ footer {
     gap: 20px;
     flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
+
 
 /* Marketplace Status Container positioning */
 .marketplace-status-container {
