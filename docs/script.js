@@ -666,6 +666,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
         // Determine the actual view mode for THIS specific card
+        // If currentViewMode is 'compact' AND this item is NOT the expanded one, then it's compact.
+        // Otherwise (currentViewMode is 'spacious' OR this item IS the expanded one), it's spacious.
         const cardDisplayMode = (currentViewMode === 'compact' && item.id !== expandedItemId) ? 'compact' : 'spacious';
         itemCard.className = `item-card ${cardDisplayMode}-view`;
 
