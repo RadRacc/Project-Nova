@@ -632,7 +632,7 @@ function showCustomMessageBox(message, title, type = 'info') {
 }
 
 
-// --- WIKI SPECIFIC FUNCTIONS --- (Keeping these for completeness, relevant to wiki.html)
+// --- WIKI SPECIFIC FUNCTIONS ---
 
 // Function to fetch and parse items.txt
 async function fetchItemsData() {
@@ -783,7 +783,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         let itemContentHtml = '';
 
         if (cardDisplayMode === 'compact') {
-            let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator">SB</span>' : '';
+            // FIX: Conditionally add the compact-tag class for Soulbound
+            let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator compact-tag">SB</span>' : '';
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
                 <h3>${item.DisplayId || item.id}</h3>
@@ -800,10 +801,11 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.Damage) {
                 itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
             }
+            // FIX: Changed "Soulbound?" to "Soulbound" and added tag
             if (item.Soulbound) {
-                itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>Yes</span></p>`;
+                itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>Yes</span> <span class="item-tag soulbound">Soulbound</span></p>`;
             } else {
-                itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>No</span></p>`;
+                itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>No</span></p>`;
             }
             if (item.Description) {
                 itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
@@ -827,7 +829,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
             }
             if (item.ArcGap) {
-                itemPropertiesHtml += `<p><strong>Arc Gap:</b> <span>${item.ArcGap}°</span></p>`;
+                itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
             }
             if (item.RateOfFire) {
                 itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
