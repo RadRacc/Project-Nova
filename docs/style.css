@@ -208,26 +208,26 @@ footer {
 
 /* Shop Page Specific Styles - Reworked Flex Layout for Header */
 #shop-page header {
-    display: flex; /* Use flexbox for overall header layout */
-    flex-wrap: wrap; /* Allow items to wrap */
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
     justify-content: space-between; /* Distribute items horizontally */
-    align-items: flex-start; /* Align items to the top */
+    align-items: flex-start; /* Align items to the top of the flex container */
     padding: 20px;
     position: relative;
     box-sizing: border-box;
 }
 
 #shop-page header .discord-logo-link {
-    position: absolute; /* Keep absolute for top-left */
+    position: absolute; /* Keep absolute for top-left positioning */
     top: 20px;
     left: 20px;
     z-index: 10;
 }
 
 #shop-page header .header-main-content {
-    flex: 1 1 100%; /* Take full width on new line, allow shrinking */
+    flex: 1 1 100%; /* Take full width on a new line, allow shrinking/growing */
     text-align: center;
-    order: 0; /* Default order, will appear first in flow */
+    order: 0; /* Ensures it appears first in the flow */
     margin-bottom: 20px;
 }
 
@@ -235,15 +235,15 @@ footer {
     display: flex;
     align-items: center;
     gap: 20px;
-    order: 1; /* Appear after main content */
-    margin-left: auto; /* Pushes this container to the right */
-    flex-shrink: 0; /* Prevent shrinking */
+    order: 1; /* Appears after main content */
+    margin-left: auto; /* Pushes this container to the far right */
+    flex-shrink: 0; /* Prevents shrinking */
 }
 
 /* FIX: Shop Navigation Bar width and centering using flex */
 #shop-page header .nav-container {
-    flex: 1 1 100%; /* Take full width of the header, allow wrapping */
-    order: 2; /* Appear after right container */
+    flex: 1 1 100%; /* Take full width of the header, allowing wrapping */
+    order: 2; /* Appears after header-right-container */
     display: flex;
     justify-content: center; /* Center the nav buttons horizontally */
     align-items: center; /* Center vertically */
@@ -251,8 +251,8 @@ footer {
     background-color: #282828;
     border-radius: 10px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    margin: 20px auto 0 auto; /* Center the container itself and add top margin */
-    max-width: fit-content; /* Make the container only as wide as its content */
+    margin: 20px auto 0 auto; /* Centers the container itself and adds top margin */
+    max-width: fit-content; /* Makes the container only as wide as its content */
 }
 
 /* Marketplace Status Container positioning */
@@ -265,7 +265,7 @@ footer {
     font-size: 1em;
     color: #f0f0f0;
     gap: 8px;
-    order: 3; /* Appear last */
+    order: 3; /* Appears last in the header flow */
     padding-bottom: 10px;
 }
 
@@ -368,7 +368,7 @@ footer {
     font-size: 1.1em;
     font-weight: bold;
     display: flex;
-    align-items: center;
+    align-items: center; /* Vertically align content (icon and text) */
     gap: 8px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -383,8 +383,7 @@ footer {
     width: 24px;
     height: 24px;
     filter: invert(1);
-    /* FIX: Remove any unwanted margins that might cause offset */
-    margin: 0;
+    margin: 0; /* Ensure no extra margins cause offset */
 }
 
 /* Product Grid */
@@ -405,8 +404,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* FIX: Ensure min-height to make product tiles visible even if content is minimal */
-    min-height: 250px; /* Adjust as needed */
+    min-height: 250px; /* Ensure product tiles are visible and have a consistent minimum height */
 }
 
 .product-tile:hover {
@@ -426,7 +424,7 @@ footer {
     color: #ff69b4;
     font-size: 1.5em;
     margin-bottom: 10px;
-    flex-grow: 1; /* Allows h3 to take available space */
+    flex-grow: 1;
 }
 
 .product-tile .price-info {
@@ -1000,7 +998,7 @@ footer {
     border-radius: 5px;
     font-size: 0.8em;
     font-weight: bold;
-    color: #1a1a1a;
+    color: #1a1a1a; /* Default dark text for tags */
     background-color: #87ceeb;
     text-transform: uppercase;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -1012,8 +1010,7 @@ footer {
 .item-card .item-tag.t2 { background-color: #B8B7B7; }
 .item-card .item-tag.t3 { background-color: #838383; }
 .item-card .item-tag.t4 { background-color: #656565; }
-.item-card .item-tag.t5 { background-color: #ff4500; }
-/* Tiered tags (T6-T14) were probably placeholders, adding specific colors */
+.item-card .item-tag.t5 { background-color: #ff4500; color: #ffffff; } /* SB Tag: Orange-Red background, now with white text */
 .item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
 .item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
 .item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
@@ -1023,11 +1020,17 @@ footer {
 .item-card .item-tag.t12 { background-color: #FFD700; } /* Gold (another shade) */
 .item-card .item-tag.t13 { background-color: #A020F0; color: white; } /* Purple */
 .item-card .item-tag.t14 { background-color: #8B0000; color: white; } /* Dark Red */
+/* Adding more tiers as they might exist in items.txt or be needed for future expansion */
+.item-card .item-tag.t15 { background-color: #E6B0AA; } /* Pale Red */
+.item-card .item-tag.t16 { background-color: #FADBD8; } /* Lighter Pale Red */
+.item-card .item-tag.t17 { background-color: #D6EAF8; } /* Pale Blue */
+.item-card .item-tag.t18 { background-color: #A9CCE3; } /* Lighter Pale Blue */
+.item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
+.item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
 
 
 .item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
-/* FIX: Changed ST text color to black */
-.item-card .item-tag.st { background-color: #B78207; color: black; } /* ST - Set Tier */
+.item-card .item-tag.st { background-color: #B78207; color: black; } /* ST - Set Tier, now black text */
 .item-card .item-tag.lg { background-color: #F0D085; } /* LG - Legendary */
 .item-card .item-tag.event { background-color: #85B6F0; } /* Event */
 
@@ -1045,7 +1048,7 @@ footer {
 /* NEW: Compact view specific for Soulbound indicator */
 .item-soulbound-indicator.compact-tag {
     background-color: #DC3545; /* Red background */
-    color: white; /* White text */
+    color: white; /* White text, as requested */
     padding: 3px 6px; /* Smaller padding for compact */
     border-radius: 5px;
     font-weight: bold;
@@ -1216,6 +1219,7 @@ input:checked + .slider:before {
     position: relative;
     cursor: pointer;
     overflow: hidden; /* Important for containing content in fixed height mode */
+    min-height: 70px; /* Base minimum height for all cards, spacious can grow */
 }
 
 .item-card:hover {
@@ -1268,7 +1272,7 @@ input:checked + .slider:before {
 
 /* Spacious View styles (ensure it can naturally grow) */
 .item-card.spacious-view {
-    max-height: 500px; /* A large enough value to allow full content expansion */
+    max-height: 1000px; /* A very large value to allow full content expansion */
     padding: 20px; /* Restore original padding for spacious view */
     flex-direction: column; /* Ensure column layout for spacious view */
 }
