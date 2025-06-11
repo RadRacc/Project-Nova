@@ -137,6 +137,8 @@ let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 
 // --- Wiki Item Data (keep this part as it is used by wiki.html) ---
 let wikiItemsData = []; // To store parsed data from items.txt
+let currentViewMode = 'spacious'; // Default view mode for wiki items
+
 
 // Mapping SlotType numbers to readable names for display
 const slotTypeMap = {
@@ -211,6 +213,8 @@ const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button'
 const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
+const wikiViewToggle = document.getElementById('wiki-view-toggle'); // New: Wiki view toggle
+
 
 // How to Play specific elements (for server status)
 const serverStatusText = document.getElementById('server-status-text');
@@ -567,7 +571,7 @@ async function fetchItemsData() {
             item.Range = obj.querySelector('Range')?.textContent; // Range for weapons
             item.ArcGap = obj.querySelector('ArcGap')?.textContent; // Arc Gap for projectiles
             item.FameBonus = obj.querySelector('FameBonus')?.textContent; // Fame Bonus
-            item.Soulbound = obj.querySelector('Soulbound')?.textContent === 'true'; // Soulbound (boolean)
+            item.Soulbound = obj.querySelector('Soulbound') && obj.querySelector('Soulbound').textContent.toLowerCase() === 'true'; // Soulbound (boolean)
             item.UsableBy = obj.querySelector('UsableBy')?.textContent; // UsableBy Classes
 
             // Handle ActivateOnEquip for stat boosts (modified to handle multiple)
@@ -592,6 +596,7 @@ async function fetchItemsData() {
                 item.IgnoresDefense = projectileElement.querySelector('PierceDefense') ? true : false;
             } else {
                 // If no <Projectile> tag, but NumProjectiles exists directly on Object (for old formats)
+                // This handles cases where NumProjectiles might be directly on the <Object> for simpler items
                 item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
             }
 
@@ -625,7 +630,7 @@ async function fetchItemsData() {
     }
 }
 
-// Function to display items in the wiki
+// Function to display items in the wiki based on current view mode
 function displayItems(filterSlotType = null, searchQuery = '') {
     if (!itemDisplayArea) return;
 
@@ -633,12 +638,11 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     let filteredItems = wikiItemsData;
 
-    // Filter by SlotType if provided
+    // Apply filters (type and search query)
     if (filterSlotType) {
         filteredItems = filteredItems.filter(item => item.SlotType === filterSlotType);
     }
 
-    // Filter by search query (includes tags now)
     if (searchQuery) {
         const lowerCaseQuery = searchQuery.toLowerCase();
         filteredItems = filteredItems.filter(item =>
@@ -647,9 +651,9 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             item.id?.toLowerCase().includes(lowerCaseQuery) ||
             (item.Class && item.Class.toLowerCase().includes(lowerCaseQuery)) ||
             (slotTypeMap[item.SlotType] && slotTypeMap[item.SlotType].toLowerCase().includes(lowerCaseQuery)) ||
-            (item.Tag && item.Tag.toLowerCase().includes(lowerCaseQuery)) || // Search by tag
-            (item.Set && item.Set.Name && item.Set.Name.toLowerCase().includes(lowerCaseQuery)) || // Search by set name
-            (item.UsableBy && item.UsableBy.toLowerCase().includes(lowerCaseQuery)) // Search by usable classes
+            (item.Tag && item.Tag.toLowerCase().includes(lowerCaseQuery)) ||
+            (item.Set && item.Set.Name && item.Set.Name.toLowerCase().includes(lowerCaseQuery)) ||
+            (item.UsableBy && item.UsableBy.toLowerCase().includes(lowerCaseQuery))
         );
     }
 
@@ -660,116 +664,113 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
-        itemCard.className = 'item-card';
+        // Add class based on currentViewMode
+        itemCard.className = `item-card ${currentViewMode}-view`;
 
         // Construct image URL from the new icons/items folder
-        // Use item.id to create the file name, assuming PNG format
-        const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, ''); // Sanitize ID for filename
+        const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, '');
         const imagePath = `icons/items/${itemImageName}.png`;
-
-        // Fallback image using placehold.co in case the specific image is not found
         const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${item.DisplayId ? item.DisplayId.split(' ')[0] : 'ITEM'}`;
 
-        let itemPropertiesHtml = '';
+        let itemContentHtml = '';
 
-        // Top section of properties
-        itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
-        if (item.UsableBy) {
-            itemPropertiesHtml += `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>`;
-        }
-        if (item.Damage) {
-            itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
-        }
-        if (item.Soulbound) { // Display "Soulbound?" based on boolean
-            itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>Yes</span></p>`;
+        if (currentViewMode === 'compact') {
+            // Compact view: Name, Icon, Tag, Soulbound indicator (SB)
+            let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator">SB</span>' : '';
+            itemContentHtml = `
+                <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
+                <h3>${item.DisplayId || item.id}</h3>
+                <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
+                ${soulboundIndicator}
+            `;
         } else {
-            itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>No</span></p>`;
-        }
-        if (item.Description) {
-            itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
-        }
+            // Spacious view: All detailed properties
+            let itemPropertiesHtml = '';
 
-        // Horizontal Rule for separation
-        itemPropertiesHtml += `<hr class="item-properties-separator">`;
+            itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
+            if (item.UsableBy) {
+                itemPropertiesHtml += `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>`;
+            }
+            if (item.Damage) {
+                itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
+            }
+            if (item.Soulbound) {
+                itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>Yes</span></p>`;
+            } else {
+                itemPropertiesHtml += `<p><strong>Soulbound?:</strong> <span>No</span></p>`;
+            }
+            if (item.Description) {
+                itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
+            }
 
-        // Projectile specific properties
-        if (item.NumProjectiles) {
-            itemPropertiesHtml += `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>`;
-        }
-        if (item.Range) {
-            itemPropertiesHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
-        }
-        if (item.ShotsBoomerang) {
-            itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>Yes</span></p>`;
-        } else if (item.NumProjectiles) { // Only show 'No' if it's a projectile item
-            itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>No</span></p>`;
-        }
-        if (item.ShotsMultiHit) {
-            itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>Yes</span></p>`;
-        } else if (item.NumProjectiles) {
-             itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>No</span></p>`;
-        }
-        if (item.ShotsPassesCover) {
-            itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>Yes</span></p>`;
-        } else if (item.NumProjectiles) {
-            itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>No</span></p>`;
-        }
-        if (item.IgnoresDefense) {
-            itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>Yes</span></p>`;
-        } else if (item.NumProjectiles) {
-            itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>No</span></p>`;
-        }
-        if (item.RateOfFire) {
-            itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
-        }
-        if (item.FameBonus) {
-            itemPropertiesHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
-        }
-
-        // Add Stat Boosts if applicable (this was already there)
-        if (item.StatBoosts && item.StatBoosts.length > 0) {
-            // Add a separator before stat boosts if there were projectile properties
-            if (item.NumProjectiles || item.Range || item.ArcGap || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.RateOfFire || item.FameBonus) {
+            // Separator before projectile properties
+            const hasProjectileProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense;
+            if (hasProjectileProperties || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus) {
                  itemPropertiesHtml += `<hr class="item-properties-separator">`;
             }
-            itemPropertiesHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
-        }
 
-        // Add Soulbound tag below Fame Bonus (if applicable and if not already displayed as Soulbound?)
-        let soulboundTagAfterFame = '';
-        if (item.Soulbound) { // Only show this tag if the property is true
-            soulboundTagAfterFame = `<div class="item-tag soulbound">Soulbound</div>`;
-        }
+            if (item.NumProjectiles) {
+                itemPropertiesHtml += `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>`;
+            }
+            if (item.Range) {
+                itemPropertiesHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
+            }
+            // Display boolean projectile properties clearly
+            if (item.NumProjectiles) { // Only show these if the item has projectiles
+                itemPropertiesHtml += `<p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
+                itemPropertiesHtml += `<p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
+                itemPropertiesHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
+                itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
+            }
+            if (item.ArcGap) { // Arc Gap is only relevant for multi-projectile weapons
+                itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
+            }
+            if (item.RateOfFire) {
+                itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
+            }
+            if (item.FameBonus) {
+                itemPropertiesHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
+            }
 
+            // Stat Boosts (always shown if present, potentially with another separator)
+            if (item.StatBoosts && item.StatBoosts.length > 0) {
+                 if (itemPropertiesHtml.includes('<hr class="item-properties-separator">') && hasProjectileProperties) {
+                     // No need for another separator if one was just added for projectile properties
+                 } else if (itemPropertiesHtml.trim() !== '') {
+                      itemPropertiesHtml += `<hr class="item-properties-separator">`;
+                 }
+                itemPropertiesHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
+            }
 
-        // Add Set Bonuses if applicable
-        let setBonusHtml = '';
-        if (item.Set) {
-            // Add a separator before set bonuses
-            itemPropertiesHtml += `<hr class="item-properties-separator">`;
-            setBonusHtml += `
-                <div class="item-set-bonus">
-                    <h4>Set: ${item.Set.Name}</h4>
-                    <ul>
+            // Set Bonuses (always shown if present, with its own separator)
+            let setBonusHtml = '';
+            if (item.Set) {
+                itemPropertiesHtml += `<hr class="item-properties-separator">`; // Always add separator before set bonuses
+                setBonusHtml += `
+                    <div class="item-set-bonus">
+                        <h4>Set: ${item.Set.Name}</h4>
+                        <ul>
+                `;
+                item.Set.Bonuses.forEach(bonus => {
+                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
+                });
+                setBonusHtml += `
+                            <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            itemContentHtml = `
+                <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
+                <h3>${item.DisplayId || item.id}</h3>
+                <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
+                ${itemPropertiesHtml}
+                ${setBonusHtml}
             `;
-            item.Set.Bonuses.forEach(bonus => {
-                setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
-            });
-            setBonusHtml += `
-                        <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
-                    </ul>
-                </div>
-            `;
         }
 
-        itemCard.innerHTML = `
-            <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
-            <h3>${item.DisplayId || item.id}</h3>
-            <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
-            ${itemPropertiesHtml}
-            ${soulboundTagAfterFame}
-            ${setBonusHtml}
-        `;
+        itemCard.innerHTML = itemContentHtml;
         itemDisplayArea.appendChild(itemCard);
     });
 }
@@ -837,7 +838,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Wiki page specific logic
     if (isWikiPage) {
         await fetchItemsData(); // Fetch and parse items.txt
-        displayItems(); // Display all items initially
+
+        // Initialize view mode based on local storage or default to spacious
+        currentViewMode = localStorage.getItem('wikiViewMode') || 'spacious';
+        if (wikiViewToggle) {
+            wikiViewToggle.checked = (currentViewMode === 'compact');
+            wikiViewToggle.addEventListener('change', (event) => {
+                currentViewMode = event.target.checked ? 'compact' : 'spacious';
+                localStorage.setItem('wikiViewMode', currentViewMode); // Save user preference
+                displayItems(); // Re-render items with new view mode
+            });
+        }
+        displayItems(); // Display all items initially in the determined mode
 
         // Attach event listeners to item type links
         itemTypeLinks.forEach(link => {
