@@ -416,10 +416,9 @@ footer {
 }
 
 .product-tile img {
-    max-width: 100%;
+    max-width: 150%;
     height: 120px;
     object-fit: contain;
-    margin-bottom: 15px;
     border-radius: 5px;
 }
 
@@ -469,8 +468,8 @@ footer {
 }
 
 .product-tile .cart-icon {
-    width: 20px;
-    height: 20px;
+    width: 150px;
+    height: 150px;
     filter: invert(1);
 }
 
@@ -875,21 +874,23 @@ footer {
     align-items: center;
     position: relative;
     cursor: pointer;
-    overflow: hidden; /* Important for max-height transition */
+    /* Removed overflow: hidden from here to allow text wrapping for full names */
+    min-height: 70px;
 }
 
 .item-card:hover {
     transform: translateY(-5px);
 }
 
-/* Compact View specific styles with fixed height */
+/* Compact View specific styles with adjusted text display */
 .item-card.compact-view {
-    max-height: 70px; /* Fixed height for compact mode */
+    max-height: none; /* Allow content to dictate height */
     padding: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+    overflow: visible; /* Ensure text is not hidden */
 }
 
 .item-card.compact-view:hover {
@@ -902,15 +903,16 @@ footer {
     margin-bottom: 0;
 }
 
-/* --- IMPORTANT: Compact View Text Flow Adjustments --- */
+/* --- IMPORTANT: Compact View Text Flow Adjustments for FULL NAMES --- */
 .item-card.compact-view h3 {
     font-size: 1.1em;
     margin: 0;
     text-align: left;
     flex-grow: 1;              /* Allow name to take available space */
-    white-space: nowrap;       /* Prevent text from wrapping */
-    overflow: hidden;          /* Hide any overflowing content */
-    text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
+    white-space: normal;       /* Allow text to wrap naturally */
+    overflow: visible;         /* Ensure text is not hidden */
+    text-overflow: clip;       /* Prevent ellipsis */
+    word-wrap: break-word;     /* Break long words */
 }
 
 .item-card.compact-view .item-tag {
@@ -918,9 +920,9 @@ footer {
     padding: 3px 6px;
     margin-top: 0;
     margin-bottom: 0;
-    white-space: nowrap;       /* Prevent text from wrapping */
-    overflow: hidden;          /* Hide any overflowing content */
-    text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
+    white-space: normal;       /* Allow text to wrap naturally */
+    overflow: visible;         /* Ensure text is not hidden */
+    text-overflow: clip;       /* Prevent ellipsis */
     flex-shrink: 0;            /* Prevent tag from shrinking */
 }
 /* --- END Compact View Text Flow Adjustments --- */
@@ -930,7 +932,7 @@ footer {
 .item-card .item-details-content {
     max-height: 0; /* Hidden by default in compact mode */
     opacity: 0; /* Fade out */
-    overflow: hidden;
+    overflow: hidden; /* Keep hidden for smooth transition */
     transition: max-height 0.5s ease-in-out, opacity 0.5s ease;
     width: 100%; /* Ensure content fills width */
     padding-top: 0; /* No padding when collapsed */
@@ -942,16 +944,18 @@ footer {
     max-height: 1000px; /* Allow content to be visible */
     opacity: 1; /* Fade in */
     padding-top: 10px; /* Add padding when visible */
+    overflow: visible; /* Ensure content itself is visible when expanded */
 }
 
 /* When an item is expanded in compact mode */
 .item-card.expanded {
-    max-height: 1000px; /* Large enough to show all content */
+    max-height: none; /* Allow content to dictate height */
     padding: 20px;
     flex-direction: column; /* Stack vertically when expanded */
     align-items: center;
     box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4); /* Highlight on expansion */
     background-color: #4a4a4a; /* Slightly lighter background when expanded */
+    overflow: visible; /* Ensure content is visible */
 }
 
 .item-card.expanded img {
@@ -962,6 +966,10 @@ footer {
 
 .item-card.expanded h3 {
     font-size: 1.5em;
+    white-space: normal; /* Allow text to wrap naturally */
+    overflow: visible; /* Ensure text is not hidden */
+    text-overflow: clip; /* Prevent ellipsis */
+    word-wrap: break-word; /* Break long words */
 }
 
 
@@ -1030,7 +1038,7 @@ footer {
     border-radius: 5px;
     font-weight: bold;
     font-size: 0.7em; /* Smaller font size for compact */
-    white-space: nowrap;
+    white-space: normal; /* Allow it to wrap if necessary */
     flex-shrink: 0;
     margin-left: 5px;
 }
