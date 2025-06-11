@@ -189,13 +189,13 @@ const closeCartModalButton = cartModal ? cartModal.querySelector('.close-button'
 const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
-const wikiViewToggle = document.getElementById('wiki-view-toggle');
+const wikiViewToggle = document.getElementById('wiki-view-toggle'); // Wiki view toggle
 
 // How to Play specific elements (for server status)
 const serverStatusText = document.getElementById('server-status-text');
 const serverStatusCircle = document.getElementById('server-status-circle');
 
-// Shop specific new elements (for username prompt modal)
+// Shop specific new elements
 const usernamePromptModal = document.getElementById('username-prompt-modal');
 const ingameUsernameInput = document.getElementById('ingame-username-input');
 const confirmPurchaseButton = document.getElementById('confirm-purchase-button');
@@ -304,7 +304,7 @@ function openProductModal(itemOrProduct) {
     modalAddToCartButton.style.display = 'block'; // Show add to cart by default
 
     // Determine if it's a shop product or a wiki item
-    const isShopProduct = products.some(p => p.id === itemOrProduct.id && p.name === itemOrProduct.name); // Check by ID and name for more robustness
+    const isShopProduct = products.some(p => p.id === itemOrProduct.id && p.name === itemOrProduct.name);
 
     if (isShopProduct) {
         // Populate for Shop Product
@@ -533,7 +533,7 @@ function closeCartModal() {
     }
 }
 
-// Prompts for in-game username before checkout
+// New: Prompts for in-game username before checkout
 function promptForUsernameAndCheckout() {
     if (cart.length === 0) {
         showCustomMessageBox("Your cart is empty. Please add items before checking out.", "Empty Cart", "warning");
@@ -555,7 +555,7 @@ function promptForUsernameAndCheckout() {
     }
 }
 
-// Handles the confirmation of purchase after username input
+// New: Handles the confirmation of purchase after username input
 async function handleConfirmPurchase() {
     const inGameUsername = ingameUsernameInput.value.trim();
 
@@ -601,7 +601,7 @@ async function handleConfirmPurchase() {
     }
 }
 
-// Sends order data to the Flask backend
+// New: Sends order data to the Flask backend
 async function sendOrderToBackend(username, cartItems, total, orderId) {
     const backendHost = '127.0.0.1';
     const backendPort = '40071';
@@ -650,11 +650,11 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
 }
 
 
-// Closes the username prompt modal
+// New: Closes the username prompt modal
 function closeUsernamePromptModal() {
     if (usernamePromptModal) {
         usernamePromptModal.classList.remove('open');
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''; // Restore background scroll
     }
 }
 
@@ -715,6 +715,7 @@ function showCustomMessageBox(message, title, type = 'info') {
     messageBoxOverlay.appendChild(messageBox);
     document.body.appendChild(messageBoxOverlay);
 
+    // Trigger animations
     setTimeout(() => {
         messageBoxOverlay.style.opacity = '1';
         messageBoxOverlay.style.visibility = 'visible';
@@ -769,7 +770,7 @@ async function fetchItemsData() {
                 item.StatBoosts = [];
                 activateOnEquipElements.forEach(aoe => {
                     const statId = aoe.getAttribute('stat');
-                    const statValue = aoe.textContent;
+                    const statValue = aae.textContent; // Corrected from aoe.textContent to aae.textContent
                     const statName = statIdMap[statId] || `Stat ${statId}`;
                     item.StatBoosts.push(`${statName}: +${statValue}`);
                 });
@@ -800,7 +801,6 @@ async function fetchItemsData() {
                     });
                 });
             }
-            item.image = `icons/items/${item.id.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`; // Consistent image path for wiki items
 
             items.push(item);
         });
@@ -815,11 +815,11 @@ async function fetchItemsData() {
     }
 }
 
-// Function to display items in the wiki based on current view mode and filters
+// Function to display items in the wiki based on current view mode
 function displayItems(filterSlotType = null, searchQuery = '') {
     if (!itemDisplayArea) return;
 
-    itemDisplayArea.innerHTML = ''; // Clear previous items
+    itemDisplayArea.innerHTML = '';
 
     let filteredItems = wikiItemsData;
 
@@ -848,12 +848,17 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
-        // Apply 'compact-view' class based on currentViewMode and if it's not the expanded item
-        itemCard.className = `item-card ${currentViewMode === 'spacious' ? 'spacious-view' : 'compact-view'}`;
-        // If an item was previously expanded in compact mode and we're still in compact mode, keep it expanded.
-        if (currentViewMode === 'compact' && expandedItemId === item.id) {
-            itemCard.classList.remove('compact-view');
-            itemCard.classList.add('expanded');
+        // Apply 'compact-view' or 'spacious-view' class initially
+        itemCard.classList.add('item-card');
+        if (currentViewMode === 'compact') {
+            itemCard.classList.add('compact-view');
+            // If in compact mode, and this item is the expanded one, add 'expanded' class
+            if (expandedItemId === item.id) {
+                itemCard.classList.add('expanded');
+                itemCard.classList.remove('compact-view'); // Remove compact view if expanded
+            }
+        } else {
+            itemCard.classList.add('spacious-view');
         }
 
         itemCard.dataset.itemId = item.id; // Store item ID for easy lookup
@@ -864,9 +869,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
         let itemContentHtml = '';
 
-        // Conditionally render content based on current view mode
-        if (currentViewMode === 'compact' && item.id !== expandedItemId) {
-            // Compact, non-expanded view
+        // Conditionally render content based on view mode
+        if (itemCard.classList.contains('compact-view')) { // This means it's compact AND not expanded
             let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator compact-tag">SB</span>' : '';
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
@@ -874,8 +878,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
                 ${soulboundIndicator}
             `;
-        } else {
-            // Spacious view OR compact view but currently expanded
+        } else { // Spacious View OR compact view but currently expanded (itemCard.classList.contains('expanded'))
             let itemPropertiesHtml = '';
 
             itemPropertiesHtml += `<p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>`;
@@ -930,7 +933,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                         <ul>
                 `;
                 item.Set.Bonuses.forEach(bonus => {
-                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</b> <span>${bonus.description}</span></li>`;
+                    setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
                 });
                 setBonusHtml += `
                             <li><strong>Full Set Bonus:</strong> <span>${item.Set.FullBonus}</span></li>
@@ -961,31 +964,13 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 const clickedItem = event.currentTarget;
                 const itemId = clickedItem.dataset.itemId;
 
-                // Toggle the 'expanded' class for the clicked item
                 if (expandedItemId === itemId) {
-                    // If the same item is clicked, collapse it
-                    clickedItem.classList.remove('expanded');
-                    clickedItem.classList.add('compact-view');
-                    expandedItemId = null; // No item is expanded
+                    expandedItemId = null; // Collapse this item
                 } else {
-                    // Collapse the previously expanded item if it exists and is different
-                    if (expandedItemId) {
-                        const previouslyExpanded = document.querySelector(`.item-card[data-item-id="${expandedItemId}"]`);
-                        if (previouslyExpanded) {
-                            previouslyExpanded.classList.remove('expanded');
-                            previouslyExpanded.classList.add('compact-view');
-                        }
-                    }
-                    // Expand the newly clicked item
-                    clickedItem.classList.add('expanded');
-                    clickedItem.classList.remove('compact-view'); // Ensure it's not compact anymore
-                    expandedItemId = itemId; // Set the new expanded item
+                    expandedItemId = itemId; // Expand this item
                 }
-                // Re-render items to apply changes cleanly, especially if other items on the row
-                // need to collapse. This also handles the visual "smoothness".
-                // Note: This might re-scroll the page if not managed carefully in CSS (e.g. `scroll-behavior: smooth`).
-                displayItems(filterSlotType, searchQuery); // Pass current filters to maintain context
-
+                // Re-render to ensure smooth transitions and correct state
+                displayItems(filterSlotType, searchQuery);
             } else {
                 // If in spacious mode, open the full product details modal
                 openProductModal(item);
@@ -1044,7 +1029,7 @@ async function checkMarketplaceStatus() {
 document.addEventListener('DOMContentLoaded', async () => {
     const currentPage = window.location.pathname.split('/').pop();
     const isShopPage = document.body.id === 'shop-page';
-    const isWikiPage = document.body.id === 'wiki-page';
+    const isWikiPage = document.body.id === 'wiki.html'; // Changed to check for 'wiki.html'
     const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
     // Highlight active navigation button
@@ -1085,26 +1070,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
                 localStorage.setItem('wikiViewMode', currentViewMode);
-                expandedItemId = null; // Reset expanded item when view mode changes
-                displayItems(); // Re-render items with new view mode
+                expandedItemId = null;
+                displayItems();
             });
         }
-        displayItems(); // Initial display of wiki items
+        displayItems();
 
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 const slotType = event.target.dataset.slottype;
                 if (wikiSearchInput) wikiSearchInput.value = '';
-                expandedItemId = null; // Reset expanded item when filtering
-                displayItems(slotType); // Filter and display items
+                expandedItemId = null;
+                displayItems(slotType);
             });
         });
 
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
-                expandedItemId = null; // Reset expanded item when searching
+                expandedItemId = null;
                 displayItems(null, query);
             });
         }
@@ -1114,7 +1099,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateServerStatus();
     }
 
-    // Common modal close listeners (for all modals)
+
+    // Common modal close listeners (for product details and cart modals)
     if (productDetailsModal) {
         if (closeProductModalButton) {
             closeProductModalButton.addEventListener('click', closeProductModal);
@@ -1137,6 +1123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Username prompt modal close listeners
     if (usernamePromptModal) {
         usernamePromptModal.addEventListener('click', (event) => {
             if (event.target === usernamePromptModal) {
