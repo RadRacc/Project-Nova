@@ -873,8 +873,7 @@ footer {
     flex-direction: column;
     align-items: center;
     position: relative;
-    cursor: pointer;
-    /* Removed overflow: hidden from here to allow text wrapping for full names */
+    /* Removed overflow: hidden from here to allow text wrapping for full names for specific elements */
     min-height: 70px;
 }
 
@@ -884,13 +883,13 @@ footer {
 
 /* Compact View specific styles with adjusted text display */
 .item-card.compact-view {
-    max-height: none; /* Allow content to dictate height */
+    max-height: 70px; /* Fixed height for compact mode */
     padding: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    overflow: visible; /* Ensure text is not hidden */
+    overflow: hidden; /* Keep hidden to maintain compact size and clip overflow for the card itself */
 }
 
 .item-card.compact-view:hover {
@@ -903,16 +902,15 @@ footer {
     margin-bottom: 0;
 }
 
-/* --- IMPORTANT: Compact View Text Flow Adjustments for FULL NAMES --- */
+/* --- IMPORTANT: Compact View Text Flow Adjustments for ONE LONG LINE with ellipsis truncation --- */
 .item-card.compact-view h3 {
     font-size: 1.1em;
     margin: 0;
     text-align: left;
     flex-grow: 1;              /* Allow name to take available space */
-    white-space: normal;       /* Allow text to wrap naturally */
-    overflow: visible;         /* Ensure text is not hidden */
-    text-overflow: clip;       /* Prevent ellipsis */
-    word-wrap: break-word;     /* Break long words */
+    white-space: nowrap;       /* FORCE text onto a single line */
+    overflow: hidden;          /* Hide any overflowing content */
+    text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
 }
 
 .item-card.compact-view .item-tag {
@@ -920,9 +918,9 @@ footer {
     padding: 3px 6px;
     margin-top: 0;
     margin-bottom: 0;
-    white-space: normal;       /* Allow text to wrap naturally */
-    overflow: visible;         /* Ensure text is not hidden */
-    text-overflow: clip;       /* Prevent ellipsis */
+    white-space: nowrap;       /* FORCE text onto a single line */
+    overflow: hidden;          /* Hide any overflowing content */
+    text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
     flex-shrink: 0;            /* Prevent tag from shrinking */
 }
 /* --- END Compact View Text Flow Adjustments --- */
@@ -964,12 +962,17 @@ footer {
     margin-bottom: 15px;
 }
 
-.item-card.expanded h3 {
-    font-size: 1.5em;
+/* For the expanded view and spacious view, allow text to wrap as it has more space */
+.item-card.expanded h3,
+.item-card.spacious-view h3 {
+    font-size: 1.5em; /* Or 1.3em, etc. */
+    color: #ff69b4;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    word-wrap: break-word; /* Allow long words to break */
     white-space: normal; /* Allow text to wrap naturally */
     overflow: visible; /* Ensure text is not hidden */
     text-overflow: clip; /* Prevent ellipsis */
-    word-wrap: break-word; /* Break long words */
 }
 
 
@@ -1038,7 +1041,7 @@ footer {
     border-radius: 5px;
     font-weight: bold;
     font-size: 0.7em; /* Smaller font size for compact */
-    white-space: normal; /* Allow it to wrap if necessary */
+    white-space: normal; /* Allow it to wrap if necessary - for small "SB" it's fine */
     flex-shrink: 0;
     margin-left: 5px;
 }
