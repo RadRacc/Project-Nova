@@ -829,6 +829,9 @@ async function fetchItemsData() {
 function populateTierFilter() {
     if (!tierFilterDropdown) return;
 
+    // Clear existing options, but keep "All Tiers"
+    tierFilterDropdown.innerHTML = '<option value="all">All Tiers</option>';
+
     const uniqueTags = new Set();
     wikiItemsData.forEach(item => {
         if (item.Tag && item.Tag !== 'N/A') {
@@ -836,29 +839,45 @@ function populateTierFilter() {
         }
     });
 
-    const sortedTags = Array.from(uniqueTags).sort((a, b) => {
-        // Custom sorting for Tiers: T0, T1, ..., T20, then LG, ST, UT, Event (alphabetical for special)
-        const getTierValue = (tag) => {
-            if (tag.startsWith('T') && tag.length > 1) {
-                return parseInt(tag.substring(1), 10);
-            }
-            if (tag === 'LG') return 1000; // Large number to put it after Tiers
-            if (tag === 'ST') return 1001;
-            if (tag === 'UT') return 1002;
-            if (tag === 'Event') return 1003;
-            return 999; // For any other unexpected tags, place before LG/ST/UT
-        };
+    // Define the desired order for tiers
+    const customTierOrder = [
+        'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10',
+        'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'EV', 'Event'
+    ];
 
-        const valA = getTierValue(a);
-        const valB = getTierValue(b);
-
-        if (valA === valB) {
-            return a.localeCompare(b); // Alphabetical sort for same tier values (e.g., if multiple LG-like tags existed)
+    const tiersToAdd = [];
+    customTierOrder.forEach(tier => {
+        if (uniqueTags.has(tier)) {
+            tiersToAdd.push(tier);
         }
-        return valA - valB;
     });
 
-    sortedTags.forEach(tag => {
+    // Add any tags from items.txt that are not in customTierOrder
+    uniqueTags.forEach(tag => {
+        if (!customTierOrder.includes(tag)) {
+            tiersToAdd.push(tag);
+        }
+    });
+
+    // Sort any remaining tags (not in customTierOrder) alphabetically
+    tiersToAdd.sort((a, b) => {
+        const indexA = customTierOrder.indexOf(a);
+        const indexB = customTierOrder.indexOf(b);
+
+        if (indexA === -1 && indexB === -1) {
+            return a.localeCompare(b); // Both not in custom order, sort alphabetically
+        }
+        if (indexA === -1) {
+            return 1; // A comes after B (B is in custom order)
+        }
+        if (indexB === -1) {
+            return -1; // A comes before B (A is in custom order)
+        }
+        return indexA - indexB; // Sort by custom order index
+    });
+
+
+    tiersToAdd.forEach(tag => {
         const option = document.createElement('option');
         option.value = tag.toLowerCase();
         option.textContent = tag;
@@ -870,11 +889,18 @@ function populateTierFilter() {
 function populateUsableByFilter() {
     if (!usableByFilterDropdown) return;
 
+    // Clear existing options, but keep "All Usable By Types"
+    usableByFilterDropdown.innerHTML = '<option value="all">All Usable By Types</option>';
+
     const uniqueClasses = new Set();
     wikiItemsData.forEach(item => {
         if (item.UsableBy) {
             item.UsableBy.split(', ').forEach(cls => {
-                uniqueClasses.add(cls.trim());
+                const trimmedCls = cls.trim();
+                // Exclude "All" if it appears as a class name itself (though it's usually a filter option)
+                if (trimmedCls && trimmedCls.toLowerCase() !== 'all') {
+                    uniqueClasses.add(trimmedCls);
+                }
             });
         }
     });
