@@ -364,7 +364,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
@@ -372,11 +372,12 @@ function openProductModal(itemOrProduct) {
         if (itemOrProduct.NumProjectiles) {
             descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
-        if (itemOrOrange.Range) { // Typo here, should be itemOrProduct.Range
-            descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`; // Corrected typo here
+        if (itemOrProduct.Range) {
+            descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
         }
-        if (itemOrProduct.NumProjectiles) { // This condition likely means "if it's a projectile item"
-            descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.Boomerang ? 'Yes' : 'No'}</span></p>`; // Corrected to check itemOrProduct.Boomerang
+        // These properties only apply if NumProjectiles exists (i.e., it's a projectile weapon/ability)
+        if (itemOrProduct.NumProjectiles) {
+            descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.Boomerang ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots pass through obstacles:</strong> <span>${itemOrProduct.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
@@ -738,24 +739,39 @@ function showCustomMessageBox(message, title, type = 'info') {
 
 // Function to fetch and parse items.txt
 async function fetchItemsData() {
+    console.log("Attempting to fetch and parse items.txt...");
     try {
         const response = await fetch('items.txt');
         if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status} for items.txt`);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const text = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, "application/xml");
 
-        // Check for parsing errors
+        // Check for XML parsing errors more robustly
         const errorNode = xmlDoc.querySelector('parsererror');
         if (errorNode) {
-            console.error("XML Parsing Error:", errorNode.textContent);
-            throw new Error("Failed to parse items.txt due to XML errors.");
+            console.error("XML Parsing Error in items.txt:", errorNode.textContent);
+            // Attempt to get the source text causing the error, if available
+            const sourceText = errorNode.querySelector('sourcetext')?.textContent;
+            if (sourceText) {
+                console.error("Error source text:", sourceText);
+            }
+            throw new Error("Failed to parse items.txt due to XML errors. Check console for details.");
         }
 
         const items = [];
         const objectElements = xmlDoc.querySelectorAll('Object[Item="true"]');
+
+        if (objectElements.length === 0) {
+            console.warn("No <Object Item='true'> elements found in items.txt.");
+            if (itemDisplayArea) {
+                itemDisplayArea.innerHTML = '<p style="text-align: center; color: #bbb;">No items defined in items.txt or parsing failed. Please check the file.</p>';
+            }
+            return; // Exit if no items found
+        }
 
         objectElements.forEach(obj => {
             const item = {};
@@ -796,12 +812,12 @@ async function fetchItemsData() {
             const projectileElement = obj.querySelector('Projectile');
             if (projectileElement) {
                 item.NumProjectiles = projectileElement.querySelector('NumProjectiles')?.textContent || '1';
-                item.Boomerang = projectileElement.querySelector('Boomerang') ? true : false; // Store as boolean
+                item.Boomerang = projectileElement.querySelector('Boomerang') ? true : false;
                 item.ShotsMultiHit = projectileElement.querySelector('MultiHit') ? true : false;
                 item.ShotsPassesCover = projectileElement.querySelector('PassesCover') ? true : false;
                 item.IgnoresDefense = projectileElement.querySelector('PierceDefense') ? true : false;
             } else {
-                item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent; // For non-projectile items like spells
+                item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
             }
 
             const setElement = obj.querySelector('Set');
@@ -822,30 +838,30 @@ async function fetchItemsData() {
             items.push(item);
         });
         wikiItemsData = items;
-        console.log("Parsed Wiki Items:", wikiItemsData);
+        console.log("Parsed Wiki Items:", wikiItemsData.length, "items loaded.");
 
     } catch (error) {
-        console.error("Error fetching or parsing items.txt:", error);
+        console.error("Critical Error in fetchItemsData:", error);
         if (itemDisplayArea) {
-            itemDisplayArea.innerHTML = '<p style="text-align: center; color: #DC3545;">Failed to load wiki items. Please ensure items.txt is correctly formatted.</p>';
+            itemDisplayArea.innerHTML = `<p style="text-align: center; color: #DC3545;">Failed to load wiki items: ${error.message}. Please check items.txt file and browser console for errors.</p>`;
         }
     }
 }
 
 // Function to populate the Tier filter dropdown
 function populateTierFilter() {
-    if (!tierFilterDropdown) return;
+    if (!tierFilterDropdown) {
+        console.log("Tier filter dropdown not found.");
+        return;
+    }
 
-    // Clear existing options, but keep "No Filter"
     tierFilterDropdown.innerHTML = '<option value="all">No Filter</option>';
 
-    // Define the desired order for tiers, including T0-T14, LG, ST, UT, Event
     const customTierOrder = [
         'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10',
-        'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'Event' // 'EV' removed from here
+        'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'Event'
     ];
 
-    // Get unique tags actually present in the data, to ensure no duplicates if manually added
     const uniqueTagsFromData = new Set();
     wikiItemsData.forEach(item => {
         if (item.Tag && item.Tag !== 'N/A') {
@@ -858,38 +874,31 @@ function populateTierFilter() {
         tiersToAdd.push(tier);
     });
 
-    // Add any *other* tags from items.txt that are not in our custom predefined list, and not 'EV'
     uniqueTagsFromData.forEach(tag => {
         if (!customTierOrder.includes(tag) && tag.toLowerCase() !== 'ev') {
             tiersToAdd.push(tag);
         }
     });
 
-    // Sort any remaining tags (not in customTierOrder) alphabetically if necessary
     tiersToAdd.sort((a, b) => {
         const indexA = customTierOrder.indexOf(a);
         const indexB = customTierOrder.indexOf(b);
 
         if (indexA === -1 && indexB === -1) {
-            // Both are not in custom order, sort alphabetically
             return a.localeCompare(b);
         }
         if (indexA === -1) {
-            // A is not in custom order, so B (which is in custom order) comes first
             return 1;
         }
         if (indexB === -1) {
-            // B is not in custom order, so A (which is in custom order) comes first
             return -1;
         }
-        // Both are in custom order, sort by their index
         return indexA - indexB;
     });
 
-    // Remove duplicates from tiersToAdd while maintaining order (using Set again)
     const finalSortedTiers = Array.from(new Set(tiersToAdd));
 
-
+    console.log("Populating Tier Filter with:", finalSortedTiers);
     finalSortedTiers.forEach(tag => {
         const option = document.createElement('option');
         option.value = tag.toLowerCase();
@@ -900,9 +909,11 @@ function populateTierFilter() {
 
 // Function to populate the Usable By filter dropdown
 function populateUsableByFilter() {
-    if (!usableByFilterDropdown) return;
+    if (!usableByFilterDropdown) {
+        console.log("Usable By filter dropdown not found.");
+        return;
+    }
 
-    // Clear existing options, but keep "No Filter"
     usableByFilterDropdown.innerHTML = '<option value="all">No Filter</option>';
 
     const uniqueClasses = new Set();
@@ -910,8 +921,6 @@ function populateUsableByFilter() {
         if (item.UsableBy) {
             item.UsableBy.split(', ').forEach(cls => {
                 const trimmedCls = cls.trim();
-                // Exclude "All" if it appears as a class name itself (though it's usually a filter option)
-                // Also ensure "All" or "all" is not added as a selectable class from items.txt
                 if (trimmedCls && trimmedCls.toLowerCase() !== 'all') {
                     uniqueClasses.add(trimmedCls);
                 }
@@ -919,7 +928,8 @@ function populateUsableByFilter() {
         }
     });
 
-    const sortedClasses = Array.from(uniqueClasses).sort(); // Alphabetical sort
+    const sortedClasses = Array.from(uniqueClasses).sort();
+    console.log("Populating Usable By Filter with:", sortedClasses);
 
     sortedClasses.forEach(cls => {
         const option = document.createElement('option');
@@ -1137,7 +1147,7 @@ async function checkMarketplaceStatus() {
 document.addEventListener('DOMContentLoaded', async () => {
     const currentPage = window.location.pathname.split('/').pop();
     const isShopPage = document.body.id === 'shop-page';
-    const isWikiPage = document.body.id === 'wiki-page'; // Corrected to wiki-page
+    const isWikiPage = document.body.id === 'wiki-page';
     const isHowToPlayPage = document.body.id === 'howtoplay-page';
 
     // Highlight active navigation button
@@ -1170,7 +1180,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (isWikiPage) {
-        await fetchItemsData(); // This must complete successfully first
+        // Ensure data is fetched and parsed before populating filters and displaying items
+        await fetchItemsData();
+        
         // Populate new filters after data is fetched and parsed
         populateTierFilter();
         populateUsableByFilter();
