@@ -9,7 +9,9 @@
         <MaxDamage>70</MaxDamage>
         <Range>5.6</Range>
         <RateOfFire>1.0</RateOfFire>
-        <Tag>T0</Tag> <!-- Added Tag -->
+        <Tag>T0</Tag>
+        <FameBonus>1</FameBonus>
+        <UsableBy>Rogue, Assassin, Trickster, Ninja</UsableBy>
     </Object>
     <Object type="0x0041" id="T1 Dagger" Item="true">
         <DisplayId>Iron Dagger</DisplayId>
@@ -20,6 +22,7 @@
         <MaxDamage>30</MaxDamage>
         <RateOfFire>1.15</RateOfFire>
         <Tag>T1</Tag>
+        <UsableBy>Rogue, Assassin, Trickster, Ninja</UsableBy>
     </Object>
     <Object type="0x0042" id="Legendary Dagger" Item="true">
         <DisplayId>Shadowfang Blade</DisplayId>
@@ -30,6 +33,9 @@
         <MaxDamage>140</MaxDamage>
         <RateOfFire>1.3</RateOfFire>
         <Tag>LG</Tag>
+        <Soulbound>true</Soulbound>
+        <FameBonus>5</FameBonus>
+        <UsableBy>Rogue, Assassin, Trickster, Ninja</UsableBy>
     </Object>
 
     <!-- BOWS -->
@@ -42,7 +48,18 @@
         <MaxDamage>20</MaxDamage>
         <RateOfFire>1</RateOfFire>
         <NumProjectiles>2</NumProjectiles>
+        <Range>7.0</Range>
+        <ArcGap>12.0</ArcGap>
         <Tag>T0</Tag>
+        <FameBonus>1</FameBonus>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <!-- Projectile properties go here if different from default -->
+            <!-- <Boomerang/> -->
+            <!-- <MultiHit/> -->
+            <PassesCover/> <!-- Example: Shortbow shoots through obstacles -->
+            <!-- <PierceDefense/> -->
+        </Projectile>
     </Object>
     <Object type="0x0051" id="UT Bow of the Deep" Item="true">
         <DisplayId>Coral Bow</DisplayId>
@@ -53,7 +70,16 @@
         <MaxDamage>110</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
         <NumProjectiles>3</NumProjectiles>
+        <Range>8.0</Range>
+        <ArcGap>8.0</ArcGap>
         <Tag>UT</Tag>
+        <Soulbound>true</Soulbound>
+        <FameBonus>7</FameBonus>
+        <UsableBy>Archer, Huntress</UsableBy>
+        <Projectile>
+            <MultiHit/> <!-- Hits multiple targets -->
+            <PassesCover/> <!-- Passes through obstacles -->
+        </Projectile>
     </Object>
 
     <!-- STAFFS -->
@@ -66,7 +92,9 @@
         <MaxDamage>35</MaxDamage>
         <RateOfFire>0.9</RateOfFire>
         <NumProjectiles>1</NumProjectiles>
+        <Range>6.0</Range>
         <Tag>T0</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
     </Object>
 
     <!-- WANDS -->
@@ -78,7 +106,9 @@
         <MinDamage>30</MinDamage>
         <MaxDamage>55</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
+        <Range>5.0</Range>
         <Tag>T0</Tag>
+        <UsableBy>Priest, Sorcerer</UsableBy>
     </Object>
 
     <!-- SWORDS -->
@@ -90,7 +120,14 @@
         <MinDamage>45</MinDamage>
         <MaxDamage>90</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
+        <Range>3.0</Range>
         <Tag>T0</Tag>
+        <FameBonus>1</FameBonus>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
+        <Projectile>
+            <!-- Example: A special sword that pierces defense -->
+            <PierceDefense/>
+        </Projectile>
     </Object>
 
     <!-- KATANAS -->
@@ -102,7 +139,9 @@
         <MinDamage>22</MinDamage>
         <MaxDamage>32</MaxDamage>
         <RateOfFire>1.2</RateOfFire>
+        <Range>3.5</Range>
         <Tag>T0</Tag>
+        <UsableBy>Samurai, Kensei</UsableBy>
     </Object>
 
     <!-- CLOAKS -->
@@ -116,6 +155,7 @@
             <ConditionEffect effect="Invisible" duration="3"/>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Rogue</UsableBy>
     </Object>
 
     <!-- POISONS -->
@@ -134,6 +174,7 @@
             <ConditionEffect effect="Poisoned" duration="3"/>
         </Projectile>
         <Tag>T0</Tag>
+        <UsableBy>Assassin</UsableBy>
     </Object>
 
     <!-- PRISMS -->
@@ -148,6 +189,7 @@
             <Decoy duration="4"/>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Trickster</UsableBy>
     </Object>
 
     <!-- QUIVERS -->
@@ -165,6 +207,7 @@
             <LifetimeMS>800</LifetimeMS>
         </Projectile>
         <Tag>T0</Tag>
+        <UsableBy>Archer</UsableBy>
     </Object>
 
     <!-- TRAPS -->
@@ -179,6 +222,7 @@
             <Radius>2</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Huntress</UsableBy>
     </Object>
 
     <!-- LUTES -->
@@ -193,6 +237,7 @@
             <Radius>4</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Bard</UsableBy>
     </Object>
 
     <!-- SPELLS -->
@@ -210,6 +255,7 @@
             <LifetimeMS>1000</LifetimeMS>
         </Projectile>
         <Tag>T0</Tag>
+        <UsableBy>Wizard</UsableBy>
     </Object>
 
     <!-- SKULLS -->
@@ -224,6 +270,7 @@
             <Radius>3</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Necromancer</UsableBy>
     </Object>
 
     <!-- ORBS -->
@@ -238,6 +285,7 @@
             <Radius>2.5</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Mystic</UsableBy>
     </Object>
 
     <!-- TOMES -->
@@ -252,6 +300,7 @@
             <Radius>3</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Priest</UsableBy>
     </Object>
 
     <!-- SCEPTERS -->
@@ -270,6 +319,7 @@
             <MultiHit/>
         </Projectile>
         <Tag>T0</Tag>
+        <UsableBy>Sorcerer</UsableBy>
     </Object>
 
     <!-- MACES -->
@@ -282,6 +332,7 @@
         <MaxDamage>40</MaxDamage>
         <RateOfFire>0.8</RateOfFire>
         <Tag>T0</Tag>
+        <UsableBy>Kensei</UsableBy>
     </Object>
 
     <!-- HELMETS -->
@@ -295,6 +346,7 @@
             <ConditionEffect effect="Damaging" duration="3"/>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Warrior</UsableBy>
     </Object>
 
     <!-- SHIELDS -->
@@ -309,6 +361,7 @@
             <Radius>2</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Knight</UsableBy>
     </Object>
 
     <!-- SEALS -->
@@ -324,6 +377,7 @@
             <ConditionEffect effect="Healing" duration="3"/>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Paladin</UsableBy>
     </Object>
 
     <!-- SHURIKEN -->
@@ -342,6 +396,7 @@
             <PassesCover/>
         </Projectile>
         <Tag>T0</Tag>
+        <UsableBy>Ninja</UsableBy>
     </Object>
 
     <!-- WAKIZASHI -->
@@ -356,6 +411,7 @@
             <Radius>2</Radius>
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Samurai</UsableBy>
     </Object>
 
     <!-- SHEATHS -->
@@ -369,6 +425,7 @@
             <Summon type="0x0001" duration="5"/> <!-- Placeholder minion type -->
         </Activate>
         <Tag>T0</Tag>
+        <UsableBy>Summoner</UsableBy>
     </Object>
 
     <!-- LIGHT ARMOR (Leather Armor) -->
@@ -379,6 +436,7 @@
         <Description>Lightweight armor for quick movement.</Description>
         <Defense>5</Defense>
         <Tag>T0</Tag>
+        <UsableBy>Rogue, Archer, Huntress, Trickster, Assassin, Ninja, Bard</UsableBy>
     </Object>
 
     <!-- ROBES -->
@@ -389,6 +447,7 @@
         <Description>A basic robe for magical defense.</Description>
         <Defense>3</Defense>
         <Tag>T0</Tag>
+        <UsableBy>Wizard, Priest, Necromancer, Mystic, Sorcerer, Summoner</UsableBy>
     </Object>
 
     <!-- HEAVY ARMOR (Plate Armor) -->
@@ -399,6 +458,7 @@
         <Description>Durable armor for maximum protection.</Description>
         <Defense>10</Defense>
         <Tag>T0</Tag>
+        <UsableBy>Warrior, Knight, Paladin, Samurai, Kensei</UsableBy>
     </Object>
 
     <!-- RINGS -->
@@ -409,6 +469,90 @@
         <Description>A basic ring with a minor stat boost.</Description>
         <ActivateOnEquip stat="21">10</ActivateOnEquip> <!-- Example: +10 Max HP -->
         <Tag>T0</Tag>
+        <UsableBy>All</UsableBy>
+    </Object>
+
+    <!-- EXAMPLE SET ITEM: LOST GOLEM SHIELD -->
+    <Object type="0x0500" id="Lost Golem Shield" Item="true">
+        <DisplayId>Lost Golem Shield</DisplayId>
+        <Class>Ability</Class>
+        <SlotType>27</SlotType> <!-- Shield -->
+        <Description>A shield imbued with the raw strength of a Golem.</Description>
+        <MPCost>90</MPCost>
+        <Defense>12</Defense>
+        <Tag>ST</Tag>
+        <FameBonus>3</FameBonus>
+        <Soulbound>true</Soulbound>
+        <UsableBy>Knight</UsableBy>
+        <Set name="Lost Golem Set">
+            <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
+            <SetBonus pieces="3">+10 ATT, +5 DEX</SetBonus>
+            <SetBonus pieces="4">+40 HP</SetBonus>
+            <FullSetBonus>+40 HP, +10 ATT, +3 DEF, +5 DEX, +15 VIT</FullSetBonus>
+        </Set>
+    </Object>
+
+    <!-- EXAMPLE SET ITEM: LOST GOLEM ARMOR -->
+    <Object type="0x0501" id="Lost Golem Armor" Item="true">
+        <DisplayId>Lost Golem Armor</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- Heavy Armor -->
+        <Description>Heavy armor crafted from petrified golem hide.</Description>
+        <Defense>18</Defense>
+        <ActivateOnEquip stat="21">50</ActivateOnEquip> <!-- +50 Max HP -->
+        <Tag>ST</Tag>
+        <FameBonus>3</FameBonus>
+        <Soulbound>true</Soulbound>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
+        <Set name="Lost Golem Set">
+            <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
+            <SetBonus pieces="3">+10 ATT, +5 DEX</SetBonus>
+            <SetBonus pieces="4">+40 HP</SetBonus>
+            <FullSetBonus>+40 HP, +10 ATT, +3 DEF, +5 DEX, +15 VIT</FullSetBonus>
+        </Set>
+    </Object>
+
+    <!-- EXAMPLE SET ITEM: LOST GOLEM SWORD -->
+    <Object type="0x0502" id="Lost Golem Sword" Item="true">
+        <DisplayId>Lost Golem Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <!-- Sword -->
+        <Description>A massive blade capable of crushing opponents.</Description>
+        <MinDamage>150</MinDamage>
+        <MaxDamage>200</MaxDamage>
+        <RateOfFire>0.8</RateOfFire>
+        <Range>3.2</Range>
+        <Tag>ST</Tag>
+        <FameBonus>3</FameBonus>
+        <Soulbound>true</Soulbound>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
+        <Set name="Lost Golem Set">
+            <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
+            <SetBonus pieces="3">+10 ATT, +5 DEX</SetBonus>
+            <SetBonus pieces="4">+40 HP</SetBonus>
+            <FullSetBonus>+40 HP, +10 ATT, +3 DEF, +5 DEX, +15 VIT</FullSetBonus>
+        </Set>
+    </Object>
+
+    <!-- EXAMPLE SET ITEM: LOST GOLEM RING -->
+    <Object type="0x0503" id="Lost Golem Ring" Item="true">
+        <DisplayId>Lost Golem Ring</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>20</SlotType> <!-- Ring -->
+        <Description>A ring pulsing with ancient earthen power.</Description>
+        <ActivateOnEquip stat="20">5</ActivateOnEquip>  <!-- +5 ATT -->
+        <ActivateOnEquip stat="26">5</ActivateOnEquip>  <!-- +5 DEF -->
+        <ActivateOnEquip stat="28">5</ActivateOnEquip>  <!-- +5 DEX -->
+        <Tag>ST</Tag>
+        <FameBonus>3</FameBonus>
+        <Soulbound>true</Soulbound>
+        <UsableBy>All</UsableBy>
+        <Set name="Lost Golem Set">
+            <SetBonus pieces="2">+3 DEF, +15 VIT</SetBonus>
+            <SetBonus pieces="3">+10 ATT, +5 DEX</SetBonus>
+            <SetBonus pieces="4">+40 HP</SetBonus>
+            <FullSetBonus>+40 HP, +10 ATT, +3 DEF, +5 DEX, +15 VIT</FullSetBonus>
+        </Set>
     </Object>
 
 </Objects>
