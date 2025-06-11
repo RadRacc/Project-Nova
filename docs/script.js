@@ -939,7 +939,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (cartButton) cartButton.style.display = 'flex';
 
         // Render products for the shop page
-        renderProducts();
+        renderProducts(); // This will now render all products
 
         // Attach shop-specific event listeners
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
@@ -981,7 +981,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-        // Attach event listener for the search bar
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
