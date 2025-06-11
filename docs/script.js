@@ -372,11 +372,11 @@ function openProductModal(itemOrProduct) {
         if (itemOrProduct.NumProjectiles) {
             descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
-        if (itemOrProduct.Range) {
+        if (itemOrOrange.Range) { // Typo here, should be itemOrProduct.Range
             descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`; // Corrected typo here
         }
         if (itemOrProduct.NumProjectiles) { // This condition likely means "if it's a projectile item"
-            descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
+            descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.Boomerang ? 'Yes' : 'No'}</span></p>`; // Corrected to check itemOrProduct.Boomerang
             descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots pass through obstacles:</strong> <span>${itemOrProduct.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
@@ -747,6 +747,13 @@ async function fetchItemsData() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, "application/xml");
 
+        // Check for parsing errors
+        const errorNode = xmlDoc.querySelector('parsererror');
+        if (errorNode) {
+            console.error("XML Parsing Error:", errorNode.textContent);
+            throw new Error("Failed to parse items.txt due to XML errors.");
+        }
+
         const items = [];
         const objectElements = xmlDoc.querySelectorAll('Object[Item="true"]');
 
@@ -780,7 +787,7 @@ async function fetchItemsData() {
                 item.StatBoosts = [];
                 activateOnEquipElements.forEach(aoe => {
                     const statId = aoe.getAttribute('stat');
-                    const statValue = aoe.textContent; // Corrected to aoe.textContent
+                    const statValue = aoe.textContent;
                     const statName = statIdMap[statId] || `Stat ${statId}`;
                     item.StatBoosts.push(`${statName}: +${statValue}`);
                 });
@@ -789,12 +796,12 @@ async function fetchItemsData() {
             const projectileElement = obj.querySelector('Projectile');
             if (projectileElement) {
                 item.NumProjectiles = projectileElement.querySelector('NumProjectiles')?.textContent || '1';
-                item.ShotsBoomerang = projectileElement.querySelector('Boomerang') ? true : false;
+                item.Boomerang = projectileElement.querySelector('Boomerang') ? true : false; // Store as boolean
                 item.ShotsMultiHit = projectileElement.querySelector('MultiHit') ? true : false;
                 item.ShotsPassesCover = projectileElement.querySelector('PassesCover') ? true : false;
                 item.IgnoresDefense = projectileElement.querySelector('PierceDefense') ? true : false;
             } else {
-                item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent;
+                item.NumProjectiles = obj.querySelector('NumProjectiles')?.textContent; // For non-projectile items like spells
             }
 
             const setElement = obj.querySelector('Set');
@@ -1007,7 +1014,7 @@ function displayItems() {
                 ${item.Description ? `<p class="item-description"><strong>Description:</strong> ${item.Description}</p>` : ''}
         `;
 
-        const hasDetailedProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus;
+        const hasDetailedProperties = item.NumProjectiles || item.Boomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus;
         if (hasDetailedProperties || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
              itemContentHtml += `<hr class="item-properties-separator">`;
         }
@@ -1016,7 +1023,7 @@ function displayItems() {
             ${item.NumProjectiles ? `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>` : ''}
             ${item.Range ? `<p><strong>Range:</strong> <span>${item.Range}</span></p>` : ''}
             ${item.NumProjectiles ? `
-                <p><strong>Shots boomerang:</strong> <span>${item.ShotsBoomerang ? 'Yes' : 'No'}</span></p>
+                <p><strong>Shots boomerang:</strong> <span>${item.Boomerang ? 'Yes' : 'No'}</span></p>
                 <p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>
                 <p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>
                 <p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>
@@ -1163,8 +1170,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (isWikiPage) {
-        await fetchItemsData();
-        // Populate new filters after data is fetched
+        await fetchItemsData(); // This must complete successfully first
+        // Populate new filters after data is fetched and parsed
         populateTierFilter();
         populateUsableByFilter();
 
