@@ -1,6 +1,6 @@
 // script.js
 
-// Product data (moved to script.js for easier management with cart)
+// Product data for the shop page
 const products = [
     {
         id: 'supporter-role',
@@ -8,7 +8,7 @@ const products = [
         price: 5.00,
         image: "icons/supporterpackage.png",
         description: "Gain access to exclusive Discord channels, custom chat color, and a special in-game title to show your support!",
-        features: [ // Changed from 'benefits' to 'features' for consistency
+        features: [
             "Exclusive Discord Role",
             "Custom Chat Color (Pink)",
             "In-game 'Supporter' Badge",
@@ -171,8 +171,8 @@ const addCreditButton = document.getElementById('add-credit-button');
 const cartButton = document.getElementById('cart-button');
 const cartItemCountSpan = document.getElementById('cart-item-count');
 
-// Modals (used by shop page)
-const productDetailsModal = document.getElementById('product-details-modal');
+// Modals (used by shop page and now wiki page)
+const productDetailsModal = document.getElementById('product-details-modal'); // Generic modal for item/product details
 const modalProductImage = document.getElementById('modal-product-image');
 const modalProductName = document.getElementById('modal-product-name');
 const modalProductDescription = document.getElementById('modal-product-description');
@@ -197,7 +197,7 @@ const wikiViewToggle = document.getElementById('wiki-view-toggle'); // Wiki view
 const serverStatusText = document.getElementById('server-status-text');
 const serverStatusCircle = document.getElementById('server-status-circle');
 
-// Shop specific new elements
+// Shop specific new elements (used by username prompt modal)
 const usernamePromptModal = document.getElementById('username-prompt-modal');
 const ingameUsernameInput = document.getElementById('ingame-username-input');
 const confirmPurchaseButton = document.getElementById('confirm-purchase-button');
@@ -233,7 +233,7 @@ function renderProducts() {
     // Clear existing products before rendering
     if (supporterRanksGrid) supporterRanksGrid.innerHTML = '';
     if (globalBoostsGrid) globalBoostsGrid.innerHTML = '';
-    if (currencyPacksGrid) currencyPacksGrid.innerHTML = '';
+    if (currencyPacksGrid) currencyPollsGrid.innerHTML = '';
 
     products.forEach(product => {
         const productTile = document.createElement('div');
@@ -282,7 +282,12 @@ function attachProductButtonListeners() {
 // Handler for "View Details" button click
 function handleViewDetailsClick(event) {
     const productId = event.currentTarget.dataset.productId;
-    openProductModal(productId);
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        openProductModal(product); // Pass the entire product object
+    } else {
+        console.error("Product not found for details:", productId);
+    }
 }
 
 // Handler for "Add to Cart" button click (from product tile)
@@ -292,46 +297,125 @@ function handleAddToCartClick(event) {
     showCustomMessageBox("Item added to cart!", "Item Added", "success");
 }
 
-// Opens the product details modal and populates it
-function openProductModal(productId) {
-    const product = products.find(p => p.id === productId);
-    if (product && productDetailsModal && modalProductImage && modalProductName && modalProductDescription && modalProductBenefits && modalProductPrice && modalAddToCartButton) {
+// Opens the product details modal and populates it for BOTH shop products and wiki items
+function openProductModal(itemOrProduct) {
+    // Clear previous content
+    modalProductBenefits.innerHTML = '';
+    modalProductBenefits.style.display = 'none'; // Hide by default
+
+    // Set common properties
+    modalProductImage.src = itemOrProduct.image || `icons/items/${itemOrProduct.id.toLowerCase().replace(/ /g, '-')}.png`;
+    modalProductImage.alt = itemOrProduct.name || itemOrProduct.DisplayId || itemOrProduct.id;
+    modalProductName.textContent = itemOrProduct.name || itemOrProduct.DisplayId || itemOrProduct.id;
+
+    // Determine if it's a shop product or a wiki item
+    const isShopProduct = products.some(p => p.id === itemOrProduct.id);
+
+    if (isShopProduct) {
+        // Handle shop product details
+        modalProductDescription.textContent = itemOrProduct.description;
+        modalProductPrice.textContent = itemOrProduct.price.toFixed(2);
+        modalAddToCartButton.style.display = 'block'; // Show Add to Cart for shop items
         modalAddToCartButton.onclick = () => {
-            addToCart(product.id);
+            addToCart(itemOrProduct.id);
             closeProductModal();
-            showCustomMessageBox(`${product.name} added to cart!`, "Item Added", "success");
+            showCustomMessageBox(`${itemOrProduct.name} added to cart!`, "Item Added", "success");
         };
 
-        modalProductImage.src = product.image;
-        modalProductImage.alt = product.name;
-        modalProductName.textContent = product.name;
-        modalProductDescription.textContent = product.description;
-        modalProductPrice.textContent = product.price.toFixed(2);
-
-        modalProductBenefits.innerHTML = '';
-        if (product.features && product.features.length > 0) {
-            product.features.forEach(feature => {
+        if (itemOrProduct.features && itemOrProduct.features.length > 0) {
+            itemOrProduct.features.forEach(feature => {
                 const li = document.createElement('li');
                 li.textContent = feature;
                 modalProductBenefits.appendChild(li);
             });
             modalProductBenefits.style.display = 'block';
-        } else {
-            modalProductBenefits.style.display = 'none';
+        }
+    } else {
+        // Handle wiki item details
+        // DisplayId is used for the name from items.txt, but we already set modalProductName
+        let descriptionHTML = '';
+        descriptionHTML += `<p><strong>Type:</strong> <span>${slotTypeMap[itemOrProduct.SlotType] || 'N/A'}</span></p>`;
+        if (itemOrProduct.UsableBy) {
+            descriptionHTML += `<p><strong>Usable By:</strong> <span>${itemOrProduct.UsableBy}</span></p>`;
+        }
+        if (itemOrProduct.Damage) {
+            descriptionHTML += `<p><strong>Damage:</strong> <span>${itemOrProduct.Damage}</span></p>`;
+        }
+        descriptionHTML += `<p><strong>Soulbound:</strong> <span>${itemOrProduct.Soulbound ? 'Yes' : 'No'}</span></p>`;
+
+        if (itemOrProduct.Description) {
+            descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        productDetailsModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    } else {
-        console.error("Failed to open product modal or product not found:", productId);
+        const hasProjectileProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense;
+        if (hasProjectileProperties || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus) {
+             descriptionHTML += `<hr class="item-properties-separator">`;
+        }
+
+        if (itemOrProduct.NumProjectiles) {
+            descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
+        }
+        if (itemOrProduct.Range) {
+            descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
+        }
+        if (itemOrProduct.NumProjectiles) { // Only display if it's a projectile-based item
+            descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
+            descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
+            descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
+            descriptionHTML += `<p><strong>Shots pass through obstacles:</strong> <span>${itemOrProduct.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
+        }
+        if (itemOrProduct.ArcGap) {
+            descriptionHTML += `<p><strong>Arc Gap:</strong> <span>${itemOrProduct.ArcGap}°</span></p>`;
+        }
+        if (itemOrProduct.RateOfFire) {
+            descriptionHTML += `<p><strong>Rate of Fire:</strong> <span>${itemOrProduct.RateOfFire}</span></p>`;
+        }
+        if (itemOrProduct.FameBonus) {
+            descriptionHTML += `<p><strong>Fame Bonus:</strong> <span>${itemOrProduct.FameBonus}%</span></p>`;
+        }
+
+        if (itemOrProduct.StatBoosts && itemOrProduct.StatBoosts.length > 0) {
+            if (descriptionHTML.includes('<hr class="item-properties-separator">') && hasProjectileProperties) {
+            } else if (descriptionHTML.trim() !== '') {
+                 descriptionHTML += `<hr class="item-properties-separator">`;
+            }
+            descriptionHTML += `<p><strong>Stat Boosts:</strong> <span>${itemOrProduct.StatBoosts.join(', ')}</span></p>`;
+        }
+
+        if (itemOrProduct.Set) {
+            descriptionHTML += `<hr class="item-properties-separator">`;
+            descriptionHTML += `
+                <div class="item-set-bonus">
+                    <h4>Set: ${itemOrProduct.Set.Name}</h4>
+                    <ul>
+            `;
+            itemOrProduct.Set.Bonuses.forEach(bonus => {
+                descriptionHTML += `<li><strong>${bonus.pieces} Pieces:</b> <span>${bonus.description}</span></li>`;
+            });
+            descriptionHTML += `
+                        <li><strong>Full Set Bonus:</strong> <span>${itemOrProduct.Set.FullBonus}</span></li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        modalProductDescription.innerHTML = descriptionHTML;
+        modalProductPrice.textContent = ''; // No price for wiki items
+        modalAddToCartButton.style.display = 'none'; // Hide Add to Cart for wiki items
+    }
+
+    if (productDetailsModal) {
+        productDetailsModal.classList.add('open'); // Use class for smooth transition
+        document.body.style.overflow = 'hidden'; // Prevent scrolling background
     }
 }
+
 
 // Closes the product details modal
 function closeProductModal() {
     if (productDetailsModal) {
-        productDetailsModal.style.display = 'none';
-        document.body.style.overflow = '';
+        productDetailsModal.classList.remove('open'); // Use class for smooth transition
+        document.body.style.overflow = ''; // Restore scrolling
     }
 }
 
@@ -423,7 +507,7 @@ function renderCartItems() {
 function openCartModal() {
     if (cartModal) {
         renderCartItems();
-        cartModal.style.display = 'flex';
+        cartModal.classList.add('open'); // Use class for smooth transition
         document.body.style.overflow = 'hidden';
     }
 }
@@ -431,12 +515,12 @@ function openCartModal() {
 // Closes the shopping cart modal
 function closeCartModal() {
     if (cartModal) {
-        cartModal.style.display = 'none';
+        cartModal.classList.remove('open'); // Use class for smooth transition
         document.body.style.overflow = '';
     }
 }
 
-// New: Prompts for in-game username before checkout
+// Prompts for in-game username before checkout
 function promptForUsernameAndCheckout() {
     if (cart.length === 0) {
         showCustomMessageBox("Your cart is empty. Please add items before checking out.", "Empty Cart", "warning");
@@ -445,7 +529,7 @@ function promptForUsernameAndCheckout() {
 
     if (usernamePromptModal && ingameUsernameInput) {
         ingameUsernameInput.value = ''; // Clear previous input
-        usernamePromptModal.style.display = 'flex';
+        usernamePromptModal.classList.add('open'); // Use class for smooth transition
         document.body.style.overflow = 'hidden';
 
         // Event listener for confirm button (remove old one first to prevent duplicates)
@@ -458,7 +542,7 @@ function promptForUsernameAndCheckout() {
     }
 }
 
-// New: Handles the confirmation of purchase after username input
+// Handles the confirmation of purchase after username input
 async function handleConfirmPurchase() {
     const inGameUsername = ingameUsernameInput.value.trim();
 
@@ -470,24 +554,14 @@ async function handleConfirmPurchase() {
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     if (storeCredit >= total) {
-        // --- IMPORTANT: Removed direct credit deduction here ---
-        // The credit deduction will now happen *after* successful backend confirmation
-        // to prevent credit loss if the backend call fails. For this demo,
-        // we'll keep it client-side as there's no persistent user credit storage.
-        // For a full system, you'd manage user credit on the backend database.
-        // For now, it remains client-side.
-
         closeUsernamePromptModal(); // Close the username prompt modal
         closeCartModal();           // Close the cart modal
 
-        // Generate a unique order ID
         const orderId = crypto.randomUUID(); // Uses Web Crypto API for unique ID
 
-        // Send order details to the Flask backend
         const backendResponse = await sendOrderToBackend(inGameUsername, cart, total, orderId);
 
         if (backendResponse && backendResponse.status === 'success') {
-            // Only deduct credit and clear cart if backend confirms success
             storeCredit -= total; // Deduct credit
             updateStoreCreditDisplay(); // Update credit display immediately
 
@@ -501,7 +575,6 @@ async function handleConfirmPurchase() {
                 "success"
             );
         } else {
-            // Handle backend failure
             showCustomMessageBox(
                 `Purchase failed! Reason: ${backendResponse?.message || 'Unknown error contacting backend.'}` +
                 `<br>Your credit has NOT been deducted. Please try again or contact support.`,
@@ -515,7 +588,7 @@ async function handleConfirmPurchase() {
     }
 }
 
-// New: Sends order data to the Flask backend
+// Sends order data to the Flask backend
 async function sendOrderToBackend(username, cartItems, total, orderId) {
     // Backend URL configuration
     // FOR LOCAL TESTING ON YOUR PC:
@@ -569,10 +642,10 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
 }
 
 
-// New: Closes the username prompt modal
+// Closes the username prompt modal
 function closeUsernamePromptModal() {
     if (usernamePromptModal) {
-        usernamePromptModal.style.display = 'none';
+        usernamePromptModal.classList.remove('open'); // Use class for smooth transition
         document.body.style.overflow = ''; // Restore background scroll
     }
 }
@@ -585,6 +658,7 @@ function showCustomMessageBox(message, title, type = 'info') {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background-color: rgba(0, 0, 0, 0.7); display: flex;
         justify-content: center; align-items: center; z-index: 1000;
+        opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
     `;
 
     const messageBox = document.createElement('div');
@@ -594,6 +668,7 @@ function showCustomMessageBox(message, title, type = 'info') {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); max-width: 400px;
         text-align: center; color: #f0f0f0; font-family: 'Open Sans', sans-serif;
         position: relative;
+        transform: translateY(20px); transition: transform 0.3s ease;
     `;
 
     const titleElement = document.createElement('h3');
@@ -618,13 +693,26 @@ function showCustomMessageBox(message, title, type = 'info') {
     `;
     closeButton.onmouseover = () => closeButton.style.backgroundColor = '#1E90FF';
     closeButton.onmouseout = () => closeButton.style.backgroundColor = '#FF69B4';
-    closeButton.onclick = () => document.body.removeChild(messageBoxOverlay);
+    closeButton.onclick = () => {
+        messageBox.style.transform = 'translateY(20px)';
+        messageBoxOverlay.style.opacity = '0';
+        messageBoxOverlay.addEventListener('transitionend', () => {
+            document.body.removeChild(messageBoxOverlay);
+        }, { once: true });
+    };
 
     messageBox.appendChild(titleElement);
     messageBox.appendChild(messageElement);
     messageBox.appendChild(closeButton);
     messageBoxOverlay.appendChild(messageBox);
     document.body.appendChild(messageBoxOverlay);
+
+    // Trigger animations
+    setTimeout(() => {
+        messageBoxOverlay.style.opacity = '1';
+        messageBoxOverlay.style.visibility = 'visible';
+        messageBox.style.transform = 'translateY(0)';
+    }, 10);
 }
 
 
@@ -710,6 +798,8 @@ async function fetchItemsData() {
                     });
                 });
             }
+            // Generate a sensible image path for wiki items
+            item.image = `icons/items/${item.id.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
 
             items.push(item);
         });
@@ -768,6 +858,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                     expandedItemId = item.id;
                 }
                 displayItems(filterSlotType, searchQuery); // Re-render to apply new expansion state
+            } else { // In spacious view, open modal on click
+                openProductModal(item);
             }
         });
 
@@ -779,7 +871,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         let itemContentHtml = '';
 
         if (cardDisplayMode === 'compact') {
-            // Conditionally add the compact-tag class for Soulbound
             let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator compact-tag">SB</span>' : '';
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
@@ -797,7 +888,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.Damage) {
                 itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
             }
-            // "Soulbound" text for spacious view
             itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>`;
 
             if (item.Description) {
@@ -857,7 +947,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 `;
             }
 
-            // Construct the main content HTML for spacious view
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
                 <h3>${item.DisplayId || item.id}</h3>
@@ -866,7 +955,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 ${setBonusHtml}
             `;
 
-            // Add Soulbound tag to a separate footer div for centering
             if (item.Soulbound) {
                 itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
             }
@@ -880,8 +968,6 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
 // --- How to Play Page Specific Functions (Server Status) ---
 function updateServerStatus() {
-    // This function is for the 'How to Play' page's server status,
-    // which might be hardcoded or derived from a different source than marketplace.
     if (serverStatusText && serverStatusCircle) {
         const currentStatus = document.body.dataset.serverStatus || 'Checking...'; // Assuming status is set on body for How to Play
 
@@ -918,11 +1004,7 @@ function updateMarketplaceStatusDisplay() {
 
 // Checks the backend server status for the marketplace (now simulated)
 async function checkMarketplaceStatus() {
-    // This function is now simulated to always show "Online" or "Down" based on the
-    // 'marketplaceStatus' variable defined at the top of this script.
-    // In a real application, this would involve a fetch() request to a backend API.
     await new Promise(resolve => setTimeout(resolve, 500)); // Simulate a small delay
-    // The actual status is already set by the 'marketplaceStatus' variable.
     updateMarketplaceStatusDisplay(); // Always update display after check
 }
 
@@ -948,22 +1030,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateCartCount();
 
     if (isShopPage) {
-        // Show shop-specific elements
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'flex';
         if (cartButton) cartButton.style.display = 'flex';
 
-        // Render products for the shop page
-        renderProducts(); // This will now render all products
+        renderProducts();
 
-        // Attach shop-specific event listeners
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
         if (checkoutButton) checkoutButton.addEventListener('click', promptForUsernameAndCheckout);
 
-        // Check and update marketplace status dynamically
         await checkMarketplaceStatus();
     } else {
-        // Hide shop-specific elements on other pages
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
         if (cartButton) cartButton.style.display = 'none';
     }
@@ -971,45 +1048,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isWikiPage) {
         await fetchItemsData();
 
-        // Initialize and set up wiki view toggle
         currentViewMode = localStorage.getItem('wikiViewMode') || 'spacious';
         if (wikiViewToggle) {
             wikiViewToggle.checked = (currentViewMode === 'compact');
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
                 localStorage.setItem('wikiViewMode', currentViewMode);
-                expandedItemId = null; // Reset expanded item when view mode changes
-                displayItems(); // Re-render items with new view mode
+                expandedItemId = null;
+                displayItems();
             });
         }
-        displayItems(); // Initial display of wiki items
+        displayItems();
 
-        // Attach event listeners for item type filters
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 const slotType = event.target.dataset.slottype;
-                if (wikiSearchInput) wikiSearchInput.value = ''; // Clear search bar
-                expandedItemId = null; // Reset expanded item when filtering
-                displayItems(slotType); // Filter and display items
+                if (wikiSearchInput) wikiSearchInput.value = '';
+                expandedItemId = null;
+                displayItems(slotType);
             });
         });
 
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
-                expandedItemId = null; // Reset expanded item when searching
-                displayItems(null, query); // Display items filtered by search query
+                expandedItemId = null;
+                displayItems(null, query);
             });
         }
     }
 
     if (isHowToPlayPage) {
-        updateServerStatus(); // Update server status on How to Play page
+        updateServerStatus();
     }
 
 
-    // Common modal close listeners (for product details and cart modals)
     if (productDetailsModal) {
         if (closeProductModalButton) {
             closeProductModalButton.addEventListener('click', closeProductModal);
@@ -1032,7 +1106,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Username prompt modal close listeners
     if (usernamePromptModal) {
         usernamePromptModal.addEventListener('click', (event) => {
             if (event.target === usernamePromptModal) {
