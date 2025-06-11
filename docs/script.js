@@ -138,6 +138,7 @@ let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 // --- Wiki Item Data (keep this part as it is used by wiki.html) ---
 let wikiItemsData = []; // To store parsed data from items.txt
 let currentViewMode = 'spacious'; // Default view mode for wiki items
+let expandedItemId = null; // New: Stores the ID of the currently expanded item in compact view
 
 
 // Mapping SlotType numbers to readable names for display
@@ -664,8 +665,22 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
     filteredItems.forEach(item => {
         const itemCard = document.createElement('div');
-        // Add class based on currentViewMode
-        itemCard.className = `item-card ${currentViewMode}-view`;
+        // Determine the actual view mode for THIS specific card
+        const cardDisplayMode = (currentViewMode === 'compact' && item.id !== expandedItemId) ? 'compact' : 'spacious';
+        itemCard.className = `item-card ${cardDisplayMode}-view`;
+
+        // Add a click listener to the item card for expand/collapse
+        itemCard.addEventListener('click', () => {
+            if (currentViewMode === 'compact') { // Only allow expand/collapse in compact mode
+                if (expandedItemId === item.id) {
+                    expandedItemId = null; // Collapse this item
+                } else {
+                    expandedItemId = item.id; // Expand this item
+                }
+                displayItems(filterSlotType, searchQuery); // Re-render to reflect changes
+            }
+        });
+
 
         // Construct image URL from the new icons/items folder
         const itemImageName = item.id.replace(/[^a-zA-Z0-9]/g, '');
@@ -674,7 +689,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
 
         let itemContentHtml = '';
 
-        if (currentViewMode === 'compact') {
+        if (cardDisplayMode === 'compact') {
             // Compact view: Name, Icon, Tag, Soulbound indicator (SB)
             let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator">SB</span>' : '';
             itemContentHtml = `
@@ -846,6 +861,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
                 localStorage.setItem('wikiViewMode', currentViewMode); // Save user preference
+                expandedItemId = null; // Collapse any expanded item when view mode changes
                 displayItems(); // Re-render items with new view mode
             });
         }
@@ -857,6 +873,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 event.preventDefault(); // Prevent default link behavior
                 const slotType = event.target.dataset.slottype;
                 if (wikiSearchInput) wikiSearchInput.value = ''; // Clear search bar when category is clicked
+                expandedItemId = null; // Collapse any expanded item when category changes
                 displayItems(slotType); // Filter and display items by SlotType
             });
         });
@@ -865,6 +882,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
+                expandedItemId = null; // Collapse any expanded item when search query changes
                 displayItems(null, query); // Display items filtered by search query
             });
         }
