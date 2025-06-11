@@ -479,8 +479,8 @@ async function handleConfirmPurchase() {
         // Generate a unique order ID
         const orderId = crypto.randomUUID(); // Uses Web Crypto API for unique ID
 
-        // Simulate sending order details (not actually sending to a server/webhook)
-        simulateOrderProcessing(inGameUsername, cart, total, orderId);
+        // Simulate sending order details to a webhook
+        await simulateWebhookCall(inGameUsername, cart, total, orderId);
 
         cart = []; // Clear cart after successful processing attempt
         updateCartCount(); // Update header count and save cart
@@ -497,29 +497,57 @@ async function handleConfirmPurchase() {
     }
 }
 
-// New: Simulates sending order data (replaces actual backend fetch for this frontend-only demo)
-function simulateOrderProcessing(username, cartItems, total, orderId) {
-    console.log('--- Simulating Order Processing ---');
-    console.log('Order ID:', orderId);
-    console.log('In-Game Username:', username);
-    console.log('Items Purchased:', cartItems.map(item => `${item.name} (x${item.quantity})`).join(', '));
-    console.log('Total Amount:', total.toFixed(2));
-    console.log('Timestamp:', new Date().toISOString());
-    console.log('--- End Simulation ---');
+// New: Simulates sending order data to a webhook (for demonstration only)
+async function simulateWebhookCall(username, cartItems, total, orderId) {
+    const WEBHOOK_URL = 'https://example.com/your-discord-webhook-url'; // <<< REPLACE WITH YOUR ACTUAL WEBHOOK URL >>>
+    const payload = {
+        username: username,
+        items: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price
+        })),
+        total: total,
+        orderId: orderId,
+        timestamp: new Date().toISOString()
+    };
 
-    // In a real application, this is where you'd securely send data to your backend
-    // using fetch(), XMLHttpRequest, or a library like Axios.
-    // Example (commented out):
-    /*
-    fetch('/purchase', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, items: cartItems, total, orderId })
-    })
-    .then(response => response.json())
-    .then(data => console.log('Backend response:', data))
-    .catch(error => console.error('Error sending order:', error));
-    */
+    console.log('--- Simulating Webhook Call ---');
+    console.log('Attempting to send data to (placeholder):', "https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc");
+    console.log('Original Payload:', payload);
+    // Base64 encode the payload as a "hashed" representation (not secure encryption!)
+    const hashedPayload = btoa(JSON.stringify(payload));
+    console.log('Simulated "Hashed" Payload (Base64 Encoded):', hashedPayload);
+    console.log('--- End Simulation Init ---');
+
+    try {
+        // This fetch will likely fail in the Canvas environment because example.com is not a real endpoint
+        // or due to CORS policies if you use a real webhook without proper server-side handling.
+        // It's included to show the structure of a webhook call from the frontend.
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // IMPORTANT: Do NOT include sensitive API keys or secrets here in a real application.
+                // This is for demonstration of client-side request structure only.
+            },
+            body: JSON.stringify(payload),
+            // Use 'no-cors' mode if you encounter CORS errors and just want to fire the request
+            // without reading the response (e.g., for fire-and-forget webhooks).
+            // This is generally not recommended for robust error handling.
+            mode: 'no-cors'
+        });
+
+        // In 'no-cors' mode, response.ok will always be true and you can't read response.json().
+        // For demonstration, we'll just log success based on the fetch completing.
+        console.log('Simulated Webhook Call Status: Request sent (check network tab for actual outcome).');
+        console.log('NOTE: In "no-cors" mode, direct response status checks are not possible for security reasons.');
+
+    } catch (error) {
+        console.error('Simulated Webhook Call Error: Could not reach webhook endpoint (as expected in demo/local setup).', error);
+        // This is where you might handle the error in a real app, e.g., retry or notify user.
+    }
 }
 
 
