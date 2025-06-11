@@ -435,7 +435,7 @@
                 <div class="filter-group">
                     <label for="usable-by-filter">Filter by Usable By:</label>
                     <select id="usable-by-filter">
-                        <option value="all">All Usable By Types</option> <!-- Changed text here -->
+                        <option value="all">All Usable By Types</option> <!-- Updated text here -->
                         <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
@@ -470,4 +470,86 @@
                 <li><a href="#" data-slottype="18">Light Armor</a></li>
                 <li><a href="#" data-slottype="19">Robes</a></li>
                 <li><a href="#" data-slottype="17">Heavy Armor</a></li>
-                <li><a href="#" data-slottype
+                <li><a href="#" data-slottype="20">Rings</a></li>
+            </ul>
+
+            <div id="item-display-area">
+                <!-- Items will be dynamically loaded here -->
+                <p style="text-align: center; color: #bbb;">Select an item type above or use the search bar to view items.</p>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project Nova. All rights reserved.</p>
+    </footer>
+
+    <!-- Product Details Modal (Unified for both shop products and wiki items) -->
+    <div id="product-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-body">
+                <img id="modal-product-image" src="" alt="Product Image">
+                <h3 id="modal-product-name"></h3>
+                <p id="modal-product-description"></p>
+                <!-- This ul will be for shop item features OR wiki item stat boosts/set bonuses -->
+                <h4>Features/Details:</h4>
+                <ul id="modal-product-benefits"></ul>
+                <div class="modal-price">$<span id="modal-product-price">0.00</span></div>
+                <button id="modal-add-to-cart-button">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="cart-modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Your Cart</h2>
+            <ul id="cart-items">
+                <!-- Cart items will be loaded here by JavaScript -->
+            </ul>
+            <div id="cart-summary">
+                <p>Total: $<span id="cart-total">0.00</span></p>
+                <button id="checkout-button">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Username Prompt Modal -->
+    <div id="username-prompt-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter In-Game Username</h2>
+            <p>Please enter your exact in-game username for delivery:</p>
+            <input type="text" id="ingame-username-input" placeholder="Your In-Game Username" required>
+            <div class="modal-buttons">
+                <button id="confirm-purchase-button">Confirm Purchase</button>
+                <button id="cancel-purchase-button" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navButtons = document.querySelectorAll('nav .button');
+            navButtons.forEach(button => {
+                if (button.getAttribute('href') && button.getAttribute('href').endsWith(currentPage)) {
+                    button.classList.add('active-button');
+                } else {
+                    button.classList.remove('active-button');
+                }
+            });
+            // Initial display of all items when wiki loads (handled by script.js)
+            // The view toggle now also re-renders items, so initial call might be handled within script.js
+            if (typeof fetchItemsData === 'function' && typeof displayItems === 'function') {
+                fetchItemsData().then(() => {
+                    displayItems(); // Display all items initially in default spacious mode
+                });
+            }
+        });
+    </script>
+</body>
+</html>
