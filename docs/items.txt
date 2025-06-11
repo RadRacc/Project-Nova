@@ -32,15 +32,15 @@
     </Object>
 
     <!-- BOWS -->
-    <Object type="0x0050" id="Placeholder Bow T0" Item="true">
-        <DisplayId>Simple Bow</DisplayId>
+    <Object type="0x0050" id="Shortbow" Item="true">
+        <DisplayId>Shortbow</DisplayId>
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
-        <Description>A wooden bow for ranged attacks.</Description>
-        <MinDamage>20</MinDamage>
-        <MaxDamage>30</MaxDamage>
-        <RateOfFire>0.9</RateOfFire>
-        <NumProjectiles>1</NumProjectiles>
+        <Description>A well-made shortbow.</Description>
+        <MinDamage>5</MinDamage>
+        <MaxDamage>20</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
         <Tag>T0</Tag>
     </Object>
     <Object type="0x0051" id="UT Bow of the Deep" Item="true">
@@ -69,13 +69,13 @@
     </Object>
 
     <!-- WANDS -->
-    <Object type="0x0070" id="Placeholder Wand T0" Item="true">
-        <DisplayId>Novice Wand</DisplayId>
+    <Object type="0x0070" id="Fire Wand" Item="true">
+        <DisplayId>Fire Wand</DisplayId>
         <Class>Equipment</Class>
         <SlotType>9</SlotType> <!-- 9 = Wand -->
-        <Description>A short wand, good for precision spells.</Description>
-        <MinDamage>18</MinDamage>
-        <MaxDamage>28</MaxDamage>
+        <Description>A wand that casts a simple fire spell.</Description>
+        <MinDamage>30</MinDamage>
+        <MaxDamage>55</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
         <Tag>T0</Tag>
     </Object>
