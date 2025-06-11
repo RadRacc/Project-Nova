@@ -242,7 +242,7 @@ function renderProducts() {
     // Clear existing products before rendering
     if (supporterRanksGrid) supporterRanksGrid.innerHTML = '';
     if (globalBoostsGrid) globalBoostsGrid.innerHTML = '';
-    if (currencyPacksGrid) currencyPacksGrid.innerHTML = '';
+    if (currencyPacksGrid) currencyPapsGrid.innerHTML = '';
 
     products.forEach(product => {
         const productTile = document.createElement('div');
@@ -364,7 +364,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || item.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
@@ -832,10 +832,10 @@ function populateTierFilter() {
     // Clear existing options, but keep "No Filter"
     tierFilterDropdown.innerHTML = '<option value="all">No Filter</option>';
 
-    // Define the desired order for tiers, including T0-T14, LG, ST, UT, EV, Event
+    // Define the desired order for tiers, including T0-T14, LG, ST, UT, Event
     const customTierOrder = [
         'T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10',
-        'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'EV', 'Event'
+        'T11', 'T12', 'T13', 'T14', 'LG', 'ST', 'UT', 'Event' // 'EV' removed from here
     ];
 
     // Get unique tags actually present in the data, to ensure no duplicates if manually added
@@ -848,14 +848,12 @@ function populateTierFilter() {
 
     const tiersToAdd = [];
     customTierOrder.forEach(tier => {
-        // Add predefined tiers if they are actually present in the data, or if we want them always
-        // For this request, we want them always. So no check for uniqueTagsFromData.has(tier)
         tiersToAdd.push(tier);
     });
 
     // Add any *other* tags from items.txt that are not in our custom predefined list
     uniqueTagsFromData.forEach(tag => {
-        if (!customTierOrder.includes(tag)) {
+        if (!customTierOrder.includes(tag) && tag.toLowerCase() !== 'ev') { // Explicitly exclude 'EV' here too
             tiersToAdd.push(tag);
         }
     });
