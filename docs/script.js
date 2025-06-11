@@ -516,8 +516,8 @@ async function handleConfirmPurchase() {
         updateCartCount(); // Update header count and save cart
 
         showCustomMessageBox(
-            `Purchase successful! Your order #${orderId} has been placed for delivery to ${inGameUsername}.` +
-            `<br>If Store Services are currently Down, please DM someone with a screenshot of this message for verification.`,
+            `Purchase successful! Your order #${orderId} has been placed for delivery to **${inGameUsername}**.` +
+            `<br>If Store Services are currently **Down**, please DM someone with a screenshot of this message for verification.`,
             "Purchase Complete",
             "success"
         );
@@ -543,9 +543,6 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
     };
 
     try {
-        // NOTE: You'll need to run your app.py locally or deploy it.
-        // If running locally, it might be http://127.0.0.1:5000/purchase or similar.
-        // Replace with your actual backend URL.
         const response = await fetch('/purchase', { // Assuming /purchase endpoint on the same origin
             method: 'POST',
             headers: {
@@ -565,10 +562,11 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
     } catch (error) {
         console.error('Error sending order to backend:', error);
         // Inform user that there was an issue with backend communication
+        // But the credit has already been deducted and the order ID is shown in messagebox
         showCustomMessageBox(
-            `There was an issue processing your order on the server side.` +
+            `There was an issue contacting the delivery server.` +
             `<br>Your credit has been deducted. Please use order #${orderId} and screenshot this for manual verification if needed.`,
-            "Server Error",
+            "Delivery Error",
             "error"
         );
     }
@@ -829,7 +827,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 itemPropertiesHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
             }
             if (item.ArcGap) {
-                itemPropertiesHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
+                itemPropertiesHtml += `<p><strong>Arc Gap:</b> <span>${item.ArcGap}°</span></p>`;
             }
             if (item.RateOfFire) {
                 itemPropertiesHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
