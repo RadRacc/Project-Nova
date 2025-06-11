@@ -501,7 +501,7 @@ async function handleConfirmPurchase() {
 async function simulateWebhookCall(username, cartItems, total, orderId) {
     // <<< IMPORTANT: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL FOR TESTING >>>
     // For live/production, this must be handled securely on a backend server.
-    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc'; // <<< PLACEHOLDER: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL >>>
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc'; // <<< PLACEHOLDER: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL >>>
 
     // Format items for Discord message
     const itemsList = cartItems.map(item => `• ${item.name} (x${item.quantity}) - $${item.price.toFixed(2)}`).join('\n');
