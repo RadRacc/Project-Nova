@@ -141,7 +141,9 @@ let currentViewMode = 'spacious'; // Default view mode for wiki items
 let expandedItemId = null; // Stores the ID of the currently expanded item in compact view
 
 // Marketplace Server Status (dynamic)
-let marketplaceStatus = 'Checking...'; // Initial status
+// >>> USER-CONFIGURABLE STATUS <<<
+// Change 'Online' to 'Down' to manually show the service as offline.
+let marketplaceStatus = 'Online'; // Set this to 'Online' or 'Down' as desired
 
 // Mapping SlotType numbers to readable names for display (for Wiki)
 const slotTypeMap = {
@@ -224,49 +226,45 @@ function addCredit() {
 
 // Renders product tiles on the shop page
 function renderProducts() {
-    const productGridSections = ['supporter-ranks', 'global-boosts', 'currency-packs'];
+    const supporterRanksGrid = document.getElementById('supporter-ranks');
+    const globalBoostsGrid = document.getElementById('global-boosts');
+    const currencyPacksGrid = document.getElementById('currency-packs');
 
-    productGridSections.forEach(sectionId => {
-        const sectionElement = document.getElementById(sectionId);
-        if (sectionElement) {
-            const productGrid = sectionElement.querySelector('.product-grid');
-            if (productGrid) {
-                productGrid.innerHTML = ''; // Clear existing products
+    // Clear existing products before rendering
+    if (supporterRanksGrid) supporterRanksGrid.innerHTML = '';
+    if (globalBoostsGrid) globalBoostsGrid.innerHTML = '';
+    if (currencyPacksGrid) currencyPacksGrid.innerHTML = '';
 
-                const sectionProducts = products.filter(p => {
-                    if (sectionId === 'supporter-ranks') {
-                        return p.id.startsWith('supporter-');
-                    }
-                    if (sectionId === 'global-boosts') return p.id.includes('lootboost');
-                    if (sectionId === 'currency-packs') return p.id.includes('currency-pack');
-                    return false;
-                });
+    products.forEach(product => {
+        const productTile = document.createElement('div');
+        productTile.className = 'product-tile';
+        productTile.innerHTML = `
+            <img src="${product.image}" alt="${product.name} Icon">
+            <h3>${product.name}</h3>
+            <div class="price-info">
+                <span class="current-price">$${product.price.toFixed(2)}</span>
+            </div>
+            <div class="button-group">
+                <button class="add-to-cart-button" data-product-id="${product.id}">
+                    <img src="icons/cart.png" alt="Add to Cart" class="cart-icon">
+                </button>
+                <button class="view-details-button" data-product-id="${product.id}">View Details</button>
+            </div>
+        `;
 
-                sectionProducts.forEach(product => {
-                    const productTile = document.createElement('div');
-                    productTile.className = 'product-tile';
-                    productTile.innerHTML = `
-                        <img src="${product.image}" alt="${product.name} Icon">
-                        <h3>${product.name}</h3>
-                        <div class="price-info">
-                            <span class="current-price">$${product.price.toFixed(2)}</span>
-                        </div>
-                        <div class="button-group">
-                            <button class="add-to-cart-button" data-product-id="${product.id}">
-                                <img src="icons/cart.png" alt="Add to Cart" class="cart-icon">
-                            </button>
-                            <button class="view-details-button" data-product-id="${product.id}">View Details</button>
-                        </div>
-                    `;
-                    productGrid.appendChild(productTile);
-                });
-            }
+        if (product.id.startsWith('supporter-') && supporterRanksGrid) {
+            supporterRanksGrid.appendChild(productTile);
+        } else if (product.id.includes('lootboost') && globalBoostsGrid) {
+            globalBoostsGrid.appendChild(productTile);
+        } else if (product.id.includes('currency-pack') && currencyPacksGrid) {
+            currencyPacksGrid.appendChild(productTile);
         }
     });
 
     // Attach event listeners after rendering products
     attachProductButtonListeners();
 }
+
 
 // Attaches event listeners to "View Details" and "Add to Cart" buttons
 function attachProductButtonListeners() {
@@ -481,8 +479,8 @@ async function handleConfirmPurchase() {
         // Generate a unique order ID
         const orderId = crypto.randomUUID(); // Uses Web Crypto API for unique ID
 
-        // Send order details to the backend
-        await sendOrderToBackend(inGameUsername, cart, total, orderId);
+        // Simulate sending order details (not actually sending to a server/webhook)
+        simulateOrderProcessing(inGameUsername, cart, total, orderId);
 
         cart = []; // Clear cart after successful processing attempt
         updateCartCount(); // Update header count and save cart
@@ -499,51 +497,29 @@ async function handleConfirmPurchase() {
     }
 }
 
-// New: Sends order data to the backend (your app.py)
-async function sendOrderToBackend(username, cartItems, total, orderId) {
-    const payload = {
-        username: username,
-        items: cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price
-        })),
-        total: total,
-        orderId: orderId,
-        timestamp: new Date().toISOString()
-    };
+// New: Simulates sending order data (replaces actual backend fetch for this frontend-only demo)
+function simulateOrderProcessing(username, cartItems, total, orderId) {
+    console.log('--- Simulating Order Processing ---');
+    console.log('Order ID:', orderId);
+    console.log('In-Game Username:', username);
+    console.log('Items Purchased:', cartItems.map(item => `${item.name} (x${item.quantity})`).join(', '));
+    console.log('Total Amount:', total.toFixed(2));
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('--- End Simulation ---');
 
-    try {
-        // NOTE: You'll need to run your app.py locally or deploy it.
-        // For local testing, if app.py is running on port 5000, you might use:
-        // const response = await fetch('http://localhost:5000/purchase', {
-        // For Canvas environment, the relative path '/' usually works if the backend is configured.
-        const response = await fetch('/purchase', { // Assumes /purchase endpoint on the same origin
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Server responded with status ${response.status}: ${errorText}`);
-        }
-
-        const result = await response.json();
-        console.log('Order sent to backend successfully:', result);
-
-    } catch (error) {
-        console.error('Error sending order to backend:', error);
-        showCustomMessageBox(
-            `There was an issue contacting the delivery server.` +
-            `<br>Your credit has been deducted. Please use order #${orderId} and screenshot this for manual verification if needed.`,
-            "Delivery Error",
-            "error"
-        );
-    }
+    // In a real application, this is where you'd securely send data to your backend
+    // using fetch(), XMLHttpRequest, or a library like Axios.
+    // Example (commented out):
+    /*
+    fetch('/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, items: cartItems, total, orderId })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Backend response:', data))
+    .catch(error => console.error('Error sending order:', error));
+    */
 }
 
 
@@ -894,21 +870,13 @@ function updateMarketplaceStatusDisplay() {
     }
 }
 
-// Checks the backend server status for the marketplace
+// Checks the backend server status for the marketplace (now simulated)
 async function checkMarketplaceStatus() {
-    try {
-        // Attempt to fetch from the root of the server using a HEAD request (lighter)
-        // If your app.py has a specific /status endpoint, you can change this URL.
-        const response = await fetch('/', { method: 'HEAD' });
-        if (response.ok) {
-            marketplaceStatus = 'Online';
-        } else {
-            marketplaceStatus = 'Down';
-        }
-    } catch (error) {
-        console.error("Could not reach backend for status check:", error);
-        marketplaceStatus = 'Down';
-    }
+    // This function is now simulated to always show "Online" or "Down" based on the
+    // 'marketplaceStatus' variable defined at the top of this script.
+    // In a real application, this would involve a fetch() request to a backend API.
+    await new Promise(resolve => setTimeout(resolve, 500)); // Simulate a small delay
+    // The actual status is already set by the 'marketplaceStatus' variable.
     updateMarketplaceStatusDisplay(); // Always update display after check
 }
 
