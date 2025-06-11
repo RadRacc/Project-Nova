@@ -300,11 +300,9 @@ function openProductModal(itemOrProduct) {
     // Reset modal content visibility
     modalProductBenefits.innerHTML = '';
     modalProductBenefits.style.display = 'none';
-    modalProductPrice.style.display = 'block'; // Show price by default
-    modalAddToCartButton.style.display = 'block'; // Show add to cart by default
-
-    // Determine if it's a shop product or a wiki item
-    const isShopProduct = products.some(p => p.id === itemOrProduct.id && p.name === itemOrProduct.name);
+    
+    // Check if it's a shop product based on presence in the 'products' array
+    const isShopProduct = products.some(p => p.id === itemOrProduct.id);
 
     if (isShopProduct) {
         // Populate for Shop Product
@@ -313,6 +311,8 @@ function openProductModal(itemOrProduct) {
         modalProductName.textContent = itemOrProduct.name;
         modalProductDescription.textContent = itemOrProduct.description;
         modalProductPrice.textContent = `$${itemOrProduct.price.toFixed(2)}`;
+        modalProductPrice.style.display = 'block'; // Show price for shop items
+        modalAddToCartButton.style.display = 'block'; // Show add to cart button for shop items
         modalAddToCartButton.onclick = () => {
             addToCart(itemOrProduct.id);
             closeProductModal();
@@ -329,7 +329,7 @@ function openProductModal(itemOrProduct) {
             modalProductBenefits.style.display = 'block';
         }
     } else {
-        // Populate for Wiki Item
+        // Populate for Wiki Item (no price or add to cart button)
         const itemImageName = itemOrProduct.id.replace(/[^a-zA-Z0-9]/g, '');
         const imagePath = `icons/items/${itemImageName}.png`;
         const fallbackImageUrl = `https://placehold.co/100x100/FF69B4/FFFFFF?text=${itemOrProduct.DisplayId ? itemOrProduct.DisplayId.split(' ')[0] : 'ITEM'}`;
@@ -353,19 +353,18 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        // Add separator if there are projectile properties, range, etc.
         const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
 
         if (itemOrProduct.NumProjectiles) {
-            descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrOldProduct.NumProjectiles}</span></p>`; // Corrected to itemOrProduct.NumProjectiles
+            descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
         if (itemOrProduct.Range) {
             descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
         }
-        if (itemOrProduct.NumProjectiles) { // Only display if it's a projectile-based item
+        if (itemOrProduct.NumProjectiles) {
             descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
@@ -392,7 +391,7 @@ function openProductModal(itemOrProduct) {
         }
 
         if (itemOrProduct.Set) {
-            document.querySelector('#product-details-modal .modal-body h4').textContent = "Set Bonus:"; // Change heading for set
+            document.querySelector('#product-details-modal .modal-body h4').textContent = "Set Bonus:";
             let setBonusHtml = `
                 <div class="item-set-bonus">
                     <h4>Set: ${itemOrProduct.Set.Name}</h4>
@@ -408,7 +407,7 @@ function openProductModal(itemOrProduct) {
             `;
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = setBonusHtml;
-            modalProductBenefits.appendChild(tempDiv.firstChild); // Append the set bonus structure
+            modalProductBenefits.appendChild(tempDiv.firstChild);
             modalProductBenefits.style.display = 'block';
         }
 
@@ -418,8 +417,8 @@ function openProductModal(itemOrProduct) {
     }
 
     if (productDetailsModal) {
-        productDetailsModal.classList.add('open'); // Add 'open' class for smooth transition
-        document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        productDetailsModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
     }
 }
 
@@ -427,8 +426,8 @@ function openProductModal(itemOrProduct) {
 // Closes the product details modal
 function closeProductModal() {
     if (productDetailsModal) {
-        productDetailsModal.classList.remove('open'); // Remove 'open' class for smooth transition
-        document.body.style.overflow = ''; // Restore scrolling
+        productDetailsModal.classList.remove('open');
+        document.body.style.overflow = '';
     }
 }
 
@@ -768,9 +767,9 @@ async function fetchItemsData() {
             const activateOnEquipElements = obj.querySelectorAll('ActivateOnEquip');
             if (activateOnEquipElements.length > 0) {
                 item.StatBoosts = [];
-                activateOnEquipElements.forEach(aoe => { // Corrected from aae to aoe
+                activateOnEquipElements.forEach(aoe => {
                     const statId = aoe.getAttribute('stat');
-                    const statValue = aoe.textContent;
+                    const statValue = aoe.textContent; // Corrected to aoe.textContent
                     const statName = statIdMap[statId] || `Stat ${statId}`;
                     item.StatBoosts.push(`${statName}: +${statValue}`);
                 });
@@ -942,8 +941,9 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 // This is needed to toggle the classes on *all* items correctly (collapsing others)
                 displayItems(filterSlotType, searchQuery);
             } else {
-                // If in spacious mode, open the full product details modal
-                openProductModal(item);
+                // In spacious mode, do nothing on click, as items are already "expanded"
+                // If you wanted to open the modal for spacious items, you'd put openProductModal(item); here
+                console.log(`Clicked item ${item.id} in spacious view. No action taken.`);
             }
         });
 
@@ -1040,26 +1040,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             wikiViewToggle.addEventListener('change', (event) => {
                 currentViewMode = event.target.checked ? 'compact' : 'spacious';
                 localStorage.setItem('wikiViewMode', currentViewMode);
-                expandedItemId = null;
-                displayItems();
+                expandedItemId = null; // Reset expanded item when view mode changes
+                displayItems(); // Re-render items with new view mode
             });
         }
-        displayItems();
+        displayItems(); // Initial display of wiki items
 
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
                 const slotType = event.target.dataset.slottype;
                 if (wikiSearchInput) wikiSearchInput.value = '';
-                expandedItemId = null;
-                displayItems(slotType);
+                expandedItemId = null; // Reset expanded item when filtering
+                displayItems(slotType); // Filter and display items
             });
         });
 
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
                 const query = event.target.value;
-                expandedItemId = null;
+                expandedItemId = null; // Reset expanded item when searching
                 displayItems(null, query);
             });
         }
