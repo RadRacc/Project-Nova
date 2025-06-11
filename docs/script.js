@@ -361,7 +361,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
         if (itemOrProduct.Range) {
-            descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
+            descriptionHTML += `<p><strong>Range:</strong> <span>${itemR.Range}</span></p>`;
         }
         if (itemOrProduct.NumProjectiles) {
             descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
@@ -870,6 +870,12 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             <div class="item-tag ${item.Tag.toLowerCase()}">${item.Tag}</div>
         `;
         
+        // Conditionally add the compact "SB" tag next to the main tag
+        if (item.Soulbound) { // Only add if the item is soulbound
+            itemContentHtml += `<span class="item-compact-soulbound-indicator">SB</span>`;
+        }
+
+
         itemContentHtml += `<div class="item-details-content"> <!-- Container for collapsible content -->
                 <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
                 ${item.UsableBy ? `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>` : ''}
@@ -878,8 +884,8 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 ${item.Description ? `<p class="item-description"><strong>Description:</strong> ${item.Description}</p>` : ''}
         `;
 
-        const hasProjectileProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense;
-        if (hasProjectileProperties || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
+        const hasDetailedProperties = item.NumProjectiles || item.ShotsBoomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus;
+        if (hasDetailedProperties || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
              itemContentHtml += `<hr class="item-properties-separator">`;
         }
 
@@ -921,7 +927,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         itemContentHtml += `</div>`; // Close item-details-content
 
         // Always add the soulbound footer tag HTML if the item is soulbound.
-        // CSS will control its display based on view mode (compact vs expanded/spacious).
+        // Its visibility will be controlled by CSS.
         if (item.Soulbound) {
             itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
         }
