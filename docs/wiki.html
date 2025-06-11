@@ -423,6 +423,25 @@
                 <input type="text" id="wiki-search-input" placeholder="Search items...">
             </div>
 
+            <!-- NEW: Filter Dropdowns Container -->
+            <div class="wiki-filters-container">
+                <div class="filter-group">
+                    <label for="tier-filter">Filter by Tier:</label>
+                    <select id="tier-filter">
+                        <option value="all">All Tiers</option>
+                        <!-- Options will be dynamically populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="usable-by-filter">Filter by Usable By:</label>
+                    <select id="usable-by-filter">
+                        <option value="all">All Classes</option>
+                        <!-- Options will be dynamically populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+
             <ul id="item-type-list">
                 <li><a href="#" data-slottype="2">Daggers</a></li>
                 <li><a href="#" data-slottype="3">Bows</a></li>
