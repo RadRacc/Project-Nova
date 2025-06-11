@@ -139,6 +139,13 @@ let wikiItemsData = []; // To store parsed data from items.txt
 let currentViewMode = 'spacious'; // Default view mode for wiki items
 let expandedItemId = null; // Stores the ID of the currently expanded item in compact view
 
+// New global variables for filters
+let currentSlotTypeFilter = null;
+let currentSearchQuery = '';
+let currentTierFilter = 'all'; // Default to 'all'
+let currentUsableByFilter = 'all'; // Default to 'all'
+
+
 // Marketplace Server Status (dynamic)
 let marketplaceStatus = 'Online'; // Set this to 'Online' or 'Down' as desired
 
@@ -189,6 +196,11 @@ const wikiSearchInput = document.getElementById('wiki-search-input');
 const itemDisplayArea = document.getElementById('item-display-area');
 const itemTypeLinks = document.querySelectorAll('#item-type-list a');
 const wikiViewToggle = document.getElementById('wiki-view-toggle'); // Wiki view toggle
+
+// New filter dropdown elements
+const tierFilterDropdown = document.getElementById('tier-filter');
+const usableByFilterDropdown = document.getElementById('usable-by-filter');
+
 
 // How to Play specific elements (for server status)
 const serverStatusText = document.getElementById('server-status-text');
@@ -361,9 +373,9 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
         if (itemOrProduct.Range) {
-            descriptionHTML += `<p><strong>Range:</strong> <span>${itemR.Range}</span></p>`;
+            descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`; // Corrected typo here
         }
-        if (itemOrProduct.NumProjectiles) {
+        if (itemOrProduct.NumProjectiles) { // This condition likely means "if it's a projectile item"
             descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.ShotsBoomerang ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
@@ -813,20 +825,87 @@ async function fetchItemsData() {
     }
 }
 
-// Function to display items in the wiki based on current view mode
-function displayItems(filterSlotType = null, searchQuery = '') {
+// Function to populate the Tier filter dropdown
+function populateTierFilter() {
+    if (!tierFilterDropdown) return;
+
+    const uniqueTags = new Set();
+    wikiItemsData.forEach(item => {
+        if (item.Tag && item.Tag !== 'N/A') {
+            uniqueTags.add(item.Tag);
+        }
+    });
+
+    const sortedTags = Array.from(uniqueTags).sort((a, b) => {
+        // Custom sorting for Tiers: T0, T1, ..., T20, then LG, ST, UT, Event (alphabetical for special)
+        const getTierValue = (tag) => {
+            if (tag.startsWith('T') && tag.length > 1) {
+                return parseInt(tag.substring(1), 10);
+            }
+            if (tag === 'LG') return 1000; // Large number to put it after Tiers
+            if (tag === 'ST') return 1001;
+            if (tag === 'UT') return 1002;
+            if (tag === 'Event') return 1003;
+            return 999; // For any other unexpected tags, place before LG/ST/UT
+        };
+
+        const valA = getTierValue(a);
+        const valB = getTierValue(b);
+
+        if (valA === valB) {
+            return a.localeCompare(b); // Alphabetical sort for same tier values (e.g., if multiple LG-like tags existed)
+        }
+        return valA - valB;
+    });
+
+    sortedTags.forEach(tag => {
+        const option = document.createElement('option');
+        option.value = tag.toLowerCase();
+        option.textContent = tag;
+        tierFilterDropdown.appendChild(option);
+    });
+}
+
+// Function to populate the Usable By filter dropdown
+function populateUsableByFilter() {
+    if (!usableByFilterDropdown) return;
+
+    const uniqueClasses = new Set();
+    wikiItemsData.forEach(item => {
+        if (item.UsableBy) {
+            item.UsableBy.split(', ').forEach(cls => {
+                uniqueClasses.add(cls.trim());
+            });
+        }
+    });
+
+    const sortedClasses = Array.from(uniqueClasses).sort(); // Alphabetical sort
+
+    sortedClasses.forEach(cls => {
+        const option = document.createElement('option');
+        option.value = cls;
+        option.textContent = cls;
+        usableByFilterDropdown.appendChild(option);
+    });
+}
+
+
+// Function to display items in the wiki based on current view mode and active filters
+function displayItems() {
     if (!itemDisplayArea) return;
 
-    itemDisplayArea.innerHTML = '';
+    itemDisplayArea.innerHTML = ''; // Clear current display
 
     let filteredItems = wikiItemsData;
 
-    if (filterSlotType) {
-        filteredItems = filteredItems.filter(item => item.SlotType === filterSlotType);
+    // Apply Slot Type filter (from sidebar links)
+    if (currentSlotTypeFilter && currentSlotTypeFilter !== 'all') {
+        filteredItems = filteredItems.filter(item => item.SlotType === currentSlotTypeFilter);
     }
 
-    if (searchQuery) {
-        const lowerCaseQuery = searchQuery.toLowerCase();
+    // Apply Search Query filter
+    if (currentSearchQuery) {
+        const lowerCaseQuery = currentSearchQuery.toLowerCase();
         filteredItems = filteredItems.filter(item =>
             item.DisplayId?.toLowerCase().includes(lowerCaseQuery) ||
             item.Description?.toLowerCase().includes(lowerCaseQuery) ||
@@ -838,6 +917,17 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             (item.UsableBy && item.UsableBy.toLowerCase().includes(lowerCaseQuery))
         );
     }
+
+    // Apply Tier filter (new dropdown)
+    if (currentTierFilter && currentTierFilter !== 'all') {
+        filteredItems = filteredItems.filter(item => item.Tag && item.Tag.toLowerCase() === currentTierFilter);
+    }
+
+    // Apply Usable By filter (new dropdown)
+    if (currentUsableByFilter && currentUsableByFilter !== 'all') {
+        filteredItems = filteredItems.filter(item => item.UsableBy && item.UsableBy.split(', ').map(s => s.trim()).includes(currentUsableByFilter));
+    }
+
 
     if (filteredItems.length === 0) {
         itemDisplayArea.innerHTML = '<p style="text-align: center; color: #bbb;">No items found matching your criteria.</p>';
@@ -948,7 +1038,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 }
                 // Re-render to ensure smooth transitions and correct state
                 // This is needed to toggle the classes on *all* items correctly (collapsing others)
-                displayItems(filterSlotType, searchQuery);
+                displayItems(); // Call displayItems without parameters to use current global filter states
             } else {
                 // In spacious mode, do nothing on click, as items are already "expanded"
                 console.log(`Clicked item ${item.id} in spacious view. No action taken.`);
@@ -1041,6 +1131,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (isWikiPage) {
         await fetchItemsData();
+        // Populate new filters after data is fetched
+        populateTierFilter();
+        populateUsableByFilter();
 
         currentViewMode = localStorage.getItem('wikiViewMode') || 'spacious';
         if (wikiViewToggle) {
@@ -1057,18 +1150,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         itemTypeLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                const slotType = event.target.dataset.slottype;
+                currentSlotTypeFilter = event.target.dataset.slottype; // Update global filter
+                // Clear other filters for new type selection
                 if (wikiSearchInput) wikiSearchInput.value = '';
+                currentSearchQuery = '';
+                if (tierFilterDropdown) tierFilterDropdown.value = 'all';
+                currentTierFilter = 'all';
+                if (usableByFilterDropdown) usableByFilterDropdown.value = 'all';
+                currentUsableByFilter = 'all';
+
                 expandedItemId = null; // Reset expanded item when filtering
-                displayItems(slotType); // Filter and display items
+                displayItems(); // Call displayItems to apply all global filters
             });
         });
 
         if (wikiSearchInput) {
             wikiSearchInput.addEventListener('input', (event) => {
-                const query = event.target.value;
+                currentSearchQuery = event.target.value; // Update global filter
+                currentSlotTypeFilter = null; // Clear slot type filter on search
+                if (tierFilterDropdown) tierFilterDropdown.value = 'all';
+                currentTierFilter = 'all';
+                if (usableByFilterDropdown) usableByFilterDropdown.value = 'all';
+                currentUsableByFilter = 'all';
+
                 expandedItemId = null; // Reset expanded item when searching
-                displayItems(null, query);
+                displayItems(); // Call displayItems to apply all global filters
+            });
+        }
+
+        // New event listeners for filter dropdowns
+        if (tierFilterDropdown) {
+            tierFilterDropdown.addEventListener('change', (event) => {
+                currentTierFilter = event.target.value; // Update global filter
+                currentSlotTypeFilter = null; // Clear other filters
+                if (wikiSearchInput) wikiSearchInput.value = '';
+                currentSearchQuery = '';
+                if (usableByFilterDropdown) usableByFilterDropdown.value = 'all';
+                currentUsableByFilter = 'all';
+                expandedItemId = null;
+                displayItems();
+            });
+        }
+
+        if (usableByFilterDropdown) {
+            usableByFilterDropdown.addEventListener('change', (event) => {
+                currentUsableByFilter = event.target.value; // Update global filter
+                currentSlotTypeFilter = null; // Clear other filters
+                if (wikiSearchInput) wikiSearchInput.value = '';
+                currentSearchQuery = '';
+                if (tierFilterDropdown) tierFilterDropdown.value = 'all';
+                currentTierFilter = 'all';
+                expandedItemId = null;
+                displayItems();
             });
         }
     }
