@@ -146,6 +146,10 @@
             transition: transform 0.2s ease, max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
         }
 
+        .item-card.compact-view:hover {
+            transform: translateY(-2px) scale(1.01);
+        }
+
         .item-card.compact-view img {
             max-width: 50px; /* Smaller icon for compact view */
             height: 50px;
@@ -428,14 +432,14 @@
                 <div class="filter-group">
                     <label for="tier-filter">Filter by Tier:</label>
                     <select id="tier-filter">
-                        <option value="all">All Tiers</option>
+                        <option value="all">No Filter</option> <!-- Changed text here -->
                         <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
                 <div class="filter-group">
                     <label for="usable-by-filter">Filter by Usable By:</label>
                     <select id="usable-by-filter">
-                        <option value="all">All Usable By Types</option> <!-- Updated text here -->
+                        <option value="all">No Filter</option> <!-- Changed text here -->
                         <!-- Options will be dynamically populated by JavaScript -->
                     </select>
                 </div>
