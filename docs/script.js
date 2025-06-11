@@ -140,8 +140,8 @@ let wikiItemsData = []; // To store parsed data from items.txt
 let currentViewMode = 'spacious'; // Default view mode for wiki items
 let expandedItemId = null; // Stores the ID of the currently expanded item in compact view
 
-// Marketplace Server Status (Hardcoded for now, can be dynamic with a backend)
-let marketplaceStatus = 'Online'; // 'Online' or 'Down'
+// Marketplace Server Status (dynamic)
+let marketplaceStatus = 'Checking...'; // Initial status
 
 
 // Mapping SlotType numbers to readable names for display (for Wiki)
@@ -783,7 +783,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
         let itemContentHtml = '';
 
         if (cardDisplayMode === 'compact') {
-            // FIX: Conditionally add the compact-tag class for Soulbound
+            // Conditionally add the compact-tag class for Soulbound
             let soulboundIndicator = item.Soulbound ? '<span class="item-soulbound-indicator compact-tag">SB</span>' : '';
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
@@ -801,12 +801,9 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             if (item.Damage) {
                 itemPropertiesHtml += `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>`;
             }
-            // FIX: Changed "Soulbound?" to "Soulbound" and added tag
-            if (item.Soulbound) {
-                itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>Yes</span> <span class="item-tag soulbound">Soulbound</span></p>`;
-            } else {
-                itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>No</span></p>`;
-            }
+            // Changed "Soulbound?" to "Soulbound"
+            itemPropertiesHtml += `<p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>`;
+
             if (item.Description) {
                 itemPropertiesHtml += `<p><strong>Description:</strong> ${item.Description}</p>`;
             }
@@ -864,6 +861,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 `;
             }
 
+            // Construct the main content HTML for spacious view
             itemContentHtml = `
                 <img src="${imagePath}" alt="${item.DisplayId || item.id} Icon" onerror="this.onerror=null;this.src='${fallbackImageUrl}';">
                 <h3>${item.DisplayId || item.id}</h3>
@@ -871,6 +869,11 @@ function displayItems(filterSlotType = null, searchQuery = '') {
                 ${itemPropertiesHtml}
                 ${setBonusHtml}
             `;
+
+            // NEW: Add Soulbound tag to a separate footer div for centering
+            if (item.Soulbound) {
+                itemContentHtml += `<div class="item-footer-tags"><span class="item-tag soulbound">Soulbound</span></div>`;
+            }
         }
 
         itemCard.innerHTML = itemContentHtml;
@@ -899,22 +902,36 @@ function updateServerStatus() {
     }
 }
 
-// New: Updates the marketplace status display
+// New: Updates the marketplace status display based on `marketplaceStatus` variable
 function updateMarketplaceStatusDisplay() {
     if (marketplaceStatusText && marketplaceStatusCircle) {
+        marketplaceStatusText.textContent = marketplaceStatus;
         if (marketplaceStatus === 'Online') {
-            marketplaceStatusText.textContent = 'Online';
             marketplaceStatusCircle.classList.remove('offline');
             marketplaceStatusCircle.classList.add('online');
         } else if (marketplaceStatus === 'Down') {
-            marketplaceStatusText.textContent = 'Down';
             marketplaceStatusCircle.classList.remove('online');
             marketplaceStatusCircle.classList.add('offline');
         } else {
-            marketplaceStatusText.textContent = 'Checking...';
             marketplaceStatusCircle.classList.remove('online', 'offline');
         }
     }
+}
+
+// New: Checks the backend server status
+async function checkMarketplaceStatus() {
+    try {
+        const response = await fetch('/', { method: 'HEAD' }); // Use HEAD request as it's lighter
+        if (response.ok) {
+            marketplaceStatus = 'Online';
+        } else {
+            marketplaceStatus = 'Down';
+        }
+    } catch (error) {
+        console.error("Could not reach backend for status check:", error);
+        marketplaceStatus = 'Down';
+    }
+    updateMarketplaceStatusDisplay();
 }
 
 
@@ -943,10 +960,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderProducts();
         if (addCreditButton) addCreditButton.addEventListener('click', addCredit);
         if (cartButton) cartButton.addEventListener('click', openCartModal);
-        // Changed checkout button to trigger username prompt
         if (checkoutButton) checkoutButton.addEventListener('click', promptForUsernameAndCheckout);
 
-        updateMarketplaceStatusDisplay(); // Initialize marketplace status
+        await checkMarketplaceStatus(); // Check and update marketplace status on load
     } else {
         if (storeCreditDisplay) storeCreditDisplay.style.display = 'none';
         if (cartButton) cartButton.style.display = 'none';
