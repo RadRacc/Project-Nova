@@ -1217,12 +1217,12 @@ input:checked + .slider:before {
     transition: transform 0.2s ease, max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
     text-align: center;
     display: flex;
-    flex-direction: column; /* Default for spacious view */
+    flex-direction: column;
     align-items: center;
     position: relative;
     cursor: pointer;
-    overflow: hidden; /* Important for containing content in fixed height mode */
-    min-height: 70px; /* Base minimum height for all cards, spacious can grow */
+    overflow: hidden;
+    min-height: 70px;
 }
 
 .item-card:hover {
@@ -1231,12 +1231,12 @@ input:checked + .slider:before {
 
 /* Compact View specific styles with fixed height */
 .item-card.compact-view {
-    max-height: 70px; /* Fixed maximum height for compact cards */
-    padding: 10px; /* Reduced padding for compact view */
-    flex-direction: row; /* Horizontal layout */
+    max-height: 70px;
+    padding: 10px;
+    flex-direction: row;
     align-items: center;
-    justify-content: flex-start; /* Align content to the left */
-    gap: 10px; /* Space between elements */
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .item-card.compact-view:hover {
@@ -1269,13 +1269,13 @@ input:checked + .slider:before {
 .item-card.compact-view p,
 .item-card.compact-view .item-properties-separator,
 .item-card.compact-view .item-set-bonus,
-.item-card.compact-view .item-footer-tags { /* Hide the new footer tags too */
+.item-card.compact-view .item-footer-tags {
     display: none;
 }
 
 /* Spacious View styles (ensure it can naturally grow) */
 .item-card.spacious-view {
     max-height: 1000px; /* A very large value to allow full content expansion */
-    padding: 20px; /* Restore original padding for spacious view */
-    flex-direction: column; /* Ensure column layout for spacious view */
+    padding: 20px;
+    flex-direction: column;
 }
