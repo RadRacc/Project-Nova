@@ -640,6 +640,7 @@ function displayItems(filterSlotType = null, searchQuery = '') {
             ${item.MPCost ? `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>` : ''}
             ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
             ${item.StatBoost ? `<p><strong>Stat Boost:</strong> <span>${item.StatBoost}</span></p>` : ''}
+            ${item.Range ? `<p><strong>Range:</strong> <span>${item.Range}</span></p>` : ''}
             <!-- Add more item properties as needed based on your XML structure -->
         `;
         itemDisplayArea.appendChild(itemCard);
