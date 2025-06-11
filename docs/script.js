@@ -501,7 +501,7 @@ async function handleConfirmPurchase() {
 async function simulateWebhookCall(username, cartItems, total, orderId) {
     // <<< IMPORTANT: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL FOR TESTING >>>
     // For live/production, this must be handled securely on a backend server.
-    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc';
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc'; // <<< PLACEHOLDER: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL >>>
 
     // Format items for Discord message
     const itemsList = cartItems.map(item => `• ${item.name} (x${item.quantity}) - $${item.price.toFixed(2)}`).join('\n');
@@ -531,7 +531,8 @@ async function simulateWebhookCall(username, cartItems, total, orderId) {
     console.log('Attempting to send data to (placeholder):', WEBHOOK_URL);
     console.log('Discord Webhook Payload:', discordPayload);
     // Base64 encode the payload as a "hashed" representation (not secure encryption!)
-    const hashedPayload = btoa(JSON.stringify(discordPayload));
+    // FIX: Use encodeURIComponent and unescape to handle non-Latin1 characters before btoa
+    const hashedPayload = btoa(unescape(encodeURIComponent(JSON.stringify(discordPayload))));
     console.log('Simulated "Hashed" Payload (Base64 Encoded for debug):', hashedPayload);
     console.log('--- End Simulation Init ---');
 
