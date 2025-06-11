@@ -873,8 +873,8 @@ footer {
     flex-direction: column;
     align-items: center;
     position: relative;
-    /* Removed overflow: hidden from here to allow text wrapping for full names for specific elements */
     min-height: 70px;
+    cursor: pointer;
 }
 
 .item-card:hover {
@@ -971,7 +971,7 @@ footer {
     margin-bottom: 5px;
     word-wrap: break-word; /* Allow long words to break */
     white-space: normal; /* Allow text to wrap naturally */
-    overflow: visible; /* Ensure text is not hidden */
+    overflow: visible; /* Ensure text is not hidden OverflowSearchCode*/
     text-overflow: clip; /* Prevent ellipsis */
 }
 
@@ -1031,6 +1031,25 @@ footer {
     font-weight: bold;
     font-size: 0.8em;
     text-transform: uppercase;
+}
+
+/* NEW: Style for the compact "SB" indicator */
+.item-compact-soulbound-indicator {
+    display: none; /* Hidden by default */
+    background-color: #DC3545; /* Red background */
+    color: white; /* White text */
+    padding: 3px 6px; /* Smaller padding for compact */
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.7em; /* Smaller font size for compact */
+    white-space: nowrap; /* Keep it on one line */
+    flex-shrink: 0; /* Prevent from shrinking in flex container */
+    margin-left: 5px; /* Space from the main item tag */
+}
+
+/* Show the compact "SB" indicator ONLY when in compact view and NOT expanded */
+.item-card.compact-view:not(.expanded) .item-compact-soulbound-indicator {
+    display: inline-block; /* Or flex, depending on desired alignment */
 }
 
 /* NEW: Container for soulbound tag to center it at the bottom.
