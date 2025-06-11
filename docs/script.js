@@ -499,7 +499,7 @@ async function handleConfirmPurchase() {
 
 // New: Simulates sending order data to a webhook (for demonstration only)
 async function simulateWebhookCall(username, cartItems, total, orderId) {
-    const WEBHOOK_URL = 'https://example.com/your-discord-webhook-url'; // <<< REPLACE WITH YOUR ACTUAL WEBHOOK URL >>>
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc'; // <<< REPLACE WITH YOUR ACTUAL WEBHOOK URL >>>
     const payload = {
         username: username,
         items: cartItems.map(item => ({
@@ -514,7 +514,7 @@ async function simulateWebhookCall(username, cartItems, total, orderId) {
     };
 
     console.log('--- Simulating Webhook Call ---');
-    console.log('Attempting to send data to (placeholder):', "https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc");
+    console.log('Attempting to send data to (placeholder):', WEBHOOK_URL);
     console.log('Original Payload:', payload);
     // Base64 encode the payload as a "hashed" representation (not secure encryption!)
     const hashedPayload = btoa(JSON.stringify(payload));
