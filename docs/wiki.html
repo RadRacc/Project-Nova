@@ -6,7 +6,7 @@
     <title>Project Nova - Wiki</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Favicon updated to projectnova.jpg -->
+    <!-- Favicon -->
     <link rel="icon" href="projectnova.jpg" type="image/jpeg">
     <style>
         /* Specific styles for the Wiki page */
@@ -141,6 +141,9 @@
             justify-content: flex-start; /* Align content to the left */
             gap: 10px; /* Space between elements */
             min-height: unset; /* Remove min-height if applied elsewhere */
+            max-height: 70px; /* Ensure a fixed height for compact mode */
+            overflow: hidden; /* Hide overflowing content */
+            transition: transform 0.2s ease, max-height 0.3s ease-out, padding 0.3s ease, opacity 0.3s ease;
         }
 
         .item-card.compact-view img {
@@ -181,6 +184,36 @@
             display: none;
         }
 
+        /* Expanded view for compact mode items */
+        .item-card.expanded {
+            max-height: 1000px; /* Large enough to show all content, allowing transition */
+            padding: 20px;
+            flex-direction: column; /* Stack vertically when expanded */
+            align-items: center;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease, background-color 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4); /* Highlight on expansion */
+            background-color: #4a4a4a; /* Slightly lighter background when expanded */
+        }
+
+        .item-card.expanded img {
+            max-width: 100px; /* Larger image when expanded */
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .item-card.expanded h3 {
+            font-size: 1.5em;
+        }
+
+        /* Show detailed properties when expanded */
+        .item-card.expanded p,
+        .item-card.expanded .item-properties-separator,
+        .item-card.expanded .item-set-bonus,
+        .item-card.expanded .item-footer-tags {
+            display: block; /* Or flex/grid as needed for layout */
+            opacity: 1;
+            transition: opacity 0.5s ease 0.2s, max-height 0.5s ease 0.2s; /* Delayed fade-in */
+        }
 
         /* Wiki Item Tag Styles */
         .item-card .item-tag {
@@ -433,7 +466,7 @@
         <p>&copy; 2025 Project Nova. All rights reserved.</p>
     </footer>
 
-    <!-- Product Details Modal (for both shop products and wiki items) -->
+    <!-- Product Details Modal (Unified for both shop products and wiki items) -->
     <div id="product-details-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -441,7 +474,8 @@
                 <img id="modal-product-image" src="" alt="Product Image">
                 <h3 id="modal-product-name"></h3>
                 <p id="modal-product-description"></p>
-                <h4>Features:</h4>
+                <!-- This ul will be for shop item features OR wiki item stat boosts/set bonuses -->
+                <h4>Features/Details:</h4>
                 <ul id="modal-product-benefits"></ul>
                 <div class="modal-price">$<span id="modal-product-price">0.00</span></div>
                 <button id="modal-add-to-cart-button">Add to Cart</button>
@@ -449,7 +483,7 @@
         </div>
     </div>
 
-    <!-- Cart Modal (if used on Wiki for consistent modal styling, though shop handles cart logic) -->
+    <!-- Cart Modal -->
     <div id="cart-modal" class="modal">
         <div class="cart-modal-content">
             <span class="close-button">&times;</span>
@@ -464,7 +498,7 @@
         </div>
     </div>
 
-    <!-- Username Prompt Modal (if used on Wiki for consistent modal styling, though shop handles cart logic) -->
+    <!-- Username Prompt Modal -->
     <div id="username-prompt-modal" class="modal">
         <div class="modal-content">
             <h2>Enter In-Game Username</h2>
@@ -476,7 +510,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="script.js"></script>
     <script>
