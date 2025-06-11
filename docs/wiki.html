@@ -82,6 +82,7 @@
             margin-top: 40px;
         }
 
+        /* Item card base styles */
         .item-card {
             background-color: #3a3a3a;
             border-radius: 10px;
@@ -127,6 +128,54 @@
             margin-bottom: 15px;
             border-radius: 5px;
         }
+
+        /* Compact View specific styles */
+        .item-card.compact-view {
+            padding: 10px; /* Reduced padding for compact view */
+            flex-direction: row; /* Horizontal layout */
+            align-items: center;
+            justify-content: flex-start; /* Align content to the left */
+            gap: 10px; /* Space between elements */
+            min-height: unset; /* Remove min-height if applied elsewhere */
+        }
+
+        .item-card.compact-view img {
+            max-width: 50px; /* Smaller icon for compact view */
+            height: 50px;
+            margin-bottom: 0; /* Remove bottom margin */
+        }
+
+        .item-card.compact-view h3 {
+            font-size: 1.1em; /* Smaller font for name */
+            margin: 0;
+            text-align: left;
+            flex-grow: 1; /* Allow name to take available space */
+        }
+
+        .item-card.compact-view .item-tag {
+            font-size: 0.7em; /* Smaller tag */
+            padding: 3px 6px;
+            margin-top: 0;
+            margin-bottom: 0;
+            white-space: nowrap; /* Prevent tag text from wrapping */
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+
+        .item-card.compact-view .item-soulbound-indicator {
+            font-size: 0.7em;
+            font-weight: bold;
+            color: #DC3545; /* Red for Soulbound */
+            margin-left: 5px;
+            flex-shrink: 0;
+        }
+
+        /* Hide detailed properties in compact view */
+        .item-card.compact-view p,
+        .item-card.compact-view .item-properties-separator,
+        .item-card.compact-view .item-set-bonus {
+            display: none;
+        }
+
 
         /* Wiki Item Tag Styles */
         .item-card .item-tag {
@@ -214,6 +263,82 @@
             margin: 15px 0;
             width: 80%; /* Shorter than full width for visual appeal */
         }
+
+        /* View Toggle Switch Styles */
+        .view-toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px; /* Space above search bar */
+            gap: 10px;
+            font-size: 1.1em;
+            color: #f0f0f0;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #ff69b4; /* Pink when checked */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #ff69b4;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body id="wiki-page">
@@ -232,7 +357,6 @@
                 <a href="shop.html" class="button">Shop</a>
                 <a href="newsWeb.html" class="button">News</a>
                 <a href="wiki.html" class="button active-button">Wiki</a>
-                <!-- Removed: <a href="links.html" class="button">Links</a> -->
             </nav>
         </div>
     </header>
@@ -240,6 +364,15 @@
     <main>
         <section id="wiki-main">
             <h2>Items</h2>
+
+            <div class="view-toggle-container">
+                <span>Spacious View</span>
+                <label class="switch">
+                    <input type="checkbox" id="wiki-view-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Compact View</span>
+            </div>
 
             <div class="wiki-search-bar">
                 <input type="text" id="wiki-search-input" placeholder="Search items...">
@@ -301,9 +434,10 @@
                 }
             });
             // Initial display of all items when wiki loads (handled by script.js)
+            // The view toggle now also re-renders items, so initial call might be handled within script.js
             if (typeof fetchItemsData === 'function' && typeof displayItems === 'function') {
                 fetchItemsData().then(() => {
-                    displayItems(); // Display all items initially
+                    displayItems(); // Display all items initially in default spacious mode
                 });
             }
         });
