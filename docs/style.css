@@ -219,7 +219,7 @@ footer {
 }
 
 #shop-page header .discord-logo-link {
-    position: absolute; /* Keep absolute for top-left fixed position */
+    position: absolute;
     top: 20px;
     left: 20px;
     z-index: 10;
