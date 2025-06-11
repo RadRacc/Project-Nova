@@ -6,152 +6,37 @@
     <title>Project Nova - Shop</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Specific styles for the Shop page */
-        #shop-page nav a[href="shop.html"].active-button {
-            background-color: #ff69b4; /* Active button color */
-            box-shadow: 0 3px 8px rgba(255, 105, 180, 0.5);
-        }
-
-        /* Adjust main padding to ensure grid content doesn't hit edges */
-        main {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px; /* General padding for main content area */
-            box-sizing: border-box;
-        }
-
-        /* SHOP PAGE HEADER REFACTORING */
-        #shop-page header {
-            /* General header styles (from common style.css) apply */
-            /* Override default header flex-direction column here for shop page */
-            display: flex;
-            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-            justify-content: space-between; /* Distribute items horizontally */
-            align-items: flex-start; /* Align items to the top of the flex container */
-            padding: 20px; /* Add some general padding to the header */
-            position: relative; /* Still needed for discord logo's absolute position relative to header */
-            box-sizing: border-box; /* Include padding in header's total width */
-        }
-
-        #shop-page header .discord-logo-link {
-            position: absolute; /* Keep absolute for top-left fixed position */
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-        }
-
-        #shop-page header .header-main-content {
-            flex-basis: 100%; /* Take full width on a new line */
-            text-align: center;
-            order: 0; /* Default order, will be first in flow */
-            margin-bottom: 20px; /* Space below title block */
-        }
-        #shop-page header .header-main-content h1,
-        #shop-page header .header-main-content h6,
-        #shop-page header .header-main-content p {
-            margin: 0; /* Reset margins for text elements */
-            padding: 0;
-        }
-        #shop-page header .header-main-content h1 {
-            font-size: 3em;
-            color: #ff69b4; /* Project Nova Pink */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        }
-        #shop-page header .header-main-content h6 {
-            font-size: 1.2em;
-            color: #ccc;
-            margin-top: 5px;
-        }
-        #shop-page header .header-main-content p {
-            font-size: 1.1em;
-            color: #bbb;
-            margin-top: 10px;
-        }
-
-
-        #shop-page header .header-right-container {
-            /* Remove absolute positioning and margin-top conflict */
-            position: static; /* Ensure it's part of the flex flow */
-            margin-top: 0; /* Remove previous problematic margin */
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-shrink: 0; /* Prevent shrinking */
-            margin-left: auto; /* Push it to the right */
-            order: 1; /* Place it after main content block on larger screens */
-            padding-right: 20px; /* Retain original padding right */
-            box-sizing: border-box;
-            width: auto; /* Allow content to dictate width */
-        }
-
-        #shop-page header .nav-container {
-            flex-basis: 100%; /* Nav takes full width below other elements */
-            order: 2; /* Place it at the end of the flex items */
-            margin-top: 20px; /* Add margin above nav if needed */
-        }
-
-        /* Responsive adjustments for shop header */
-        @media (max-width: 768px) {
-            #shop-page header {
-                flex-direction: column; /* Stack elements vertically on smaller screens */
-                align-items: center; /* Center items for stacked layout */
-                padding: 15px 10px;
-            }
-
-            #shop-page header .discord-logo-link {
-                position: static; /* Make it flow with others on small screens */
-                margin-bottom: 10px; /* Add some space below it */
-                order: -1; /* Place it at the very top */
-            }
-
-            #shop-page header .header-main-content {
-                order: 0; /* Place after discord logo */
-                margin-bottom: 15px; /* Adjust spacing */
-            }
-
-            #shop-page header .header-right-container {
-                flex-direction: column; /* Stack store credit and cart vertically */
-                width: 100%; /* Take full width */
-                margin-left: 0; /* Reset margin-left auto */
-                order: 1; /* Place it after main content */
-                margin-bottom: 15px; /* Space below it */
-                gap: 10px; /* Reduce gap between items */
-                padding-right: 0; /* Remove side padding for full width */
-            }
-            #store-credit-display, #cart-button {
-                width: 90%; /* Make them fill container, but with internal padding */
-                justify-content: center; /* Center content within buttons */
-            }
-
-            #shop-page header .nav-container {
-                margin-top: 15px; /* Adjust margin */
-                order: 2; /* Keep nav at the bottom */
-            }
-        }
-    </style>
 </head>
 <body id="shop-page">
     <header>
+        <!-- Discord Logo (top-left) - positioned relative to header for small screens -->
         <a href="https://discord.gg/v7Kd4v2jQ6" target="_blank" class="discord-logo-link">
             <img src="icons/discordlogo.png" alt="Discord" class="discord-logo">
         </a>
+
+        <!-- Main content of the header, centered -->
         <div class="header-main-content">
             <h1>Project Nova</h1>
             <h6>RadRacc & MaYo</h6>
-            <p>Shop here for amazing items and boost your experience!</p>
+            <p>Support Server Costs</p>
         </div>
+
+        <!-- Right-aligned header elements -->
         <div class="header-right-container">
+            <!-- Store Credit Display -->
             <div id="store-credit-display">
-                <img src="icons/creditcard.png" alt="Credit Card Icon">
-                $<span id="store-credit-amount">0.00</span>
+                <img src="icons/coin.png" alt="Coin Icon">
+                Credit: $<span id="store-credit-amount">0.00</span>
                 <button id="add-credit-button">Add $10</button>
             </div>
+            <!-- Cart Button -->
             <button id="cart-button">
-                <img src="icons/cart.png" alt="Cart" class="cart-icon-header">
+                <img src="icons/cart.png" alt="Cart Icon" class="cart-icon-header">
                 Cart (<span id="cart-item-count">0</span>)
             </button>
         </div>
+
+        <!-- Navigation Bar -->
         <div class="nav-container">
             <nav>
                 <a href="index.html" class="button">Home</a>
@@ -162,27 +47,36 @@
                 <a href="wiki.html" class="button">Wiki</a>
             </nav>
         </div>
+
+        <!-- Marketplace Server Status -->
+        <div class="marketplace-status-container">
+            <span class="status-label">Store Services:</span>
+            <span id="marketplace-status-text">Checking...</span>
+            <span id="marketplace-status-circle" class="status-circle"></span>
+            <span class="info-tooltip">?
+                <span class="tooltip-text">If Store Services are Down, upon purchasing something please DM someone with a screenshot of your order.</span>
+            </span>
+        </div>
     </header>
 
     <main>
-        <!-- Each section now has its ID for JavaScript to target -->
-        <section id="supporter-ranks">
-            <h2>Supporter Ranks</h2>
-            <div class="product-grid">
+        <section id="shop-main">
+            <h2>Support Ranks</h2>
+            <div class="product-grid" id="supporter-ranks">
                 <!-- Products will be dynamically loaded here by JavaScript -->
             </div>
         </section>
 
-        <section id="global-boosts">
+        <section>
             <h2>Global Boosts</h2>
-            <div class="product-grid">
+            <div class="product-grid" id="global-boosts">
                 <!-- Products will be dynamically loaded here by JavaScript -->
             </div>
         </section>
 
-        <section id="currency-packs">
+        <section>
             <h2>Currency Packs</h2>
-            <div class="product-grid">
+            <div class="product-grid" id="currency-packs">
                 <!-- Products will be dynamically loaded here by JavaScript -->
             </div>
         </section>
@@ -201,27 +95,38 @@
                 <h3 id="modal-product-name"></h3>
                 <p id="modal-product-description"></p>
                 <h4>Features:</h4>
-                <ul id="modal-product-benefits">
-                    <!-- Benefits will be dynamically loaded here -->
-                </ul>
+                <ul id="modal-product-benefits"></ul>
                 <div class="modal-price">$<span id="modal-product-price">0.00</span></div>
                 <button id="modal-add-to-cart-button">Add to Cart</button>
             </div>
         </div>
     </div>
 
-    <!-- Shopping Cart Modal -->
+    <!-- Cart Modal -->
     <div id="cart-modal" class="modal">
-        <div class="modal-content cart-modal-content">
+        <div class="cart-modal-content">
             <span class="close-button">&times;</span>
-            <h2>Your Shopping Cart</h2>
+            <h2>Your Cart</h2>
             <ul id="cart-items">
                 <!-- Cart items will be loaded here by JavaScript -->
             </ul>
             <div id="cart-summary">
                 <p>Total: $<span id="cart-total">0.00</span></p>
+                <button id="checkout-button">Checkout</button>
             </div>
-            <button id="checkout-button">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Username Prompt Modal -->
+    <div id="username-prompt-modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter In-Game Username</h2>
+            <p>Please enter your exact in-game username for delivery:</p>
+            <input type="text" id="ingame-username-input" placeholder="Your In-Game Username" required>
+            <div class="modal-buttons">
+                <button id="confirm-purchase-button">Confirm Purchase</button>
+                <button id="cancel-purchase-button" class="cancel-button">Cancel</button>
+            </div>
         </div>
     </div>
 
