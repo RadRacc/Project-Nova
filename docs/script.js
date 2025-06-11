@@ -242,7 +242,7 @@ function renderProducts() {
     // Clear existing products before rendering
     if (supporterRanksGrid) supporterRanksGrid.innerHTML = '';
     if (globalBoostsGrid) globalBoostsGrid.innerHTML = '';
-    if (currencyPacksGrid) currencyPapsGrid.innerHTML = '';
+    if (currencyPacksGrid) currencyPacksGrid.innerHTML = '';
 
     products.forEach(product => {
         const productTile = document.createElement('div');
@@ -364,7 +364,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || item.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.ShotsBoomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
@@ -851,9 +851,9 @@ function populateTierFilter() {
         tiersToAdd.push(tier);
     });
 
-    // Add any *other* tags from items.txt that are not in our custom predefined list
+    // Add any *other* tags from items.txt that are not in our custom predefined list, and not 'EV'
     uniqueTagsFromData.forEach(tag => {
-        if (!customTierOrder.includes(tag) && tag.toLowerCase() !== 'ev') { // Explicitly exclude 'EV' here too
+        if (!customTierOrder.includes(tag) && tag.toLowerCase() !== 'ev') {
             tiersToAdd.push(tag);
         }
     });
