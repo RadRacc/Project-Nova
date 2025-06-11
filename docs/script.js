@@ -499,21 +499,19 @@ async function handleConfirmPurchase() {
 
 // New: Simulates sending order data to a webhook (for demonstration only)
 async function simulateWebhookCall(username, cartItems, total, orderId) {
-    // <<< IMPORTANT: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL FOR TESTING >>>
+    // <<< IMPORTANT: This is YOUR ACTUAL DISCORD WEBHOOK URL >>>
     // For live/production, this must be handled securely on a backend server.
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc'; // <<< PLACEHOLDER: REPLACE WITH YOUR ACTUAL DISCORD WEBHOOK URL >>>
+    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz4tB-l1UP14LxfpBxhOC7EPSkkd5ssWQDsMSDkuL5yVhIM2xGbhyDVxzbN5WwCc';
 
-    // Format items for Discord message
+    // Format items for Discord message (simplified for test)
+    // The itemsList is being kept the same so we can revert easily if this test passes.
     const itemsList = cartItems.map(item => `• ${item.name} (x${item.quantity}) - $${item.price.toFixed(2)}`).join('\n');
 
     // Construct the payload for Discord webhook (basic message format)
     const discordPayload = {
-        content: `**New Purchase Order!**\n\n` +
-                 `**User:** ${username}\n` +
-                 `**Order ID:** \`${orderId}\`\n` +
-                 `**Items:**\n${itemsList}\n` +
-                 `**Total:** $${total.toFixed(2)}\n\n` +
-                 `_Please process this order._`,
+        // TEMPORARY: Sending a very simple message to test webhook functionality.
+        // If this works, the issue is with the previous content formatting.
+        content: `Test purchase from ${username} for $${total.toFixed(2)}. Order ID: ${orderId}.`
         // You can add more Discord-specific fields here if desired, e.g.:
         // embeds: [
         //     {
@@ -528,7 +526,7 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz
     };
 
     console.log('--- Simulating Webhook Call ---');
-    console.log('Attempting to send data to (placeholder):', WEBHOOK_URL);
+    console.log('Attempting to send data to:', WEBHOOK_URL);
     console.log('Discord Webhook Payload:', discordPayload);
     // Base64 encode the payload as a "hashed" representation (not secure encryption!)
     // FIX: Use encodeURIComponent and unescape to handle non-Latin1 characters before btoa
@@ -537,18 +535,13 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz
     console.log('--- End Simulation Init ---');
 
     try {
-        // This fetch will likely fail in the Canvas environment due to CORS if you use a real webhook
-        // without proper server-side handling, or if the webhook itself doesn't allow cross-origin requests.
-        // `mode: 'no-cors'` is used to prevent browser console errors, but it means we cannot
-        // read the response status or data from Discord.
         const response = await fetch(WEBHOOK_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(discordPayload),
-            mode: 'no-cors' // Critical for cross-origin requests that don't support CORS.
-                            // Prevents browser errors, but also prevents reading response.
+            mode: 'no-cors'
         });
 
         console.log('Simulated Webhook Call Status: Request sent (check network tab in browser dev tools for actual status).');
@@ -556,8 +549,6 @@ const WEBHOOK_URL = 'https://discord.com/api/webhooks/1381698915945938964/4Qv1Vz
 
     } catch (error) {
         console.error('Simulated Webhook Call Error: Could not dispatch webhook request.', error);
-        // This catch block will only hit for network errors that prevent the request from being sent at all.
-        // It won't catch errors where Discord rejects the payload due to 'no-cors'.
     }
 }
 
