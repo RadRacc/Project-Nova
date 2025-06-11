@@ -5,12 +5,12 @@
         This document defines the structure for in-game items.
         Each <Object> element with Item="true" represents a distinct item.
 
-        --- <Object> ATTRIBUTES ---
+        - <Object> ATTRIBUTES -
         - type: (string, required) A hexadecimal identifier for the item (e.g., "0x0040").
         - id: (string, required) A unique string identifier for the item (e.g., "Steel Dagger"). Used internally.
         - Item: (string, required) Must be "true" to identify this object as an item.
 
-        --- <Object> CHILD PROPERTIES ---
+        - <Object> CHILD PROPERTIES -
 
         <DisplayId> (string, optional)
             The display name of the item shown in-game. If not present, 'id' is used.
