@@ -416,9 +416,10 @@ footer {
 }
 
 .product-tile img {
-    max-width: 150%;
+    max-width: 100%;
     height: 120px;
     object-fit: contain;
+    margin-bottom: 15px;
     border-radius: 5px;
 }
 
@@ -468,8 +469,8 @@ footer {
 }
 
 .product-tile .cart-icon {
-    width: 150px;
-    height: 150px;
+    width: 20px;
+    height: 20px;
     filter: invert(1);
 }
 
@@ -910,8 +911,7 @@ footer {
     flex-grow: 1;              /* Allow name to take available space */
     white-space: nowrap;       /* FORCE text onto a single line */
     text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
-    overflow: visible;          /* Hide any overflowing content */More actions
-    overflow: visible;          /* Corrected to hidden for ellipsis to work */
+    overflow: hidden;          /* Corrected to hidden for ellipsis to work */
 }
 
 .item-card.compact-view .item-tag {
@@ -972,9 +972,9 @@ footer {
     margin-bottom: 5px;
     word-wrap: break-word; /* Allow long words to break */
     white-space: normal; /* Allow text to wrap naturally */
-    overflow: visible; /* Ensure text is not hidden OverflowSearchCode*/
+    overflow: visible; /* Ensure text is not hidden */
     text-overflow: clip; /* Prevent ellipsis */
-}More actions
+}
 
 
 /* Wiki Item Tag Styles */
@@ -1016,12 +1016,13 @@ footer {
 .item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
 .item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
 
-
-/* Updated to white text */
+/* Ensure EV is present in style.css for visual consistency */
+.item-card .item-tag.ev { background-color: #7B68EE; color: white; } /* Medium Purple for EV */
 .item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
 .item-card .item-tag.st { background-color: #B78207; color: white; } /* ST - Set Tier, now white text */
 .item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
 .item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
+
 
 /* NEW: Soulbound tag style for both spacious and expanded compact view */
 .item-card .item-tag.soulbound {
