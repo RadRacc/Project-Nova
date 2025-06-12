@@ -53,7 +53,7 @@
     </Object>
 
     <!-- BOWS -->
-    <Object type="0x0050" id="Shortbow" Item="true">
+    <Object type="0xa1a" id="Shortbow" Item="true">
         <DisplayId>Shortbow</DisplayId>
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
@@ -62,37 +62,66 @@
         <MaxDamage>20</MaxDamage>
         <RateOfFire>1</RateOfFire>
         <NumProjectiles>2</NumProjectiles>
-        <Range>7.0</Range>
-        <ArcGap>12.0</ArcGap>
+        <Range>7.04</Range>
         <Tag>T0</Tag>
-        <FameBonus>1</FameBonus>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
-            <!-- Projectile properties go here if different from default -->
-            <!-- <Boomerang/> -->
-            <!-- <MultiHit/> -->
-            <PassesCover/> <!-- Example: Shortbow shoots through obstacles -->
-            <!-- <PierceDefense/> -->
+            <MultiHit/>
+            <PierceDefense/>
         </Projectile>
     </Object>
-    <Object type="0x0051" id="UT Bow of the Deep" Item="true">
-        <DisplayId>Coral Bow</DisplayId>
+
+    <Object type="0xa75" id="Reinforced Bow" Item="true">
+        <DisplayId>Reinforced Bow</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>3</SlotType>
-        <Description>Crafted from living coral, its arrows pierce deeply.</Description>
-        <MinDamage>90</MinDamage>
-        <MaxDamage>110</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
-        <NumProjectiles>3</NumProjectiles>
-        <Range>8.0</Range>
-        <ArcGap>8.0</ArcGap>
-        <Tag>UT</Tag>
-        <Soulbound>true</Soulbound>
-        <FameBonus>7</FameBonus>
-        <UsableBy>Archer, Huntress</UsableBy>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A well-made shortbow.</Description>
+        <MinDamage>5</MinDamage>
+        <MaxDamage>25</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>7.04</Range>
+        <Tag>T1</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
-            <MultiHit/> <!-- Hits multiple targets -->
-            <PassesCover/> <!-- Passes through obstacles -->
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa1b" id="Hardwood Bow" Item="true">
+        <DisplayId>Hardwood Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A bow made from sturdy hardwood.</Description>
+        <MinDamage>5</MinDamage>
+        <MaxDamage>30</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>7.04</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa76" id="Greywood Bow" Item="true">
+        <DisplayId>Greywood Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A bow made from the rare greywood tree.</Description>
+        <MinDamage>5</MinDamage>
+        <MaxDamage>35</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>7.04</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <MultiHit/>
+            <PierceDefense/>
         </Projectile>
     </Object>
 
