@@ -52,6 +52,157 @@
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
 
+<Object type="0xa74" id="Silver Dagger" Item="true">
+        <DisplayId>Silver Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A silver-plated steel dagger.</Description>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>100</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T4</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+    </Object>
+
+<Object type="0xa16" id="Golden Dagger" Item="true">
+        <DisplayId>Golden Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A well-made dagger plated with gold and inscribed with evil runes.</Description>
+        <MinDamage>50</MinDamage>
+        <MaxDamage>110</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T5</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+    </Object>
+
+<Object type="0xa17" id="Obsidian Dagger" Item="true">
+        <DisplayId>Obsidian Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A dagger with a blade made of volcanic glass.</Description>
+        <MinDamage>60</MinDamage>
+        <MaxDamage>125</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T6</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+    </Object>
+
+<Object type="0xa18" id="Mithril Dagger" Item="true">
+        <DisplayId>Mithril Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>An extremely sharp dagger made from the strongest and most desirable of all metals.</Description>
+        <MinDamage>70</MinDamage>
+        <MaxDamage>140</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T7</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>1</FameBonus>
+    </Object>
+
+<Object type="0xa19" id="Fire Dagger" Item="true">
+        <DisplayId>Fire Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A dagger with a blade that burns with an unholy magic.</Description>
+        <MinDamage>85</MinDamage>
+        <MaxDamage>155</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T8</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>2</FameBonus>
+    </Object>
+
+<Object type="0xa88" id="Ragetalon Dagger" Item="true">
+        <DisplayId>Ragetalon Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A sharp druidic dagger vibrating with primal energies.</Description>
+        <MinDamage>95</MinDamage>
+        <MaxDamage>165</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T9</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>3</FameBonus>
+    </Object>
+
+<Object type="0xa89" id="Emeraldshard Dagger" Item="true">
+        <DisplayId>Emeraldshard Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A deadly dagger of glittering magical emerald.</Description>
+        <MinDamage>100</MinDamage>
+        <MaxDamage>175</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T10</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>4</FameBonus>
+    </Object>
+
+<Object type="0xa8a" id="Agateclaw Dagger" Item="true">
+        <DisplayId>Agateclaw Dagger</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A dagger of rare purple agate, infused with powerful dark magics.</Description>
+        <MinDamage>105</MinDamage>
+        <MaxDamage>190</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T11</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>5</FameBonus>
+    </Object>
+
+<Object type="0xaff" id="Dagger of Foul Malevolence" Item="true">
+        <DisplayId>Dagger of Foul Malevolence</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A crimson felsteel dagger saturated with evil magic and primordial hatreds.</Description>
+        <MinDamage>115</MinDamage>
+        <MaxDamage>200</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T12</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>6</FameBonus>
+    </Object>
+
+<Object type="0x9c6" id="Dagger of Sinister Deeds" Item="true">
+        <DisplayId>Dagger of Sinister Deeds</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A moonsteel dagger of the underworld, corrupted by loathsome enchantments and profane spells.</Description>
+        <MinDamage>125</MinDamage>
+        <MaxDamage>220</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T13</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>7</FameBonus>
+    </Object>
+
+<Object type="0x9c7" id="Dagger of Dire Hatred" Item="true">
+        <DisplayId>Dagger of Dire Hatred</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>2</SlotType> <!-- 2 = Dagger -->
+        <Description>A jagged, wickedly barbed blade of evil, charged with the unreasoning rage of ancestral vendettas.</Description>
+        <MinDamage>140</MinDamage>
+        <MaxDamage>235</MaxDamage>
+        <Range>5.6</Range>
+        <RateOfFire>105%</RateOfFire>
+        <Tag>T14</Tag>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+        <FameBonus>8</FameBonus>
+    </Object>
+
     <!-- BOWS -->
     <Object type="0xa1a" id="Shortbow" Item="true">
         <DisplayId>Shortbow</DisplayId>
