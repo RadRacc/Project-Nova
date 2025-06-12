@@ -147,7 +147,7 @@ let currentUsableByFilter = 'all'; // Default to 'all' (No Filter)
 
 
 // Marketplace Server Status (dynamic)
-let marketplaceStatus = 'Online'; // Set this to 'Online' or 'Down' as desired
+let marketplaceStatus = 'Down'; // Set this to 'Online' or 'Down' as desired
 
 // Mapping SlotType numbers to readable names for display (for Wiki)
 const slotTypeMap = {
