@@ -151,13 +151,35 @@ let marketplaceStatus = 'Online'; // Set this to 'Online' or 'Down' as desired
 
 // Mapping SlotType numbers to readable names for display (for Wiki)
 const slotTypeMap = {
-    "1": "Sword", "2": "Dagger", "3": "Bow", "8": "Staff", "9": "Wand",
-    "17": "Heavy Armor", "18": "Light Armor", "19": "Robe", "20": "Ring",
-    "23": "Katana", "24": "Helmet", "25": "Quiver", "26": "Tome",
-    "27": "Shield", "28": "Cloak", "29": "Trap", "30": "Orb",
-    "31": "Poison", "32": "Scepter", "34": "Skull", "35": "Seal",
-    "36": "Spell", "40": "Prism", "41": "Shuriken", "42": "Lute",
-    "43": "Wakizashi", "44": "Sheath", "45": "Mace"
+    "1": "Sword",
+    "2": "Dagger",
+    "3": "Bow",
+    "4": "Tome",
+    "5": "Shield",
+    "6": "Leather Armor / Light Armor",
+    "7": "Plate Armor / Heavy Armor",
+    "8": "Wand",
+    "9": "Ring",
+    "10": "Potions",
+    "11": "Spell",
+    "12": "Seal",
+    "13": "Cloak",
+    "14": "Robe",
+    "15": "Quiver",
+    "16": "Helms",
+    "17": "Staves / Staffs",
+    "18": "Poison",
+    "19": "Skull",
+    "20": "Trap",
+    "21": "Orb",
+    "22": "Prism",
+    "23": "Scepter",
+    "24": "Katana",
+    "25": "Shuriken / Star",
+    "26": "Wakizashi",
+    "27": "Lute",
+    "28": "Summoning Mace / Mace",
+    "29": "Sheath"
 };
 
 // Mapping Stat IDs to readable names for ActivateOnEquip (for Wiki)
@@ -358,25 +380,58 @@ function openProductModal(itemOrProduct) {
         if (itemOrProduct.Damage) {
             descriptionHTML += `<p><strong>Damage:</strong> <span>${itemOrProduct.Damage}</span></p>`;
         }
+        if (itemOrProduct.Defense) {
+            descriptionHTML += `<p><strong>Defense:</strong> <span>${itemOrProduct.Defense}</span></p>`;
+        }
         descriptionHTML += `<p><strong>Soulbound:</strong> <span>${itemOrProduct.Soulbound ? 'Yes' : 'No'}</span></p>`;
 
         if (itemOrProduct.Description) {
-            descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
+            descriptionHTML += `<p class="item-description"><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || item.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
-        if (hasDetailedProperties) {
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasAbilityProperties = itemOrProduct.MPCost || itemOrProduct.HealAmount || itemOrProduct.AbilityRadius || itemOrProduct.Teleports || itemOrProduct.DecoyDuration || itemOrProduct.SummonDetails || (itemOrProduct.AbilityEffects && itemOrProduct.AbilityEffects.length > 0);
+
+        if (hasDetailedProperties || hasAbilityProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
 
+        // Display Ability-specific properties if applicable
+        if (itemOrProduct.Class === 'Ability') {
+            if (itemOrProduct.MPCost) {
+                descriptionHTML += `<p><strong>MP Cost:</strong> <span>${itemOrProduct.MPCost}</span></p>`;
+            }
+            if (itemOrProduct.HealAmount) {
+                descriptionHTML += `<p><strong>Heal Amount:</strong> <span>${itemOrProduct.HealAmount} HP</span></p>`;
+            }
+            if (itemOrProduct.AbilityRadius) {
+                descriptionHTML += `<p><strong>Radius:</strong> <span>${itemOrProduct.AbilityRadius}</span></p>`;
+            }
+            if (itemOrProduct.Teleports) {
+                descriptionHTML += `<p><strong>Effect:</strong> <span>Teleports</span></p>`;
+            }
+            if (itemOrProduct.DecoyDuration) {
+                descriptionHTML += `<p><strong>Decoy Duration:</strong> <span>${itemOrProduct.DecoyDuration} seconds</span></p>`;
+            }
+            if (itemOrProduct.SummonDetails) {
+                descriptionHTML += `<p><strong>Summons:</strong> <span>Type ${itemOrProduct.SummonDetails.type} for ${itemOrProduct.SummonDetails.duration} seconds</span></p>`;
+            }
+            if (itemOrProduct.AbilityEffects && itemOrProduct.AbilityEffects.length > 0) {
+                itemOrProduct.AbilityEffects.forEach(effect => {
+                    descriptionHTML += `<p><strong>Applies Effect:</strong> <span>${effect.effect} for ${effect.duration} seconds</span></p>`;
+                });
+            }
+        }
+
+
+        // Display Projectile-specific properties
         if (itemOrProduct.NumProjectiles) {
             descriptionHTML += `<p><strong>Shots:</strong> <span>${itemOrProduct.NumProjectiles}</span></p>`;
         }
         if (itemOrProduct.Range) {
             descriptionHTML += `<p><strong>Range:</strong> <span>${itemOrProduct.Range}</span></p>`;
         }
-        // These properties only apply if NumProjectiles exists (i.e., it's a projectile weapon/ability)
-        if (itemOrProduct.NumProjectiles) {
+        if (itemOrProduct.NumProjectiles) { // These apply if it's a projectile-based item
             descriptionHTML += `<p><strong>Shots boomerang:</strong> <span>${itemOrProduct.Boomerang ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Shots hit multiple targets:</strong> <span>${itemOrProduct.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
             descriptionHTML += `<p><strong>Ignores defense of target:</strong> <span>${itemOrProduct.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
@@ -809,6 +864,41 @@ async function fetchItemsData() {
                 });
             }
 
+            // Parse <Activate> tag for ability specific properties
+            const activateElement = obj.querySelector('Activate');
+            if (activateElement) {
+                const healElement = activateElement.querySelector('Heal');
+                if (healElement) item.HealAmount = healElement.textContent;
+
+                const radiusElement = activateElement.querySelector('Radius');
+                if (radiusElement) item.AbilityRadius = radiusElement.textContent;
+
+                const teleportElement = activateElement.querySelector('Teleport');
+                if (teleportElement) item.Teleports = true;
+
+                const decoyElement = activateElement.querySelector('Decoy');
+                if (decoyElement) item.DecoyDuration = decoyElement.getAttribute('duration');
+
+                const summonElement = activateElement.querySelector('Summon');
+                if (summonElement) {
+                    item.SummonDetails = {
+                        type: summonElement.getAttribute('type'),
+                        duration: summonElement.getAttribute('duration')
+                    };
+                }
+                
+                const conditionEffectElements = activateElement.querySelectorAll('ConditionEffect');
+                if (conditionEffectElements.length > 0) {
+                    item.AbilityEffects = [];
+                    conditionEffectElements.forEach(ce => {
+                        item.AbilityEffects.push({
+                            effect: ce.getAttribute('effect'),
+                            duration: ce.getAttribute('duration')
+                        });
+                    });
+                }
+            }
+
             const projectileElement = obj.querySelector('Projectile');
             if (projectileElement) {
                 item.NumProjectiles = projectileElement.querySelector('NumProjectiles')?.textContent || '1';
@@ -1020,30 +1110,74 @@ function displayItems() {
                 <p><strong>Type:</strong> <span>${slotTypeMap[item.SlotType] || 'N/A'}</span></p>
                 ${item.UsableBy ? `<p><strong>Usable By:</strong> <span>${item.UsableBy}</span></p>` : ''}
                 ${item.Damage ? `<p><strong>Damage:</strong> <span>${item.Damage}</span></p>` : ''}
+                ${item.Defense ? `<p><strong>Defense:</strong> <span>${item.Defense}</span></p>` : ''}
                 <p><strong>Soulbound:</strong> <span>${item.Soulbound ? 'Yes' : 'No'}</span></p>
                 ${item.Description ? `<p class="item-description"><strong>Description:</strong> ${item.Description}</p>` : ''}
         `;
 
         const hasDetailedProperties = item.NumProjectiles || item.Boomerang || item.ShotsMultiHit || item.ShotsPassesCover || item.IgnoresDefense || item.Range || item.ArcGap || item.RateOfFire || item.FameBonus;
-        if (hasDetailedProperties || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
+        const hasAbilityProperties = item.MPCost || item.HealAmount || item.AbilityRadius || item.Teleports || item.DecoyDuration || item.SummonDetails || (item.AbilityEffects && item.AbilityEffects.length > 0);
+
+        if (hasDetailedProperties || hasAbilityProperties || (item.StatBoosts && item.StatBoosts.length > 0) || item.Set) {
              itemContentHtml += `<hr class="item-properties-separator">`;
         }
 
-        itemContentHtml += `
-            ${item.NumProjectiles ? `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>` : ''}
-            ${item.Range ? `<p><strong>Range:</strong> <span>${item.Range}</span></p>` : ''}
-            ${item.NumProjectiles ? `
-                <p><strong>Shots boomerang:</strong> <span>${item.Boomerang ? 'Yes' : 'No'}</span></p>
-                <p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>
-                <p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>
-                <p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>
-            ` : ''}
-            ${item.ArcGap ? `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>` : ''}
-            ${item.RateOfFire ? `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>` : ''}
-            ${item.FameBonus ? `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>` : ''}
-        `;
-        
+        // Display Ability-specific properties if applicable
+        if (item.Class === 'Ability') {
+            itemContentHtml += `<p><strong>Class:</strong> <span>Ability</span></p>`;
+            if (item.MPCost) {
+                itemContentHtml += `<p><strong>MP Cost:</strong> <span>${item.MPCost}</span></p>`;
+            }
+            if (item.HealAmount) {
+                itemContentHtml += `<p><strong>Heal Amount:</strong> <span>${item.HealAmount} HP</span></p>`;
+            }
+            if (item.AbilityRadius) {
+                itemContentHtml += `<p><strong>Radius:</strong> <span>${item.AbilityRadius}</span></p>`;
+            }
+            if (item.Teleports) {
+                itemContentHtml += `<p><strong>Effect:</strong> <span>Teleports</span></p>`;
+            }
+            if (item.DecoyDuration) {
+                itemContentHtml += `<p><strong>Decoy Duration:</strong> <span>${item.DecoyDuration} seconds</span></p>`;
+            }
+            if (item.SummonDetails) {
+                itemContentHtml += `<p><strong>Summons:</strong> <span>Type ${item.SummonDetails.type} for ${item.SummonDetails.duration} seconds</span></p>`;
+            }
+            if (item.AbilityEffects && item.AbilityEffects.length > 0) {
+                item.AbilityEffects.forEach(effect => {
+                    itemContentHtml += `<p><strong>Applies Effect:</strong> <span>${effect.effect} for ${effect.duration} seconds</span></p>`;
+                });
+            }
+        }
+
+
+        // Display Projectile-specific properties (if applicable, separate from general weapon stats)
+        if (item.NumProjectiles) {
+            itemContentHtml += `<p><strong>Shots:</strong> <span>${item.NumProjectiles}</span></p>`;
+        }
+        if (item.Range) {
+            itemContentHtml += `<p><strong>Range:</strong> <span>${item.Range}</span></p>`;
+        }
+        if (item.NumProjectiles) { // These apply if it's a projectile-based item
+            itemContentHtml += `<p><strong>Shots boomerang:</strong> <span>${item.Boomerang ? 'Yes' : 'No'}</span></p>`;
+            itemContentHtml += `<p><strong>Shots hit multiple targets:</strong> <span>${item.ShotsMultiHit ? 'Yes' : 'No'}</span></p>`;
+            itemContentHtml += `<p><strong>Ignores defense of target:</strong> <span>${item.IgnoresDefense ? 'Yes' : 'No'}</span></p>`;
+            itemContentHtml += `<p><strong>Shots pass through obstacles:</strong> <span>${item.ShotsPassesCover ? 'Yes' : 'No'}</span></p>`;
+        }
+        if (item.ArcGap) {
+            itemContentHtml += `<p><strong>Arc Gap:</strong> <span>${item.ArcGap}°</span></p>`;
+        }
+        if (item.RateOfFire) {
+            itemContentHtml += `<p><strong>Rate of Fire:</strong> <span>${item.RateOfFire}</span></p>`;
+        }
+        if (item.FameBonus) {
+            itemContentHtml += `<p><strong>Fame Bonus:</strong> <span>${item.FameBonus}%</span></p>`;
+        }
+
         if (item.StatBoosts && item.StatBoosts.length > 0) {
+            // Note: This section within the `item-details-content` is for general stats.
+            // The modal also has a similar section for benefits, which might be redundant
+            // or used for product features instead. Keeping both for now based on original structure.
             itemContentHtml += `<p><strong>Stat Boosts:</strong> <span>${item.StatBoosts.join(', ')}</span></p>`;
         }
 
@@ -1131,6 +1265,7 @@ function updateMarketplaceStatusDisplay() {
             marketplaceStatusCircle.classList.remove('online');
             marketplaceStatusCircle.classList.add('offline');
         } else {
+            marketplaceStatusText.textContent = 'Checking...';
             marketplaceStatusCircle.classList.remove('online', 'offline');
         }
     }
