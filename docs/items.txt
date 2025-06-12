@@ -183,7 +183,7 @@
     </Object>
 
     <!-- WANDS -->
-    <Object type="0x0070" id="Fire Wand" Item="true">
+    <Object type="0xa04" id="Fire Wand" Item="true">
         <DisplayId>Fire Wand</DisplayId>
         <Class>Equipment</Class>
         <SlotType>8</SlotType> <!-- 8 = Wand -->
@@ -191,9 +191,60 @@
         <MinDamage>30</MinDamage>
         <MaxDamage>55</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
-        <Range>5.0</Range>
+        <Range>9</Range>
         <Tag>T0</Tag>
-        <UsableBy>Priest, Sorcerer</UsableBy>
+        <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
+        <Projectile>
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa6f" id="Force Wand" Item="true">
+        <DisplayId>Force Wand</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>8</SlotType> <!-- 8 = Wand -->
+        <Description>A wand that emits bolts of pure force.</Description>
+        <MinDamage>30</MinDamage>
+        <MaxDamage>55</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>9</Range>
+        <Tag>T1</Tag>
+        <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
+        <Projectile>
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa70" id="Power Wand" Item="true">
+        <DisplayId>Power Wand</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>8</SlotType> <!-- 8 = Wand -->
+        <Description>A wand that fires power bolts.</Description>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>80</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>9</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
+        <Projectile>
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa05" id="Missile Wand" Item="true">
+        <DisplayId>Missile Wand</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>8</SlotType> <!-- 8 = Wand -->
+        <Description>A wand that casts a strong missile.</Description>
+        <MinDamage>50</MinDamage>
+        <MaxDamage>85</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>9</Range>
+        <Tag>T3</Tag>
+        <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
+        <Projectile>
+            <MultiHit/>
+        </Projectile>
     </Object>
 
     <!-- SWORDS -->
