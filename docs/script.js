@@ -617,7 +617,7 @@ async function sendOrderToBackend(username, cartItems, total, orderId) {
     const backendHost = '127.0.0.1';
     const backendPort = '40071';
     
-    const backendEndpoint = `http://${backendHost}:${backendPort}/purchase`;
+    const backendEndpoint = `http://${backendHost}:${backendHost}:${backendPort}/purchase`;
 
     const purchasePayload = {
         username: username,
