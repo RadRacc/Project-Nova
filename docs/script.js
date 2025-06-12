@@ -364,7 +364,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || item.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
@@ -409,7 +409,7 @@ function openProductModal(itemOrProduct) {
                     <h4>Set: ${itemOrProduct.Set.Name}</h4>
                     <ul>
             `;
-            item.Set.Bonuses.forEach(bonus => {
+            itemOrProduct.Set.Bonuses.forEach(bonus => {
                 setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
             });
             setBonusHtml += `
@@ -1225,7 +1225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (usableByFilterDropdown) usableByFilterDropdown.value = 'all';
                 currentUsableByFilter = 'all';
 
-                expandedItemId = null; // Reset expanded item when searching
+                expandedItemId = null;
                 displayItems(); // Call displayItems to apply all global filters
             });
         }
