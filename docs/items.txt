@@ -61,11 +61,11 @@
         <MinDamage>5</MinDamage>
         <MaxDamage>20</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>7.04</Range>
         <Tag>T0</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
+            <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
             <PierceDefense/>
         </Projectile>
