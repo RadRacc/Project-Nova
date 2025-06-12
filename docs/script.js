@@ -249,11 +249,11 @@ function updateStoreCreditDisplay() {
 }
 
 // Adds $10 to store credit
-function addCredit() {
-    storeCredit += 10.00;
-    updateStoreCreditDisplay();
-    showCustomMessageBox('Successfully added $10 to your store credit! Current credit: $' + storeCredit.toFixed(2), "Credit Added", "success");
-}
+//function addCredit() {
+//    storeCredit += 10.00;
+//    updateStoreCreditDisplay();
+//    showCustomMessageBox('Successfully added $10 to your store credit! Current credit: $' + storeCredit.toFixed(2), "Credit Added", "success");
+//}
 
 // Renders product tiles on the shop page
 function renderProducts() {
