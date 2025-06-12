@@ -126,17 +126,59 @@
     </Object>
 
     <!-- STAFFS -->
-    <Object type="0x0060" id="Placeholder Staff T0" Item="true">
-        <DisplayId>Wooden Staff</DisplayId>
+    <Object type="0xa97" id="Energy Staff" Item="true">
+        <DisplayId>Energy Staff</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
-        <Description>A basic staff for channeling magic.</Description>
-        <MinDamage>25</MinDamage>
-        <MaxDamage>35</MaxDamage>
-        <RateOfFire>0.9</RateOfFire>
-        <NumProjectiles>1</NumProjectiles>
-        <Range>6.0</Range>
+        <Description>A magical wooden staff topped with a white crystal.</Description>
+        <MinDamage>10</MinDamage>
+        <MaxDamage>25</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>8.55</Range>
         <Tag>T0</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+    </Object>
+
+    <Object type="0xa98" id="Firebrand Staff" Item="true">
+        <DisplayId>Firebrand Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A staff imbued with potent magical fire.</Description>
+        <MinDamage>10</MinDamage>
+        <MaxDamage>30</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>8.55</Range>
+        <Tag>T1</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+    </Object>
+
+    <Object type="0xa99" id="Comet Staff" Item="true">
+        <DisplayId>Comet Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A staff charged with the icy powers of the heavens.</Description>
+        <MinDamage>15</MinDamage>
+        <MaxDamage>35</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>8.55</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+    </Object>
+
+    <Object type="0xa9a" id="Serpentine Staff" Item="true">
+        <DisplayId>Serpentine Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A staff powered by the magic of Stheno's minions.</Description>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>40</MaxDamage>
+        <RateOfFire>1</RateOfFire>
+        <NumProjectiles>2</NumProjectiles>
+        <Range>8.55</Range>
+        <Tag>T3</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
     </Object>
 
