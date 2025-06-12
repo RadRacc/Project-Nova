@@ -134,10 +134,12 @@
         <MinDamage>10</MinDamage>
         <MaxDamage>25</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>8.55</Range>
         <Tag>T0</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
     </Object>
 
     <Object type="0xa98" id="Firebrand Staff" Item="true">
@@ -148,10 +150,12 @@
         <MinDamage>10</MinDamage>
         <MaxDamage>30</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>8.55</Range>
         <Tag>T1</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
     </Object>
 
     <Object type="0xa99" id="Comet Staff" Item="true">
@@ -162,10 +166,12 @@
         <MinDamage>15</MinDamage>
         <MaxDamage>35</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>8.55</Range>
         <Tag>T2</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
     </Object>
 
     <Object type="0xa9a" id="Serpentine Staff" Item="true">
@@ -176,10 +182,12 @@
         <MinDamage>20</MinDamage>
         <MaxDamage>40</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>8.55</Range>
         <Tag>T3</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
     </Object>
 
     <!-- WANDS -->
