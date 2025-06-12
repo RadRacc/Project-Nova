@@ -416,10 +416,9 @@ footer {
 }
 
 .product-tile img {
-    max-width: 100%;
+    max-width: 150%;
     height: 120px;
     object-fit: contain;
-    margin-bottom: 15px;
     border-radius: 5px;
 }
 
@@ -469,8 +468,8 @@ footer {
 }
 
 .product-tile .cart-icon {
-    width: 20px;
-    height: 20px;
+    width: 150px;
+    height: 150px;
     filter: invert(1);
 }
 
@@ -920,7 +919,7 @@ footer {
     margin-top: 0;
     margin-bottom: 0;
     white-space: nowrap;       /* FORCE text onto a single line */
-    overflow: hidden;          /* Hide any overflowing content */
+    overflow: visible;
     text-overflow: ellipsis;   /* Add an ellipsis (...) for truncated text */
     flex-shrink: 0;            /* Prevent tag from shrinking */
 }
