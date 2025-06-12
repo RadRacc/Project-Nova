@@ -1,6 +1,6 @@
 <Objects>
     <!-- DAGGERS -->
-    <Object type="0x0040" id="Steel Dabler" Item="true">
+    <Object type="0x0040" id="Steel Dagger" Item="true">
         <DisplayId>Steel Dagger</DisplayId>
         <Class>Equipment</Class>
         <SlotType>2</SlotType> <!-- 2 = Dagger -->
@@ -86,7 +86,7 @@
     <Object type="0x0060" id="Placeholder Staff T0" Item="true">
         <DisplayId>Wooden Staff</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>8</SlotType> <!-- 8 = Staff -->
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
         <Description>A basic staff for channeling magic.</Description>
         <MinDamage>25</MinDamage>
         <MaxDamage>35</MaxDamage>
@@ -101,7 +101,7 @@
     <Object type="0x0070" id="Fire Wand" Item="true">
         <DisplayId>Fire Wand</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>9</SlotType> <!-- 9 = Wand -->
+        <SlotType>8</SlotType> <!-- 8 = Wand -->
         <Description>A wand that casts a simple fire spell.</Description>
         <MinDamage>30</MinDamage>
         <MaxDamage>55</MaxDamage>
@@ -134,7 +134,7 @@
     <Object type="0x0230" id="Placeholder Katana T0" Item="true">
         <DisplayId>Training Katana</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>23</SlotType> <!-- 23 = Katana -->
+        <SlotType>24</SlotType> <!-- 24 = Katana -->
         <Description>A light blade for rapid slashes.</Description>
         <MinDamage>22</MinDamage>
         <MaxDamage>32</MaxDamage>
@@ -148,7 +148,7 @@
     <Object type="0x0280" id="Placeholder Cloak T0" Item="true">
         <DisplayId>Faded Cloak</DisplayId>
         <Class>Ability</Class>
-        <SlotType>28</SlotType> <!-- 28 = Cloak (Rogue) -->
+        <SlotType>13</SlotType> <!-- 13 = Cloak (Rogue) -->
         <Description>Grants temporary invisibility to the wearer.</Description>
         <MPCost>70</MPCost>
         <Activate>
@@ -162,7 +162,7 @@
     <Object type="0x0310" id="Placeholder Poison T0" Item="true">
         <DisplayId>Basic Poison Vial</DisplayId>
         <Class>Ability</Class>
-        <SlotType>31</SlotType> <!-- 31 = Poison (Assassin) -->
+        <SlotType>18</SlotType> <!-- 18 = Poison (Assassin) -->
         <Description>A simple concoction that inflicts damage over time.</Description>
         <MPCost>60</MPCost>
         <Projectile>
@@ -181,7 +181,7 @@
     <Object type="0x0400" id="Placeholder Prism T0" Item="true">
         <DisplayId>Warped Prism</DisplayId>
         <Class>Ability</Class>
-        <SlotType>40</SlotType> <!-- 40 = Prism (Trickster) -->
+        <SlotType>22</SlotType> <!-- 22 = Prism (Trickster) -->
         <Description>Teleports the user a short distance and leaves a decoy.</Description>
         <MPCost>80</MPCost>
         <Activate>
@@ -196,7 +196,7 @@
     <Object type="0x0250" id="Placeholder Quiver T0" Item="true">
         <DisplayId>Leather Quiver</DisplayId>
         <Class>Ability</Class>
-        <SlotType>25</SlotType> <!-- 25 = Quiver (Archer) -->
+        <SlotType>15</SlotType> <!-- 15 = Quiver (Archer) -->
         <Description>Launches a single arrow at range.</Description>
         <MPCost>60</MPCost>
         <Projectile>
@@ -214,7 +214,7 @@
     <Object type="0x0290" id="Placeholder Trap T0" Item="true">
         <DisplayId>Simple Trap</DisplayId>
         <Class>Ability</Class>
-        <SlotType>29</SlotType> <!-- 29 = Trap (Huntress) -->
+        <SlotType>20</SlotType> <!-- 20 = Trap (Huntress) -->
         <Description>Lays a trap that damages and slows enemies.</Description>
         <MPCost>70</MPCost>
         <Activate>
@@ -229,7 +229,7 @@
     <Object type="0x0420" id="Placeholder Lute T0" Item="true">
         <DisplayId>Traveler's Lute</DisplayId>
         <Class>Ability</Class>
-        <SlotType>42</SlotType> <!-- 42 = Lute (Bard) -->
+        <SlotType>27</SlotType> <!-- 27 = Lute (Bard) -->
         <Description>Plays a melody that inspires allies.</Description>
         <MPCost>75</MPCost>
         <Activate>
@@ -244,7 +244,7 @@
     <Object type="0x0360" id="Placeholder Spell T0" Item="true">
         <DisplayId>Basic Spell</DisplayId>
         <Class>Ability</Class>
-        <SlotType>36</SlotType> <!-- 36 = Spell (Wizard) -->
+        <SlotType>11</SlotType> <!-- 11 = Spell (Wizard) -->
         <Description>Casts a magical bolt at an enemy.</Description>
         <MPCost>50</MPCost>
         <Projectile>
@@ -262,7 +262,7 @@
     <Object type="0x0340" id="Placeholder Skull T0" Item="true">
         <DisplayId>Withered Skull</DisplayId>
         <Class>Ability</Class>
-        <SlotType>34</SlotType> <!-- 34 = Skull (Necromancer) -->
+        <SlotType>19</SlotType> <!-- 19 = Skull (Necromancer) -->
         <Description>Siphons life from nearby foes to heal the caster.</Description>
         <MPCost>60</MPCost>
         <Activate>
@@ -277,7 +277,7 @@
     <Object type="0x0300" id="Placeholder Orb T0" Item="true">
         <DisplayId>Cracked Orb</DisplayId>
         <Class>Ability</Class>
-        <SlotType>30</SlotType> <!-- 30 = Orb (Mystic) -->
+        <SlotType>21</SlotType> <!-- 21 = Orb (Mystic) -->
         <Description>Dazes enemies in an area.</Description>
         <MPCost>70</MPCost>
         <Activate>
@@ -292,7 +292,7 @@
     <Object type="0x0260" id="Placeholder Tome T0" Item="true">
         <DisplayId>Old Tome</DisplayId>
         <Class>Ability</Class>
-        <SlotType>26</SlotType> <!-- 26 = Tome (Priest) -->
+        <SlotType>4</SlotType> <!-- 4 = Tome (Priest) -->
         <Description>Heals self and allies in a small radius.</Description>
         <MPCost>80</MPCost>
         <Activate>
@@ -307,7 +307,7 @@
     <Object type="0x0320" id="Placeholder Scepter T0" Item="true">
         <DisplayId>Flickering Scepter</DisplayId>
         <Class>Ability</Class>
-        <SlotType>32</SlotType> <!-- 32 = Scepter (Sorcerer) -->
+        <SlotType>23</SlotType> <!-- 23 = Scepter (Sorcerer) -->
         <Description>Channels a bolt of lightning that chains to enemies.</Description>
         <MPCost>85</MPCost>
         <Projectile>
@@ -326,7 +326,7 @@
     <Object type="0x0450" id="Placeholder Mace T0" Item="true">
         <DisplayId>Crude Mace</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>45</SlotType> <!-- 45 = Mace (Kensei) -->
+        <SlotType>28</SlotType> <!-- 28 = Summoning Mace / Mace (Kensei) -->
         <Description>A heavy, blunt weapon.</Description>
         <MinDamage>25</MinDamage>
         <MaxDamage>40</MaxDamage>
@@ -339,7 +339,7 @@
     <Object type="0x0240" id="Placeholder Helmet T0" Item="true">
         <DisplayId>Rusty Helmet</DisplayId>
         <Class>Ability</Class>
-        <SlotType>24</SlotType> <!-- 24 = Helm (Warrior) -->
+        <SlotType>16</SlotType> <!-- 16 = Helms (Warrior) -->
         <Description>Temporarily boosts the wearer's attack power.</Description>
         <MPCost>70</MPCost>
         <Activate>
@@ -353,7 +353,7 @@
     <Object type="0x0270" id="Placeholder Shield T0" Item="true">
         <DisplayId>Wooden Shield</DisplayId>
         <Class>Ability</Class>
-        <SlotType>27</SlotType> <!-- 27 = Shield (Knight) -->
+        <SlotType>5</SlotType> <!-- 5 = Shield (Knight) -->
         <Description>Blocks incoming attacks and can stun enemies.</Description>
         <MPCost>75</MPCost>
         <Activate>
@@ -368,7 +368,7 @@
     <Object type="0x0350" id="Placeholder Seal T0" Item="true">
         <DisplayId>Cracked Seal</DisplayId>
         <Class>Ability</Class>
-        <SlotType>35</SlotType> <!-- 35 = Seal (Paladin) -->
+        <SlotType>12</SlotType> <!-- 12 = Seal (Paladin) -->
         <Description>A holy relic that grants a healing aura.</Description>
         <MPCost>90</MPCost>
         <Activate>
@@ -384,7 +384,7 @@
     <Object type="0x0410" id="Placeholder Shuriken T0" Item="true">
         <DisplayId>Basic Shuriken</DisplayId>
         <Class>Ability</Class>
-        <SlotType>41</SlotType> <!-- 41 = Shuriken (Ninja) -->
+        <SlotType>25</SlotType> <!-- 25 = Shuriken / Star (Ninja) -->
         <Description>Throws a fast projectile that pierces enemies.</Description>
         <MPCost>60</MPCost>
         <Projectile>
@@ -403,7 +403,7 @@
     <Object type="0x0430" id="Placeholder Wakizashi T0" Item="true">
         <DisplayId>Training Wakizashi</DisplayId>
         <Class>Ability</Class>
-        <SlotType>43</SlotType> <!-- 43 = Wakizashi (Samurai) -->
+        <SlotType>26</SlotType> <!-- 26 = Wakizashi (Samurai) -->
         <Description>A short blade for quick, close-range attacks.</Description>
         <MPCost>65</MPCost>
         <Activate>
@@ -418,7 +418,7 @@
     <Object type="0x0440" id="Placeholder Sheath T0" Item="true">
         <DisplayId>Simple Sheath</DisplayId>
         <Class>Ability</Class>
-        <SlotType>44</SlotType> <!-- 44 = Sheath (Summoner) -->
+        <SlotType>29</SlotType> <!-- 29 = Sheath (Summoner) -->
         <Description>Summons a temporary minion to fight by your side.</Description>
         <MPCost>100</MPCost>
         <Activate>
@@ -432,7 +432,7 @@
     <Object type="0x0180" id="Placeholder Light Armor T0" Item="true">
         <DisplayId>Tattered Leather Armor</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>18</SlotType> <!-- 18 = Light Armor -->
+        <SlotType>6</SlotType> <!-- 6 = Leather Armor / Light Armor -->
         <Description>Lightweight armor for quick movement.</Description>
         <Defense>5</Defense>
         <Tag>T0</Tag>
@@ -443,7 +443,7 @@
     <Object type="0x0190" id="Placeholder Robe T0" Item="true">
         <DisplayId>Simple Robe</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>19</SlotType> <!-- 19 = Robe -->
+        <SlotType>14</SlotType> <!-- 14 = Robe -->
         <Description>A basic robe for magical defense.</Description>
         <Defense>3</Defense>
         <Tag>T0</Tag>
@@ -454,7 +454,7 @@
     <Object type="0x0170" id="Placeholder Heavy Armor T0" Item="true">
         <DisplayId>Iron Plate Armor</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>17</SlotType> <!-- 17 = Heavy Armor -->
+        <SlotType>7</SlotType> <!-- 7 = Plate Armor / Heavy Armor -->
         <Description>Durable armor for maximum protection.</Description>
         <Defense>10</Defense>
         <Tag>T0</Tag>
@@ -465,7 +465,7 @@
     <Object type="0x0200" id="Placeholder Ring T0" Item="true">
         <DisplayId>Simple Ring</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>20</SlotType> <!-- 20 = Ring -->
+        <SlotType>9</SlotType> <!-- 9 = Ring -->
         <Description>A basic ring with a minor stat boost.</Description>
         <ActivateOnEquip stat="21">10</ActivateOnEquip> <!-- Example: +10 Max HP -->
         <Tag>T0</Tag>
@@ -476,7 +476,7 @@
     <Object type="0x0500" id="Lost Golem Shield" Item="true">
         <DisplayId>Lost Golem Shield</DisplayId>
         <Class>Ability</Class>
-        <SlotType>27</SlotType> <!-- Shield -->
+        <SlotType>5</SlotType> <!-- 5 = Shield -->
         <Description>A shield imbued with the raw strength of a Golem.</Description>
         <MPCost>90</MPCost>
         <Defense>12</Defense>
@@ -496,7 +496,7 @@
     <Object type="0x0501" id="Lost Golem Armor" Item="true">
         <DisplayId>Lost Golem Armor</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>17</SlotType> <!-- Heavy Armor -->
+        <SlotType>7</SlotType> <!-- 7 = Plate Armor / Heavy Armor -->
         <Description>Heavy armor crafted from petrified golem hide.</Description>
         <Defense>18</Defense>
         <ActivateOnEquip stat="21">50</ActivateOnEquip> <!-- +50 Max HP -->
@@ -516,7 +516,7 @@
     <Object type="0x0502" id="Lost Golem Sword" Item="true">
         <DisplayId>Lost Golem Sword</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>1</SlotType> <!-- Sword -->
+        <SlotType>1</SlotType> <!-- 1 = Sword -->
         <Description>A massive blade capable of crushing opponents.</Description>
         <MinDamage>150</MinDamage>
         <MaxDamage>200</MaxDamage>
@@ -538,7 +538,7 @@
     <Object type="0x0503" id="Lost Golem Ring" Item="true">
         <DisplayId>Lost Golem Ring</DisplayId>
         <Class>Equipment</Class>
-        <SlotType>20</SlotType> <!-- Ring -->
+        <SlotType>9</SlotType> <!-- 9 = Ring -->
         <Description>A ring pulsing with ancient earthen power.</Description>
         <ActivateOnEquip stat="20">5</ActivateOnEquip>  <!-- +5 ATT -->
         <ActivateOnEquip stat="26">5</ActivateOnEquip>  <!-- +5 DEF -->
