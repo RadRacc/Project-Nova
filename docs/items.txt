@@ -79,11 +79,11 @@
         <MinDamage>5</MinDamage>
         <MaxDamage>25</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>7.04</Range>
         <Tag>T1</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
+            <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
             <PierceDefense/>
         </Projectile>
@@ -97,11 +97,11 @@
         <MinDamage>5</MinDamage>
         <MaxDamage>30</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>7.04</Range>
         <Tag>T2</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
+            <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
             <PierceDefense/>
         </Projectile>
@@ -115,11 +115,11 @@
         <MinDamage>5</MinDamage>
         <MaxDamage>35</MaxDamage>
         <RateOfFire>1</RateOfFire>
-        <NumProjectiles>2</NumProjectiles>
         <Range>7.04</Range>
-        <Tag>T2</Tag>
+        <Tag>T3</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <Projectile>
+            <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
             <PierceDefense/>
         </Projectile>
