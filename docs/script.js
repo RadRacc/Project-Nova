@@ -648,7 +648,7 @@ async function handleConfirmPurchase() {
             updateCartCount();
 
             showCustomMessageBox(
-                `Purchase successful! Your order #${orderId} has been placed for delivery to **${inGameUsername}**.` +
+                `Purchase successful! Your order #${orderId} has been placed for delivery to <strong>${inGameUsername}</strong>.` +
                 `<br>Your credit has been updated.`,
                 "Purchase Complete",
                 "success"
