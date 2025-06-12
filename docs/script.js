@@ -156,8 +156,8 @@ const slotTypeMap = {
     "3": "Bow",
     "4": "Tome",
     "5": "Shield",
-    "6": "Leather Armor / Light Armor",
-    "7": "Plate Armor / Heavy Armor",
+    "6": "Light Armor",
+    "7": "Heavy Armor",
     "8": "Wand",
     "9": "Ring",
     "10": "Consumables",
@@ -167,7 +167,7 @@ const slotTypeMap = {
     "14": "Robe",
     "15": "Quiver",
     "16": "Helms",
-    "17": "Staves / Staffs",
+    "17": "Staffs",
     "18": "Poison",
     "19": "Skull",
     "20": "Trap",
@@ -175,17 +175,17 @@ const slotTypeMap = {
     "22": "Prism",
     "23": "Scepter",
     "24": "Katana",
-    "25": "Shuriken / Star",
+    "25": "Star",
     "26": "Wakizashi",
     "27": "Lute",
-    "28": "Summoning Mace / Mace",
+    "28": "Mace",
     "29": "Sheath"
 };
 
 // Mapping Stat IDs to readable names for ActivateOnEquip (for Wiki)
 const statIdMap = {
-    "21": "Max HP", "22": "Max MP", "20": "Attack", "26": "Defense",
-    "27": "Speed", "28": "Dexterity", "29": "Vitality", "30": "Wisdom"
+    "19": "Max HP", "20": "Max MP", "21": "Attack", "22": "Defense",
+    "23": "Speed", "24": "Dexterity", "25": "Vitality", "26": "Wisdom"
 };
 
 
