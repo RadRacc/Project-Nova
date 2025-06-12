@@ -1,6 +1,6 @@
 <Objects>
     <!-- DAGGERS -->
-    <Object type="0x0040" id="Steel Dagger" Item="true">
+    <Object type="0x0040" id="Steel Dabler" Item="true">
         <DisplayId>Steel Dagger</DisplayId>
         <Class>Equipment</Class>
         <SlotType>2</SlotType> <!-- 2 = Dagger -->
