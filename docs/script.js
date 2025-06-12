@@ -364,7 +364,7 @@ function openProductModal(itemOrProduct) {
             descriptionHTML += `<p><strong>Description:</strong> ${itemOrProduct.Description}</p>`;
         }
 
-        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || itemOrProduct.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
+        const hasDetailedProperties = itemOrProduct.NumProjectiles || itemOrProduct.Boomerang || itemOrProduct.ShotsMultiHit || itemOrProduct.ShotsPassesCover || item.IgnoresDefense || itemOrProduct.Range || itemOrProduct.ArcGap || itemOrProduct.RateOfFire || itemOrProduct.FameBonus;
         if (hasDetailedProperties) {
             descriptionHTML += `<hr class="item-properties-separator">`;
         }
@@ -1131,7 +1131,6 @@ function updateMarketplaceStatusDisplay() {
             marketplaceStatusCircle.classList.remove('online');
             marketplaceStatusCircle.classList.add('offline');
         } else {
-            marketplaceStatusText.textContent = 'Checking...';
             marketplaceStatusCircle.classList.remove('online', 'offline');
         }
     }
