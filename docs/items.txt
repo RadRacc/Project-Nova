@@ -8,7 +8,7 @@
         <MinDamage>25</MinDamage>
         <MaxDamage>70</MaxDamage>
         <Range>5.6</Range>
-        <RateOfFire>1.05</RateOfFire>
+        <RateOfFire>105%</RateOfFire>
         <Tag>T0</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
@@ -21,7 +21,7 @@
         <MinDamage>25</MinDamage>
         <MaxDamage>80</MaxDamage>
         <Range>5.6</Range>
-        <RateOfFire>1.05</RateOfFire>
+        <RateOfFire>105%</RateOfFire>
         <Tag>T1</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
@@ -34,7 +34,7 @@
         <MinDamage>30</MinDamage>
         <MaxDamage>85</MaxDamage>
         <Range>5.6</Range>
-        <RateOfFire>1.05</RateOfFire>
+        <RateOfFire>105%</RateOfFire>
         <Tag>T2</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
@@ -47,7 +47,7 @@
         <MinDamage>30</MinDamage>
         <MaxDamage>85</MaxDamage>
         <Range>5.6</Range>
-        <RateOfFire>1.05</RateOfFire>
+        <RateOfFire>105%</RateOfFire>
         <Tag>T3</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
@@ -60,7 +60,7 @@
         <Description>A well-made shortbow.</Description>
         <MinDamage>5</MinDamage>
         <MaxDamage>20</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>7.04</Range>
         <Tag>T0</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
@@ -78,7 +78,7 @@
         <Description>A well-made shortbow.</Description>
         <MinDamage>5</MinDamage>
         <MaxDamage>25</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>7.04</Range>
         <Tag>T1</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
@@ -96,7 +96,7 @@
         <Description>A bow made from sturdy hardwood.</Description>
         <MinDamage>5</MinDamage>
         <MaxDamage>30</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>7.04</Range>
         <Tag>T2</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
@@ -114,7 +114,7 @@
         <Description>A bow made from the rare greywood tree.</Description>
         <MinDamage>5</MinDamage>
         <MaxDamage>35</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>7.04</Range>
         <Tag>T3</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
@@ -133,7 +133,7 @@
         <Description>A magical wooden staff topped with a white crystal.</Description>
         <MinDamage>10</MinDamage>
         <MaxDamage>25</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>8.55</Range>
         <Tag>T0</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
@@ -149,7 +149,7 @@
         <Description>A staff imbued with potent magical fire.</Description>
         <MinDamage>10</MinDamage>
         <MaxDamage>30</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>8.55</Range>
         <Tag>T1</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
@@ -165,7 +165,7 @@
         <Description>A staff charged with the icy powers of the heavens.</Description>
         <MinDamage>15</MinDamage>
         <MaxDamage>35</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>8.55</Range>
         <Tag>T2</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
@@ -181,7 +181,7 @@
         <Description>A staff powered by the magic of Stheno's minions.</Description>
         <MinDamage>20</MinDamage>
         <MaxDamage>40</MaxDamage>
-        <RateOfFire>1</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>8.55</Range>
         <Tag>T3</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
@@ -198,7 +198,7 @@
         <Description>A wand that casts a simple fire spell.</Description>
         <MinDamage>30</MinDamage>
         <MaxDamage>55</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>9</Range>
         <Tag>T0</Tag>
         <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
@@ -214,7 +214,7 @@
         <Description>A wand that emits bolts of pure force.</Description>
         <MinDamage>30</MinDamage>
         <MaxDamage>55</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>9</Range>
         <Tag>T1</Tag>
         <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
@@ -230,7 +230,7 @@
         <Description>A wand that fires power bolts.</Description>
         <MinDamage>45</MinDamage>
         <MaxDamage>80</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>9</Range>
         <Tag>T2</Tag>
         <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
@@ -246,7 +246,7 @@
         <Description>A wand that casts a strong missile.</Description>
         <MinDamage>50</MinDamage>
         <MaxDamage>85</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>9</Range>
         <Tag>T3</Tag>
         <UsableBy>Priest, Sorcerer, Summoner</UsableBy>
@@ -263,7 +263,7 @@
         <Description>A steel short sword.</Description>
         <MinDamage>45</MinDamage>
         <MaxDamage>90</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>3.5</Range>
         <Tag>T0</Tag>
         <UsableBy>Warrior, Knight, Paladin</UsableBy>
@@ -276,7 +276,7 @@
         <Description>A broad-bladed steel sword.</Description>
         <MinDamage>60</MinDamage>
         <MaxDamage>105</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>3.5</Range>
         <Tag>T1</Tag>
         <UsableBy>Warrior, Knight, Paladin</UsableBy>
@@ -289,7 +289,7 @@
         <Description>A single-edged light sword.</Description>
         <MinDamage>75</MinDamage>
         <MaxDamage>105</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>3.5</Range>
         <Tag>T2</Tag>
         <UsableBy>Warrior, Knight, Paladin</UsableBy>
@@ -302,7 +302,7 @@
         <Description>A well-made sword with a double edged blade.</Description>
         <MinDamage>75</MinDamage>
         <MaxDamage>120</MaxDamage>
-        <RateOfFire>1.0</RateOfFire>
+        <RateOfFire>100%</RateOfFire>
         <Range>3.5</Range>
         <Tag>T3</Tag>
         <UsableBy>Warrior, Knight, Paladin</UsableBy>
@@ -375,7 +375,7 @@
 
     <!-- CLOAKS -->
     <Object type="0x0280" id="Placeholder Cloak T0" Item="true">
-        <DisplayId>Faded Cloak</DisplayId>
+        <DisplayId>Placeholder Cloak</DisplayId>
         <Class>Ability</Class>
         <SlotType>13</SlotType> <!-- 13 = Cloak (Rogue) -->
         <Description>Grants temporary invisibility to the wearer.</Description>
@@ -389,7 +389,7 @@
 
     <!-- POISONS -->
     <Object type="0x0310" id="Placeholder Poison T0" Item="true">
-        <DisplayId>Basic Poison Vial</DisplayId>
+        <DisplayId>Placeholder Poison</DisplayId>
         <Class>Ability</Class>
         <SlotType>18</SlotType> <!-- 18 = Poison (Assassin) -->
         <Description>A simple concoction that inflicts damage over time.</Description>
@@ -408,7 +408,7 @@
 
     <!-- PRISMS -->
     <Object type="0x0400" id="Placeholder Prism T0" Item="true">
-        <DisplayId>Warped Prism</DisplayId>
+        <DisplayId>Placeholder Prism</DisplayId>
         <Class>Ability</Class>
         <SlotType>22</SlotType> <!-- 22 = Prism (Trickster) -->
         <Description>Teleports the user a short distance and leaves a decoy.</Description>
@@ -423,7 +423,7 @@
 
     <!-- QUIVERS -->
     <Object type="0x0250" id="Placeholder Quiver T0" Item="true">
-        <DisplayId>Leather Quiver</DisplayId>
+        <DisplayId>Placeholder Quiver</DisplayId>
         <Class>Ability</Class>
         <SlotType>15</SlotType> <!-- 15 = Quiver (Archer) -->
         <Description>Launches a single arrow at range.</Description>
@@ -441,7 +441,7 @@
 
     <!-- TRAPS -->
     <Object type="0x0290" id="Placeholder Trap T0" Item="true">
-        <DisplayId>Simple Trap</DisplayId>
+        <DisplayId>Placeholder Trap</DisplayId>
         <Class>Ability</Class>
         <SlotType>20</SlotType> <!-- 20 = Trap (Huntress) -->
         <Description>Lays a trap that damages and slows enemies.</Description>
@@ -456,7 +456,7 @@
 
     <!-- LUTES -->
     <Object type="0x0420" id="Placeholder Lute T0" Item="true">
-        <DisplayId>Traveler's Lute</DisplayId>
+        <DisplayId>Placeholder Lute</DisplayId>
         <Class>Ability</Class>
         <SlotType>27</SlotType> <!-- 27 = Lute (Bard) -->
         <Description>Plays a melody that inspires allies.</Description>
@@ -471,7 +471,7 @@
 
     <!-- SPELLS -->
     <Object type="0x0360" id="Placeholder Spell T0" Item="true">
-        <DisplayId>Basic Spell</DisplayId>
+        <DisplayId>Placeholder Spell</DisplayId>
         <Class>Ability</Class>
         <SlotType>11</SlotType> <!-- 11 = Spell (Wizard) -->
         <Description>Casts a magical bolt at an enemy.</Description>
@@ -489,7 +489,7 @@
 
     <!-- SKULLS -->
     <Object type="0x0340" id="Placeholder Skull T0" Item="true">
-        <DisplayId>Withered Skull</DisplayId>
+        <DisplayId>Placeholder Skull</DisplayId>
         <Class>Ability</Class>
         <SlotType>19</SlotType> <!-- 19 = Skull (Necromancer) -->
         <Description>Siphons life from nearby foes to heal the caster.</Description>
@@ -504,7 +504,7 @@
 
     <!-- ORBS -->
     <Object type="0x0300" id="Placeholder Orb T0" Item="true">
-        <DisplayId>Cracked Orb</DisplayId>
+        <DisplayId>Placeholder Orb</DisplayId>
         <Class>Ability</Class>
         <SlotType>21</SlotType> <!-- 21 = Orb (Mystic) -->
         <Description>Dazes enemies in an area.</Description>
@@ -519,7 +519,7 @@
 
     <!-- TOMES -->
     <Object type="0x0260" id="Placeholder Tome T0" Item="true">
-        <DisplayId>Old Tome</DisplayId>
+        <DisplayId>Placeholder Tome</DisplayId>
         <Class>Ability</Class>
         <SlotType>4</SlotType> <!-- 4 = Tome (Priest) -->
         <Description>Heals self and allies in a small radius.</Description>
@@ -534,7 +534,7 @@
 
     <!-- SCEPTERS -->
     <Object type="0x0320" id="Placeholder Scepter T0" Item="true">
-        <DisplayId>Flickering Scepter</DisplayId>
+        <DisplayId>Placeholder Scepter</DisplayId>
         <Class>Ability</Class>
         <SlotType>23</SlotType> <!-- 23 = Scepter (Sorcerer) -->
         <Description>Channels a bolt of lightning that chains to enemies.</Description>
@@ -553,7 +553,7 @@
 
     <!-- MACES -->
     <Object type="0x0450" id="Placeholder Mace T0" Item="true">
-        <DisplayId>Crude Mace</DisplayId>
+        <DisplayId>Placeholder Mace</DisplayId>
         <Class>Equipment</Class>
         <SlotType>28</SlotType> <!-- 28 = Summoning Mace / Mace (Kensei) -->
         <Description>A heavy, blunt weapon.</Description>
@@ -566,7 +566,7 @@
 
     <!-- HELMETS -->
     <Object type="0x0240" id="Placeholder Helmet T0" Item="true">
-        <DisplayId>Rusty Helmet</DisplayId>
+        <DisplayId>Placeholder Helmet</DisplayId>
         <Class>Ability</Class>
         <SlotType>16</SlotType> <!-- 16 = Helms (Warrior) -->
         <Description>Temporarily boosts the wearer's attack power.</Description>
@@ -580,7 +580,7 @@
 
     <!-- SHIELDS -->
     <Object type="0x0270" id="Placeholder Shield T0" Item="true">
-        <DisplayId>Wooden Shield</DisplayId>
+        <DisplayId>Placeholder Shield</DisplayId>
         <Class>Ability</Class>
         <SlotType>5</SlotType> <!-- 5 = Shield (Knight) -->
         <Description>Blocks incoming attacks and can stun enemies.</Description>
@@ -595,7 +595,7 @@
 
     <!-- SEALS -->
     <Object type="0x0350" id="Placeholder Seal T0" Item="true">
-        <DisplayId>Cracked Seal</DisplayId>
+        <DisplayId>Placeholder Seal</DisplayId>
         <Class>Ability</Class>
         <SlotType>12</SlotType> <!-- 12 = Seal (Paladin) -->
         <Description>A holy relic that grants a healing aura.</Description>
@@ -611,7 +611,7 @@
 
     <!-- SHURIKEN -->
     <Object type="0x0410" id="Placeholder Shuriken T0" Item="true">
-        <DisplayId>Basic Shuriken</DisplayId>
+        <DisplayId>Placeholder Shuriken</DisplayId>
         <Class>Ability</Class>
         <SlotType>25</SlotType> <!-- 25 = Shuriken / Star (Ninja) -->
         <Description>Throws a fast projectile that pierces enemies.</Description>
@@ -630,7 +630,7 @@
 
     <!-- WAKIZASHI -->
     <Object type="0x0430" id="Placeholder Wakizashi T0" Item="true">
-        <DisplayId>Training Wakizashi</DisplayId>
+        <DisplayId>Placeholder Wakizashi</DisplayId>
         <Class>Ability</Class>
         <SlotType>26</SlotType> <!-- 26 = Wakizashi (Samurai) -->
         <Description>A short blade for quick, close-range attacks.</Description>
@@ -645,7 +645,7 @@
 
     <!-- SHEATHS -->
     <Object type="0x0440" id="Placeholder Sheath T0" Item="true">
-        <DisplayId>Simple Sheath</DisplayId>
+        <DisplayId>Placeholder Sheath</DisplayId>
         <Class>Ability</Class>
         <SlotType>29</SlotType> <!-- 29 = Sheath (Summoner) -->
         <Description>Summons a temporary minion to fight by your side.</Description>
@@ -659,7 +659,7 @@
 
     <!-- LIGHT ARMOR (Leather Armor) -->
     <Object type="0x0180" id="Placeholder Light Armor T0" Item="true">
-        <DisplayId>Tattered Leather Armor</DisplayId>
+        <DisplayId>Placeholder Leather Armor</DisplayId>
         <Class>Equipment</Class>
         <SlotType>6</SlotType> <!-- 6 = Leather Armor / Light Armor -->
         <Description>Lightweight armor for quick movement.</Description>
@@ -670,7 +670,7 @@
 
     <!-- ROBES -->
     <Object type="0x0190" id="Placeholder Robe T0" Item="true">
-        <DisplayId>Simple Robe</DisplayId>
+        <DisplayId>Placeholder Robe</DisplayId>
         <Class>Equipment</Class>
         <SlotType>14</SlotType> <!-- 14 = Robe -->
         <Description>A basic robe for magical defense.</Description>
@@ -681,7 +681,7 @@
 
     <!-- HEAVY ARMOR (Plate Armor) -->
     <Object type="0x0170" id="Placeholder Heavy Armor T0" Item="true">
-        <DisplayId>Iron Plate Armor</DisplayId>
+        <DisplayId>Placeholder Plate Armor</DisplayId>
         <Class>Equipment</Class>
         <SlotType>7</SlotType> <!-- 7 = Plate Armor / Heavy Armor -->
         <Description>Durable armor for maximum protection.</Description>
@@ -692,7 +692,7 @@
 
     <!-- RINGS -->
     <Object type="0x0200" id="Placeholder Ring T0" Item="true">
-        <DisplayId>Simple Ring</DisplayId>
+        <DisplayId>Placeholder Ring</DisplayId>
         <Class>Equipment</Class>
         <SlotType>9</SlotType> <!-- 9 = Ring -->
         <Description>A basic ring with a minor stat boost.</Description>
@@ -703,7 +703,7 @@
 
     <!-- EXAMPLE SET ITEM: LOST GOLEM SHIELD -->
     <Object type="0x0500" id="Lost Golem Shield" Item="true">
-        <DisplayId>Lost Golem Shield</DisplayId>
+        <DisplayId>Placeholder ST Shield</DisplayId>
         <Class>Ability</Class>
         <SlotType>5</SlotType> <!-- 5 = Shield -->
         <Description>A shield imbued with the raw strength of a Golem.</Description>
@@ -723,7 +723,7 @@
 
     <!-- EXAMPLE SET ITEM: LOST GOLEM ARMOR -->
     <Object type="0x0501" id="Lost Golem Armor" Item="true">
-        <DisplayId>Lost Golem Armor</DisplayId>
+        <DisplayId>Placeholder ST Armor</DisplayId>
         <Class>Equipment</Class>
         <SlotType>7</SlotType> <!-- 7 = Plate Armor / Heavy Armor -->
         <Description>Heavy armor crafted from petrified golem hide.</Description>
@@ -743,7 +743,7 @@
 
     <!-- EXAMPLE SET ITEM: LOST GOLEM SWORD -->
     <Object type="0x0502" id="Lost Golem Sword" Item="true">
-        <DisplayId>Lost Golem Sword</DisplayId>
+        <DisplayId>Placeholder ST Sword</DisplayId>
         <Class>Equipment</Class>
         <SlotType>1</SlotType> <!-- 1 = Sword -->
         <Description>A massive blade capable of crushing opponents.</Description>
@@ -765,7 +765,7 @@
 
     <!-- EXAMPLE SET ITEM: LOST GOLEM RING -->
     <Object type="0x0503" id="Lost Golem Ring" Item="true">
-        <DisplayId>Lost Golem Ring</DisplayId>
+        <DisplayId>Placeholder ST Ring</DisplayId>
         <Class>Equipment</Class>
         <SlotType>9</SlotType> <!-- 9 = Ring -->
         <Description>A ring pulsing with ancient earthen power.</Description>
