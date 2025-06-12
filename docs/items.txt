@@ -309,17 +309,68 @@
     </Object>
 
     <!-- KATANAS -->
-    <Object type="0x0230" id="Placeholder Katana T0" Item="true">
-        <DisplayId>Training Katana</DisplayId>
+    <Object type="0xc44" id="Rusty Katana" Item="true">
+        <DisplayId>Rusty Katana</DisplayId>
         <Class>Equipment</Class>
         <SlotType>24</SlotType> <!-- 24 = Katana -->
-        <Description>A light blade for rapid slashes.</Description>
-        <MinDamage>22</MinDamage>
-        <MaxDamage>32</MaxDamage>
-        <RateOfFire>1.2</RateOfFire>
-        <Range>3.5</Range>
+        <Description>A rusty old katana.</Description>
+        <MinDamage>35</MinDamage>
+        <MaxDamage>80</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>4.74</Range>
         <Tag>T0</Tag>
-        <UsableBy>Samurai, Kensei</UsableBy>
+        <UsableBy>Ninja, Samurai, Kensei</UsableBy>
+        <Projectile>   
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xc45" id="Kendo Stick" Item="true">
+        <DisplayId>Kendo Stick</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>24</SlotType> <!-- 24 = Katana -->
+        <Description>Suitable for practice.</Description>
+        <MinDamage>40</MinDamage>
+        <MaxDamage>85</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>4.74</Range>
+        <Tag>T1</Tag>
+        <UsableBy>Ninja, Samurai, Kensei</UsableBy>
+        <Projectile>   
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xc46" id="Plain Katana" Item="true">
+        <DisplayId>Plain Katana</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>24</SlotType> <!-- 24 = Katana -->
+        <Description>A basic katana.</Description>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>90</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>4.74</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Ninja, Samurai, Kensei</UsableBy>
+        <Projectile>   
+            <MultiHit/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xc47" id="Thunder Katana" Item="true">
+        <DisplayId>Thunder Katana</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>24</SlotType> <!-- 24 = Katana -->
+        <Description>A striking fine-edged weapon.</Description>
+        <MinDamage>55</MinDamage>
+        <MaxDamage>95</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>4.74</Range>
+        <Tag>T3</Tag>
+        <UsableBy>Ninja, Samurai, Kensei</UsableBy>
+        <Projectile>   
+            <MultiHit/>
+        </Projectile>
     </Object>
 
     <!-- CLOAKS -->
