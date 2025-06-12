@@ -409,7 +409,7 @@ function openProductModal(itemOrProduct) {
                     <h4>Set: ${itemOrProduct.Set.Name}</h4>
                     <ul>
             `;
-            itemOrProduct.Set.Bonuses.forEach(bonus => {
+            item.Set.Bonuses.forEach(bonus => {
                 setBonusHtml += `<li><strong>${bonus.pieces} Pieces:</strong> <span>${bonus.description}</span></li>`;
             });
             setBonusHtml += `
