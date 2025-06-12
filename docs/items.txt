@@ -112,7 +112,7 @@
     </Object>
 
     <!-- SWORDS -->
-    <Object type="0x0001" id="Short Sword" Item="true">
+    <Object type="0xa00" id="Short Sword" Item="true">
         <DisplayId>Short Sword</DisplayId>
         <Class>Equipment</Class>
         <SlotType>1</SlotType> <!-- 1 = Sword -->
@@ -120,14 +120,48 @@
         <MinDamage>45</MinDamage>
         <MaxDamage>90</MaxDamage>
         <RateOfFire>1.0</RateOfFire>
-        <Range>3.0</Range>
+        <Range>3.5</Range>
         <Tag>T0</Tag>
-        <FameBonus>1</FameBonus>
         <UsableBy>Warrior, Knight, Paladin</UsableBy>
-        <Projectile>
-            <!-- Example: A special sword that pierces defense -->
-            <PierceDefense/>
-        </Projectile>
+    </Object>
+
+    <Object type="0xa6c" id="Broad Sword" Item="true">
+        <DisplayId>Broad Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <!-- 1 = Sword -->
+        <Description>A broad-bladed steel sword.</Description>
+        <MinDamage>60</MinDamage>
+        <MaxDamage>105</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>3.5</Range>
+        <Tag>T1</Tag>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
+    </Object>
+
+    <Object type="0xa6d" id="Saber" Item="true">
+        <DisplayId>Saber</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <!-- 1 = Sword -->
+        <Description>A single-edged light sword.</Description>
+        <MinDamage>75</MinDamage>
+        <MaxDamage>105</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>3.5</Range>
+        <Tag>T2</Tag>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
+    </Object>
+
+    <Object type="0xa01" id="Long Sword" Item="true">
+        <DisplayId>Long Sword</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>1</SlotType> <!-- 1 = Sword -->
+        <Description>A well-made sword with a double edged blade.</Description>
+        <MinDamage>75</MinDamage>
+        <MaxDamage>120</MaxDamage>
+        <RateOfFire>1.0</RateOfFire>
+        <Range>3.5</Range>
+        <Tag>T3</Tag>
+        <UsableBy>Warrior, Knight, Paladin</UsableBy>
     </Object>
 
     <!-- KATANAS -->
