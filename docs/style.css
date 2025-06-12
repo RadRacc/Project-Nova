@@ -997,36 +997,28 @@ footer {
 .item-card .item-tag.t2 { background-color: #B8B7B7; }
 .item-card .item-tag.t3 { background-color: #838383; }
 .item-card .item-tag.t4 { background-color: #656565; }
-.item-card .item-tag.t5 { background-color: #ff4500; color: #ffffff; } /* SB Tag: Orange-Red background, now with white text */
-.item-card .item-tag.t6 { background-color: #D4AF37; } /* Gold */
-.item-card .item-tag.t7 { background-color: #C0C0C0; } /* Silver */
-.item-card .item-tag.t8 { background-color: #CD7F32; } /* Bronze */
-.item-card .item-tag.t9 { background-color: #0000FF; color: white; } /* Blue */
-.item-card .item-tag.t10 { background-color: #FF00FF; color: white; } /* Magenta */
-.item-card .item-tag.t11 { background-color: #00FFFF; } /* Cyan */
-.item-card .item-tag.t12 { background-color: #FFD700; } /* Gold (another shade) */
-.item-card .item-tag.t13 { background-color: #A020F0; color: white; } /* Purple */
-.item-card .item-tag.t14 { background-color: #8B0000; color: white; } /* Dark Red */
-/* Adding more tiers as they might exist in items.txt or be needed for future expansion */
-.item-card .item-tag.t15 { background-color: #E6B0AA; } /* Pale Red */
-.item-card .item-tag.t16 { background-color: #FADBD8; } /* Lighter Pale Red */
-.item-card .item-tag.t17 { background-color: #D6EAF8; } /* Pale Blue */
-.item-card .item-tag.t18 { background-color: #A9CCE3; } /* Lighter Pale Blue */
-.item-card .item-tag.t19 { background-color: #A2D9CE; } /* Pale Green */
-.item-card .item-tag.t20 { background-color: #76D7C4; } /* Lighter Pale Green */
+.item-card .item-tag.t5 { background-color: #669997; }
+.item-card .item-tag.t6 { background-color: #146F6A; }
+.item-card .item-tag.t7 { background-color: #4D6C83; }
+.item-card .item-tag.t8 { background-color: #20669C; }
+.item-card .item-tag.t9 { background-color: #B572BA; }
+.item-card .item-tag.t10 { background-color: #560E5B; }
+.item-card .item-tag.t11 { background-color: #934A71; }
+.item-card .item-tag.t12 { background-color: #6C043B; }
+.item-card .item-tag.t13 { background-color: #DB8A8A; }
+.item-card .item-tag.t14 { background-color: #4B0707; }
 
-/* Ensure EV is present in style.css for visual consistency */
-.item-card .item-tag.ev { background-color: #7B68EE; color: white; } /* Medium Purple for EV */
-.item-card .item-tag.ut { background-color: #5F1DAF; color: white; } /* UT - Unique Tier */
-.item-card .item-tag.st { background-color: #B78207; color: white; } /* ST - Set Tier, now white text */
-.item-card .item-tag.lg { background-color: #F0D085; color: white; } /* LG - Legendary, now white text */
-.item-card .item-tag.event { background-color: #85B6F0; color: white; } /* Event, now white text */
+/* Ensure Event is present in style.css for visual consistency */
+.item-card .item-tag.ut { background-color: #5F1DAF; } /* UT - Untiered / Unique Tier */
+.item-card .item-tag.st { background-color: #B78207; } /* ST - Set Tier */
+.item-card .item-tag.lg { background-color: #FFD700; } /* LG - Legendary */
+.item-card .item-tag.event { background-color: #85B6F0; } /* Event */
 
 
 /* NEW: Soulbound tag style for both spacious and expanded compact view */
 .item-card .item-tag.soulbound {
     background-color: #DC3545; /* Red background */
-    color: white; /* White text */
+    color: black; /* White text */
     padding: 4px 8px; /* Consistent padding */
     border-radius: 5px;
     font-weight: bold;
@@ -1038,7 +1030,7 @@ footer {
 .item-compact-soulbound-indicator {
     display: none; /* Hidden by default */
     background-color: #DC3545; /* Red background */
-    color: white; /* White text */
+    color: black; /* White text */
     padding: 3px 6px; /* Smaller padding for compact */
     border-radius: 5px;
     font-weight: bold;
