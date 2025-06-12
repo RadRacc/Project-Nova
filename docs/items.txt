@@ -24,7 +24,6 @@
         <RateOfFire>1.05</RateOfFire>
         <Tag>T1</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
-        <Soulbound>false</Soulbound>
     </Object>
 
     <Object type="0xa72" id="Blue Steel Dagger" Item="true">
