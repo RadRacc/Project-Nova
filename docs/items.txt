@@ -48,7 +48,7 @@
         <MaxDamage>85</MaxDamage>
         <Range>5.6</Range>
         <RateOfFire>1.05</RateOfFire>
-        <Tag>T2</Tag>
+        <Tag>T3</Tag>
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
 
