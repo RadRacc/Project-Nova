@@ -276,6 +276,212 @@
         </Projectile>
     </Object>
 
+    <Object type="0xa77" id="Ironwood Bow" Item="true">
+        <DisplayId>Ironwood Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A high-quality bow made of magical ironwood.</Description>
+        <MinDamage>15</MinDamage>
+        <MaxDamage>45</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T4</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa1c" id="Fire Bow" Item="true">
+        <DisplayId>Fire Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A bow that shoots arrows that burn with an unholy fire.</Description>
+        <MinDamage>15</MinDamage>
+        <MaxDamage>55</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T5</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa1d" id="Sharpshooter Bow" Item="true">
+        <DisplayId>Sharpshooter Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A well-crafted bow carried by master marksmen.</Description>
+        <MinDamage>15</MinDamage>
+        <MaxDamage>65</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T6</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa3a" id="Redwood Bow" Item="true">
+        <DisplayId>Redwood Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>An elven enchanted bow that originates from the elusive redwood forests.</Description>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>75</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T7</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>1</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa1e" id="Golden Bow" Item="true">
+        <DisplayId>Golden Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A bow gifted to mortals from the gods themselves.</Description>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>95</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T8</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>2</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa8b" id="Verdant Bow" Item="true">
+        <DisplayId>Verdant Bow</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A highly effective bow fashioned of still-living magical springwood.</Description>
+        <MinDamage>20</MinDamage>
+        <MaxDamage>105</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T9</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>3</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa8c" id="Bow of Fey Magic" Item="true">
+        <DisplayId>Bow of Fey Magic</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A powerful bow crafted by dryads and blessed by the spirits of the woodlands.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>115</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T10</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>4</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa8d" id="Bow of Innocent Blood" Item="true">
+        <DisplayId>Bow of Innocent Blood</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A runed bow steeped in the dark power of ancient injustice.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>125</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T11</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>5</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0xb02" id="Bow of Covert Havens" Item="true">
+        <DisplayId>Bow of Covert Havens</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A diamondwire bow used by guardians of the unseen ethereal shrines.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>135</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T12</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>6</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0x9cc" id="Bow of Mystical Energy" Item="true">
+        <DisplayId>Bow of Mystical Energy</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A superlative bow of sunsteel and diamondwire, created by a secretive race of star-dwelling entities.</Description>
+        <MinDamage>35</MinDamage>
+        <MaxDamage>145</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T13</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>7</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
+    <Object type="0x9cd" id="Bow of Deep Enchantment" Item="true">
+        <DisplayId>Bow of Mystical Energy</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>3</SlotType> <!-- 3 = Bow -->
+        <Description>A peerless triple bow crafted of nightmatter and diamondwire by the exalted bowyers of the primeval overgods.</Description>
+        <MinDamage>35</MinDamage>
+        <MaxDamage>155</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>7.04</Range>
+        <Tag>T14</Tag>
+        <UsableBy>Archer, Huntress, Bard</UsableBy>
+        <FameBonus>8</FameBonus>
+        <Projectile>
+            <NumProjectiles>3</NumProjectiles>
+            <MultiHit/>
+            <PierceDefense/>
+        </Projectile>
+    </Object>
+
     <!-- STAFFS -->
     <Object type="0xa97" id="Energy Staff" Item="true">
         <DisplayId>Energy Staff</DisplayId>
