@@ -190,11 +190,6 @@ section a {
     transition: color 0.2s ease;
 }
 
-section a:hover {
-    text-decoration: underline;
-    color: #87ceeb;
-}
-
 /* Footer */
 footer {
     background-color: #222;
