@@ -547,6 +547,156 @@
         </Projectile>
     </Object>
 
+    <Object type="0xa9a" id="Meteor Staff" Item="true">
+        <DisplayId>Meteor Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A staff that harnesses the energy of shooting stars.</Description>
+        <MinDamage>25</MinDamage>
+        <MaxDamage>45</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T4</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Slayer Staff" Item="true">
+        <DisplayId>Slayer Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A powerful staff crafted by demons for waging war on mortals.</Description>
+        <MinDamage>35</MinDamage>
+        <MaxDamage>55</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T5</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Avenger Staff" Item="true">
+        <DisplayId>Avenger Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A slender felwood staff pulsing with auras of vengeance and justice.</Description>
+        <MinDamage>40</MinDamage>
+        <MaxDamage>70</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T6</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of Destruction" Item="true">
+        <DisplayId>Staff of Destruction</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>An ancient knurlwood staff crackling with power and exuding thin gray vapors.</Description>
+        <MinDamage>45</MinDamage>
+        <MaxDamage>85</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T7</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>1</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of Horror" Item="true">
+        <DisplayId>Staff of Horror</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A mysterious runewood staff decorated with horiffic figures.</Description>
+        <MinDamage>50</MinDamage>
+        <MaxDamage>90</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T8</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>2</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of Necrotic Arcana" Item="true">
+        <DisplayId>Staff of Necrotic Arcana</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A golden staff imbued with the powers of death magic.</Description>
+        <MinDamage>50</MinDamage>
+        <MaxDamage>95</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T9</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>3</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of Diabolic Secrets" Item="true">
+        <DisplayId>Staff of Diabolic Secrets</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>An imposing golden staff of tremendous otherworldly power.</Description>
+        <MinDamage>55</MinDamage>
+        <MaxDamage>95</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T10</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>4</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of Astral Knowledge" Item="true">
+        <DisplayId>Staff of Astral Knowledge</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A splendid golden staff of astonishing power, bathed in light and brimming with magical energy.</Description>
+        <MinDamage>55</MinDamage>
+        <MaxDamage>100</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T11</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>5</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0xa9a" id="Staff of the Cosmic Whole" Item="true">
+        <DisplayId>Staff of the Cosmic Whole</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A splendid golden staff of astonishing power, bathed in light and brimming with magical energy.</Description>
+        <MinDamage>55</MinDamage>
+        <MaxDamage>100</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T11</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>5</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
     <!-- WANDS -->
     <Object type="0xa04" id="Fire Wand" Item="true">
         <DisplayId>Fire Wand</DisplayId>
