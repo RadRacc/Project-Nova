@@ -508,7 +508,7 @@
         <MinDamage>95</MinDamage>
         <MaxDamage>115</MaxDamage>
         <RateOfFire>135%</RateOfFire>
-        <Range>7.04</Range>
+        <Range>7.77</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <FameBonus>8</FameBonus>
