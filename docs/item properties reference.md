@@ -158,20 +158,20 @@ These elements are nested directly within the `<Object>` tag.
         An item can have multiple `<ActivateOnEquip>` tags for different stats.
     * **Attributes:**
         * `stat`: Numeric ID of the stat to boost.
-            * `20`: Attack (ATT)
-            * `21`: Max HP (Health Points)
-            * `22`: Max MP (Mana Points)
-            * `26`: Defense (DEF)
-            * `27`: Speed (SPD)
-            * `28`: Dexterity (DEX)
-            * `29`: Vitality (VIT)
-            * `30`: Wisdom (WIS)
+            * `19`: Max HP (Health Points)
+            * `20`: Max MP (Mana Points)
+            * `21`: Attack (ATT)
+            * `22`: Defense (DEF)
+            * `23`: Speed (SPD)
+            * `24`: Dexterity (DEX)
+            * `25`: Vitality (VIT)
+            * `26`: Wisdom (WIS)
     * **Content:** The integer value of the stat boost.
     * **Example:** `<ActivateOnEquip stat="21">50</ActivateOnEquip>` <!-- +50 Max HP -->
     * **Example (multiple):**
         ```xml
-        <ActivateOnEquip stat="20">5</ActivateOnEquip> <!-- +5 Attack -->
-        <ActivateOnEquip stat="26">5</ActivateOnEquip> <!-- +5 Defense -->
+        <ActivateOnEquip stat="21">5</ActivateOnEquip> <!-- +5 Attack -->
+        <ActivateOnEquip stat="22">5</ActivateOnEquip> <!-- +5 Defense -->
         ```
 
 * **`<Activate>`**
