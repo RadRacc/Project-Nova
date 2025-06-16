@@ -54,9 +54,8 @@ const products = [
         image: "icons/globallootboost20.png",
         description: "Activate a server-wide 20% loot boost for 24 hours, benefiting all players online!",
         features: [
-            "24-hour global loot boost",
-            "Affects all players on the server",
-            "Activates immediately upon purchase"
+            "24-hour Global Loot Boost",
+            "Good for running a few dungeons, or just getting an extra boost"
         ]
     },
     {
@@ -66,7 +65,7 @@ const products = [
         image: "icons/globallootboost80.png",
         description: "A powerful 80% global loot boost for 3 full days, perfect for community events or grinding sessions!",
         features: [
-            "72-hour global loot boost",
+            "72-hour Global Loot Boost",
             "Significant increase in loot drops",
             "Ideal for weekend events"
         ]
@@ -78,7 +77,7 @@ const products = [
         image: "icons/globallootboost150.png",
         description: "The ultimate global loot boost, providing a massive 150% increase in drops for 5 days straight!",
         features: [
-            "120-hour global loot boost",
+            "5 Day Global Loot Boost",
             "Massive impact on farming efficiency",
             "Best value for extended playtime"
         ]
@@ -90,8 +89,9 @@ const products = [
         image: "icons/smallcurrencypack.png",
         description: "A small pack of in-game currency to help you get started or top up your balance.",
         features: [
-            "1000 Gold (in-game currency)",
-            "Instantly added to your account"
+            "700 Gold",
+            "2500 Fame",
+            "25 Nova Fragments"
         ]
     },
     {
@@ -101,8 +101,9 @@ const products = [
         image: "icons/mediumcurrencypack.png",
         description: "A medium pack of in-game currency for more significant purchases or trading.",
         features: [
-            "2500 Gold (in-game currency)",
-            "Better value than small pack"
+            "1750 Gold",
+            "7500 Fame",
+            "70 Nova Fragments"
         ]
     },
     {
@@ -112,8 +113,9 @@ const products = [
         image: "icons/largecurrencypack.png",
         description: "A large pack of in-game currency for serious players looking to acquire high-value items.",
         features: [
-            "7000 Gold (in-game currency)",
-            "Great value for dedicated players"
+            "5000 Gold",
+            "15000 Fame",
+            "125 Nova Fragments"
         ]
     },
     {
@@ -123,9 +125,21 @@ const products = [
         image: "icons/massivecurrencypack.png",
         description: "The biggest currency pack available, providing an enormous amount of gold for all your in-game needs!",
         features: [
-            "12000 Gold (in-game currency)",
-            "Best possible value",
-            "For ultimate in-game wealth"
+            "15000 Gold",
+            "35000 Fame",
+            "200 Nova Fragments"
+        ]
+    },
+    {
+        id: 'starter-pack',
+        name: "Starter Pack",
+        price: 5.00,
+        image: "icons/startercurrencypack.png",
+        description: "An awesome currency pack for players who are just starting out, or want a quick little boost to their wealth.",
+        features: [
+            "2000 Gold",
+            "10000 Fame",
+            "50 Nova Fragments"
         ]
     }
 ];
