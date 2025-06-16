@@ -12,6 +12,10 @@ Join our Discord! https://discord.gg/v7Kd4v2jQ6
 - Frequent Updates
 - Website (+ Wiki)
 - Discord (View Discord for Roadmap)
+- Raids
+- In-game Events
+- ST Items
+- Donor Perks
 
 # Information
 This contains the website and source code for my Discord server "Project Nova", a RotMG Private Server.
