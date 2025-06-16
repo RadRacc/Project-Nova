@@ -131,7 +131,7 @@ const products = [
         ]
     },
     {
-        id: 'starter-pack',
+        id: 'starter-currency-pack',
         name: "Starter Pack",
         price: 5.00,
         image: "icons/startercurrencypack.png",
