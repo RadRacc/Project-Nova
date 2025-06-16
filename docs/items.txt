@@ -520,8 +520,8 @@
         </Projectile>
     </Object>
 
-    <Object type="0xc26" id="Void Bow" Item="true">
-        <DisplayId>Void Bow</DisplayId>
+    <Object type="0xc26" id="Bow of the Void" Item="true">
+        <DisplayId>Bow of the Void</DisplayId>
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
         <Description>Every shot that hits a target frees the soul of a forgotten hero. Every shot that misses is trapped for eternity.</Description>
