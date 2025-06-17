@@ -63,7 +63,7 @@ These elements are nested directly within the `<Object>` tag.
         * `7`: Plate Armor / Heavy Armor
         * `8`: Wand
         * `9`: Ring
-        * `10`: Potions
+        * `10`: Consumables
         * `11`: Spell
         * `12`: Seal
         * `13`: Cloak
