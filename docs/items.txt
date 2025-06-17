@@ -513,7 +513,7 @@
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <FameBonus>8</FameBonus>
         <Soulbound>true</Soulbound>
-        <ActivateOnEquip stat="20">5</ActivateOnEquip>
+        <ActivateOnEquip stat="21">5</ActivateOnEquip>
         <Projectile>
             <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
@@ -533,7 +533,7 @@
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <FameBonus>8</FameBonus>
         <Soulbound>true</Soulbound>
-        <ActivateOnEquip stat="20">5</ActivateOnEquip>
+        <ActivateOnEquip stat="21">5</ActivateOnEquip>
         <Projectile>
             <MultiHit/>
         </Projectile>
