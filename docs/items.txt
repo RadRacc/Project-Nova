@@ -1388,6 +1388,7 @@
         <Class>Equipment</Class>
         <SlotType>10</SlotType>
         <Description>A potion that permanently increases attack power by 1.</Description>
+        <ActivateOnEquip stat="21">1</ActivateOnEquip>
         <UsableBy>All</UsableBy>
     </Object>
 
