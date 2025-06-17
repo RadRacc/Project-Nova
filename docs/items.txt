@@ -1382,4 +1382,22 @@
         <UsableBy>Rogue, Assassin, Trickster</UsableBy>
     </Object>
 
+    <!-- CONSUMABLES -->
+    <Object type="0xa1f" id="Potion of Attack" Item="true">
+        <DisplayId>Potion of Attack</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>0</SlotType> <!-- 2 = Dagger -->
+        <Description>An item received from ? Event</Description>
+        <ActivateOnEquip stat="20">10</ActivateOnEquip>  <!-- +10 ATT -->
+        <ActivateOnEquip stat="28">6</ActivateOnEquip>  <!-- +6 DEX -->
+        <MinDamage>150</MinDamage>
+        <MaxDamage>200</MaxDamage>
+        <RateOfFire>120%</RateOfFire>
+        <Range>4.8</Range>
+        <Tag>Event</Tag>
+        <FameBonus>5</FameBonus>
+        <Soulbound>true</Soulbound>
+        <UsableBy>Rogue, Assassin, Trickster</UsableBy>
+    </Object>
+
 </Objects>
