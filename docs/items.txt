@@ -604,7 +604,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Meteor Staff" Item="true">
+    <Object type="0xa9b" id="Meteor Staff" Item="true">
         <DisplayId>Meteor Staff</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -620,7 +620,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Slayer Staff" Item="true">
+    <Object type="0xa9c" id="Slayer Staff" Item="true">
         <DisplayId>Slayer Staff</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -636,7 +636,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Avenger Staff" Item="true">
+    <Object type="0xa9d" id="Avenger Staff" Item="true">
         <DisplayId>Avenger Staff</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -652,7 +652,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of Destruction" Item="true">
+    <Object type="0xa9e" id="Staff of Destruction" Item="true">
         <DisplayId>Staff of Destruction</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -669,7 +669,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of Horror" Item="true">
+    <Object type="0xa9f" id="Staff of Horror" Item="true">
         <DisplayId>Staff of Horror</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -686,7 +686,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of Necrotic Arcana" Item="true">
+    <Object type="0xaa0" id="Staff of Necrotic Arcana" Item="true">
         <DisplayId>Staff of Necrotic Arcana</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -703,7 +703,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of Diabolic Secrets" Item="true">
+    <Object type="0xaa1" id="Staff of Diabolic Secrets" Item="true">
         <DisplayId>Staff of Diabolic Secrets</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -720,7 +720,7 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of Astral Knowledge" Item="true">
+    <Object type="0xaa2" id="Staff of Astral Knowledge" Item="true">
         <DisplayId>Staff of Astral Knowledge</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
@@ -737,18 +737,52 @@
         </Projectile>
     </Object>
 
-    <Object type="0xa9a" id="Staff of the Cosmic Whole" Item="true">
+    <Object type="0xb08" id="Staff of the Cosmic Whole" Item="true">
         <DisplayId>Staff of the Cosmic Whole</DisplayId>
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
-        <Description>A splendid golden staff of astonishing power, bathed in light and brimming with magical energy.</Description>
-        <MinDamage>55</MinDamage>
+        <Description>A golden staff of transcendent understanding, made from crystals present at the formation of universe.</Description>
+        <MinDamage>60</MinDamage>
         <MaxDamage>100</MaxDamage>
         <RateOfFire>100%</RateOfFire>
         <Range>8.55</Range>
-        <Tag>T11</Tag>
+        <Tag>T12</Tag>
         <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
-        <FameBonus>5</FameBonus>
+        <FameBonus>6</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0x9d1" id="Staff of the Vital Unity" Item="true">
+        <DisplayId>Staff of the Vital Unity</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A golden staff of elysian consciousness, shining with the base power of empyrean truths.</Description>
+        <MinDamage>65</MinDamage>
+        <MaxDamage>110</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T13</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>7</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="0x910" id="Staff of the Fundamental Core" Item="true">
+        <DisplayId>Staff of the Fundamental Core</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>An otherworldly staff of omnipresent elation, embodied of cardinal essence and the power of deathless peace.</Description>
+        <MinDamage>75</MinDamage>
+        <MaxDamage>115</MaxDamage>
+        <RateOfFire>100%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>T14</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>8</FameBonus>
         <Projectile>
             <NumProjectiles>2</NumProjectiles>
         </Projectile>
