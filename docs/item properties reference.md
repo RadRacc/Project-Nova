@@ -53,7 +53,7 @@ These elements are nested directly within the `<Object>` tag.
         item belongs to, or its general type. This is crucial for item placement
         and filtering in the wiki.
     * **Type:** Integer
-    * **Corrected List of Slot Types:**
+    * **List of Slot Types:**
         * `1`: Sword
         * `2`: Dagger
         * `3`: Bow
