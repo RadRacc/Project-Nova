@@ -487,9 +487,9 @@
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
         <Description>No mortal can fire this dreaded bow without resting in between shots. It requires tremendous skill to wield.</Description>
-        <MinDamage>500</MinDamage>
-        <MaxDamage>600</MaxDamage>
-        <RateOfFire>40%</RateOfFire>
+        <MinDamage>800</MinDamage>
+        <MaxDamage>1000</MaxDamage>
+        <RateOfFire>30%</RateOfFire>
         <Range>7.04</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
@@ -505,15 +505,14 @@
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
         <Description>A bow fashioned from living coral found in only the deepest ocean trenches.  It is the favored weapon of those that inhabit the realms beneath the waves.</Description>
-        <MinDamage>95</MinDamage>
-        <MaxDamage>115</MaxDamage>
-        <RateOfFire>135%</RateOfFire>
+        <MinDamage>75</MinDamage>
+        <MaxDamage>95</MaxDamage>
+        <RateOfFire>125%</RateOfFire>
         <Range>7.77</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <FameBonus>8</FameBonus>
         <Soulbound>true</Soulbound>
-        <ActivateOnEquip stat="21">5</ActivateOnEquip>
         <Projectile>
             <NumProjectiles>2</NumProjectiles>
             <MultiHit/>
@@ -525,15 +524,14 @@
         <Class>Equipment</Class>
         <SlotType>3</SlotType> <!-- 3 = Bow -->
         <Description>Every shot that hits a target frees the soul of a forgotten hero. Every shot that misses is trapped for eternity.</Description>
-        <MinDamage>190</MinDamage>
-        <MaxDamage>265</MaxDamage>
-        <RateOfFire>110%</RateOfFire>
+        <MinDamage>175</MinDamage>
+        <MaxDamage>250</MaxDamage>
+        <RateOfFire>105%</RateOfFire>
         <Range>6</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
         <FameBonus>8</FameBonus>
         <Soulbound>true</Soulbound>
-        <ActivateOnEquip stat="21">5</ActivateOnEquip>
         <Projectile>
             <MultiHit/>
         </Projectile>
