@@ -493,7 +493,7 @@
         <Range>7.04</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
-        <FameBonus>8</FameBonus>
+        <FameBonus>9</FameBonus>
         <Soulbound>true</Soulbound>
         <Projectile>
             <MultiHit/>
@@ -511,7 +511,7 @@
         <Range>7.77</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
-        <FameBonus>8</FameBonus>
+        <FameBonus>9</FameBonus>
         <Soulbound>true</Soulbound>
         <Projectile>
             <NumProjectiles>2</NumProjectiles>
@@ -530,7 +530,7 @@
         <Range>6</Range>
         <Tag>LG</Tag>
         <UsableBy>Archer, Huntress, Bard</UsableBy>
-        <FameBonus>8</FameBonus>
+        <FameBonus>9</FameBonus>
         <Soulbound>true</Soulbound>
         <Projectile>
             <MultiHit/>
