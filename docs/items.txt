@@ -786,6 +786,74 @@
         </Projectile>
     </Object>
 
+    <Object type="???" id="Staff of Extreme Prejudice" Item="true">
+        <DisplayId>Staff of Extreme Prejudice</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>Once the most powerful staff in existence; a crack in its frame has rendered it incapable of focusing fire. It remains uniquely deadly.</Description>
+        <MinDamage>125</MinDamage>
+        <MaxDamage>150</MaxDamage>
+        <RateOfFire>40%</RateOfFire>
+        <Range>4</Range>
+        <Tag>LG</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>9</FameBonus>
+        <Projectile>
+            <NumProjectiles>10</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="???" id="Staff of Esben" Item="true">
+        <DisplayId>Staff of Esben</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>Perhaps all that remains of Esben, whoever he was.</Description>
+        <MinDamage>75</MinDamage>
+        <MaxDamage>90</MaxDamage>
+        <RateOfFire>120%</RateOfFire>
+        <Range>8.55</Range>
+        <Tag>LG</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>9</FameBonus>
+        <Projectile>
+            <NumProjectiles>1</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="???" id="Anatis Staff" Item="true">
+        <DisplayId>Anatis Staff</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>A staff that channels the ultimate force of Anatis.</Description>
+        <MinDamage>80</MinDamage>
+        <MaxDamage>100</MaxDamage>
+        <RateOfFire>60%</RateOfFire>
+        <Range>7.5</Range>
+        <Tag>LG</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>9</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
+    <Object type="???" id="Staff of the Crystal Serpent" Item="true">
+        <DisplayId>Staff of the Crystal Serpent</DisplayId>
+        <Class>Equipment</Class>
+        <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
+        <Description>An ancient staff used both for sacrifice and communion with the gods.</Description>
+        <MinDamage>70</MinDamage>
+        <MaxDamage>85</MaxDamage>
+        <RateOfFire>110%</RateOfFire>
+        <Range>9</Range>
+        <Tag>ST</Tag>
+        <UsableBy>Wizard, Necromancer, Mystic</UsableBy>
+        <FameBonus>9</FameBonus>
+        <Projectile>
+            <NumProjectiles>2</NumProjectiles>
+        </Projectile>
+    </Object>
+
     <!-- WANDS -->
     <Object type="0xa04" id="Fire Wand" Item="true">
         <DisplayId>Fire Wand</DisplayId>
