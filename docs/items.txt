@@ -842,9 +842,6 @@
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
         <Description>An ancient staff used both for sacrifice and communion with the gods.</Description>
-        <ActivateOnEquip stat="20">5</ActivateOnEquip>  <!-- +5 ATT -->
-        <ActivateOnEquip stat="26">5</ActivateOnEquip>  <!-- +5 DEF -->
-        <ActivateOnEquip stat="28">5</ActivateOnEquip>  <!-- +5 DEX -->
         <MinDamage>70</MinDamage>
         <MaxDamage>85</MaxDamage>
         <RateOfFire>110%</RateOfFire>
