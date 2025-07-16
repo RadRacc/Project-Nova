@@ -842,6 +842,9 @@
         <Class>Equipment</Class>
         <SlotType>17</SlotType> <!-- 17 = Staves / Staffs -->
         <Description>An ancient staff used both for sacrifice and communion with the gods.</Description>
+        <ActivateOnEquip stat="20">5</ActivateOnEquip>  <!-- +5 ATT -->
+        <ActivateOnEquip stat="26">5</ActivateOnEquip>  <!-- +5 DEF -->
+        <ActivateOnEquip stat="28">5</ActivateOnEquip>  <!-- +5 DEX -->
         <MinDamage>70</MinDamage>
         <MaxDamage>85</MaxDamage>
         <RateOfFire>110%</RateOfFire>
@@ -852,6 +855,12 @@
         <Projectile>
             <NumProjectiles>2</NumProjectiles>
         </Projectile>
+        <Set name="Crystal Serpent Set">
+            <SetBonus pieces="2">+20 HP, +5 WIS</SetBonus>
+            <SetBonus pieces="3">+5 WIS, +30 MP</SetBonus>
+            <SetBonus pieces="4">+5 SPD, +10 WIS, +20 MP, +30 HP</SetBonus>
+            <FullSetBonus>+50 HP, +20 WIS, +50 MP, +5 SPD</FullSetBonus>
+        </Set>
     </Object>
 
     <!-- WANDS -->
