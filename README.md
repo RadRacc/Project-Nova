@@ -3,7 +3,7 @@ Your new RotMG Private Server Experience (created by RadRacc and MaYo)
 
 Visit our Website [WIP]! https://radracc.github.io/Project-Nova/
 
-Join our Discord! https://discord.gg/v7Kd4v2jQ6
+Join our Discord! --https://discord.gg/v7Kd4v2jQ6--
 
 # Features
 - All Realm of the Mad God classes. (including Samurai, Bard, Summoner, and Kensei)
