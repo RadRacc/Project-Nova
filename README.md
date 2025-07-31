@@ -22,7 +22,7 @@ This contains the website and source code for my Discord server "Project Nova", 
 
 This source code is originally from Skilly's Educational Source.
 
-For news about current development, you can visit my Trello Board: https://trello.com/invite/b/68366eeb071e2a8627fc5681/ATTI3905347c14403c4af8593c67bd2281d787505EF0/rotmg-project-nova
+For news about current development, you can visit my Trello Board: https://trello.com/b/lN1XaBqZ/rotmg-project-nova
 
 Or join our Discord: ~https://discord.gg/v7Kd4v2jQ6~ currently not available
 
